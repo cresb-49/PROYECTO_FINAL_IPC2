@@ -17,12 +17,12 @@ public class ControladorLogin extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp); //To change body of generated methods, choose Tools | Templates.
+        
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doGet(req, resp); //To change body of generated methods, choose Tools | Templates.
+        
     }
     
 }
