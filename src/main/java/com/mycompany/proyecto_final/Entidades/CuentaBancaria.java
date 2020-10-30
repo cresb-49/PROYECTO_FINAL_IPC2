@@ -6,6 +6,11 @@ import java.sql.Date;
  * CuentaBancaria
  */
 public class CuentaBancaria {
+
+    public static final String CUENTA_DB_CODIGO = "codigo";
+    public static final String CUENTA_DB_FECHA_APERTURA = "fecha_apertura";
+    public static final String CUENTA_DB_CREDITO = "credito";
+
     private String codigo;
     private Date fechaApertura;
     private Double credito;

@@ -12,6 +12,24 @@ public class Persona extends UsuarioDeSistema{
 
     }
     /**
+     * CONSTRECTOR CON PARAMETROS PARA INICIALIZACION DEL OBJETO
+     * @param codigo
+     * @param password
+     * @param rol
+     * @param nombre
+     * @param dpi
+     * @param sexo
+     * @param direccion
+     */
+    public Persona(String codigo, String password, String rol,String nombre, String dpi,String sexo,String direccion){
+        super(codigo, password, rol);
+        this.nombre=nombre;
+        this.dpi=dpi;
+        this.sexo=sexo;
+        this.direccion=direccion;
+    }
+
+    /**
      * Retorna el nombre de la persona
      * @return
      */

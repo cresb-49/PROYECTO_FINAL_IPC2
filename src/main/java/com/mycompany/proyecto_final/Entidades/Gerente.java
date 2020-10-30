@@ -19,14 +19,7 @@ public class Gerente extends Persona {
      * @param password
      */
     public Gerente(String codigo, String nombre, String turno, String dpi, String direccion, String sexo,String password) {
-        this.setRol("Gerente");
-        this.setCodigo(codigo);
-        this.setNombre(nombre);
-        this.turno=turno;
-        this.setDpi(dpi);
-        this.setDireccion(direccion);
-        this.setSexo(sexo);
-        this.setPassword(password);
+        super(codigo, password, "GERENTE", nombre, dpi, sexo, direccion);
     }
     /**
      * Retorna el tipo de turno del gerente

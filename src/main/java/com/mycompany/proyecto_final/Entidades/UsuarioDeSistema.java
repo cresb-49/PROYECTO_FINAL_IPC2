@@ -11,6 +11,17 @@ public class UsuarioDeSistema {
 
     }
     /**
+     * CONSTRUCTOR CON PARAMETROS DE INICIALIZACION
+     * @param codigo
+     * @param password
+     * @param rol
+     */
+    public UsuarioDeSistema(String codigo, String password, String rol){
+        this.codigo=codigo;
+        this.password=password;
+        this.rol=rol;
+    }
+    /**
      * Retorna el codigo del usuario
      */
     public String getCodigo() {
