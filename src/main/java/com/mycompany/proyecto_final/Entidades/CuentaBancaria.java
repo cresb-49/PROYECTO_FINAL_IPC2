@@ -1,12 +1,15 @@
 package com.mycompany.proyecto_final.Entidades;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 /**
  * CuentaBancaria
  */
-public class CuentaBancaria {
-
+public class CuentaBancaria implements Serializable {
+    
+    private static final long serialVersionUID = -6441304557106789462L;
+    
     public static final String CUENTA_DB_CODIGO = "codigo";
     public static final String CUENTA_DB_FECHA_APERTURA = "fecha_apertura";
     public static final String CUENTA_DB_CREDITO = "credito";

@@ -1,6 +1,9 @@
 package com.mycompany.proyecto_final.Entidades;
 
 public class Cajero extends Persona{
+
+    private static final long serialVersionUID = 4573195179505144046L;
+
     private String turno;
     /**
      * Constructor vacio de la clase Cajero
@@ -29,7 +32,6 @@ public class Cajero extends Persona{
 
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return super.toString();
     }
 }

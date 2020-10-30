@@ -1,6 +1,11 @@
 package com.mycompany.proyecto_final.Entidades;
 
-public class UsuarioDeSistema {
+import java.io.Serializable;
+
+public class UsuarioDeSistema implements Serializable{
+
+    private static final long serialVersionUID = 4050320114047821544L;
+    
     private String codigo;
     private String password;
     private String rol;

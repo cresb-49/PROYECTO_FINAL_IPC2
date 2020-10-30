@@ -1,8 +1,14 @@
 package com.mycompany.proyecto_final.Entidades;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Cliente extends Persona{
+
+    private static final long serialVersionUID = -4851497146888542151L;
+
+    private List<CuentaBancaria> cuentas = new ArrayList<CuentaBancaria>();
 
     private Date fechaNacimiento;
     /**
@@ -40,9 +46,29 @@ public class Cliente extends Persona{
     public void setFechaNacimiento(Date fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
+    /**
+     * Retorno de la cuentas bancarias
+     * @return
+     */
+    public List<CuentaBancaria> getCuentas() {
+        return cuentas;
+    }
+    /**
+     * Asignacion de una lista de cuentas bancarias
+     * @param cuentas
+     */
+    public void setCuentas(List<CuentaBancaria> cuentas) {
+        this.cuentas = cuentas;
+    }
+    /**
+     * Agrega un cuenta bancaria a la lista del cliente
+     * @param cuenta
+     */
+    public void agregarCuenta(CuentaBancaria cuenta){
+        this.cuentas.add(cuenta);
+    }
     @Override
     public String toString() {
-        // TODO Auto-generated method stub
         return super.toString();
     }
 }

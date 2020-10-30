@@ -1,6 +1,9 @@
 package com.mycompany.proyecto_final.Entidades;
 
 public class Persona extends UsuarioDeSistema{
+    
+    private static final long serialVersionUID = -1110350536359505400L;
+
     private String nombre;
     private String dpi;
     private String sexo;

@@ -1,6 +1,9 @@
 package com.mycompany.proyecto_final.Entidades;
 
 public class Gerente extends Persona {
+
+    private static final long serialVersionUID = 7339739039483322117L;
+    
     private String turno;
     /**
      * Constructor vacio
