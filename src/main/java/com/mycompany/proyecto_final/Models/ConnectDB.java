@@ -8,14 +8,25 @@ public class ConnectDB {
     private static Connection connection = null;
     private static ConnectDB connectDB;
 
-    private ConnectDB() {
-        String url = "jdbc:mysql://localhost:3306/NOTAS?useSSL=false&serverTimezone=UTC";
-        String user = "root";
-        String password = "ex=d/dx=ex";
+    // Librería de MySQL
+    private static String driver = "com.mysql.jdbc.Driver";
+    // Nombre de la base de datos
+    private static String database = "PROYECTO_FINAL";
+    // Host
+    private static String hostname = "localhost";
+    // Puerto
+    private static String port = "3306";
+    // URL
+    private static String url = "jdbc:mysql://" + hostname + ":" + port + "/" + database+"?useSSL=false&serverTimezone=UTC";
+    // Nombre de usuario
+    private static String username = "root";
+    // Clave de usuario
+    private static String password = "201931012";
 
+    private ConnectDB() {
         try {
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            connection = DriverManager.getConnection(url, user, password);
+            Class.forName(driver).newInstance();
+            connection = DriverManager.getConnection(url, username, password);
         } catch (IllegalAccessException | InstantiationException | ClassNotFoundException ex) {
             System.out.println("Error: " + ex.getMessage());
             ex.printStackTrace();
