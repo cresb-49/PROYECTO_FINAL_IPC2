@@ -9,13 +9,15 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
 
+import com.mycompany.proyecto_final.Conversiones.ConversionesVariables;
 import com.mycompany.proyecto_final.Entidades.*;
 
 public class BancoHandler extends DefaultHandler {
-
+    private ConversionesVariables conv = new ConversionesVariables();
     private Banco banco = new Banco();
     private StringBuilder buffer = new StringBuilder();
     private Object objeto;
+    private ArrayList<String> errores = new ArrayList<>();
 
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
