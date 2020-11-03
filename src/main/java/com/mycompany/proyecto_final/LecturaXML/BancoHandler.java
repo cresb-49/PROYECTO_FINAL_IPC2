@@ -4,6 +4,7 @@ package com.mycompany.proyecto_final.LecturaXML;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.util.ArrayList;
@@ -116,5 +117,19 @@ public class BancoHandler extends DefaultHandler {
             default:
                 break;
         }
+    }
+    @Override
+    public void error(SAXParseException e) throws SAXException {
+        
+    }
+
+    @Override
+    public void fatalError(SAXParseException e) throws SAXException {
+        
+    }
+
+    @Override
+    public void warning(SAXParseException e) throws SAXException {
+        
     }
 }
