@@ -6,7 +6,7 @@ public class UsuarioDeSistema implements Serializable{
 
     private static final long serialVersionUID = 4050320114047821544L;
     
-    private String codigo;
+    private Long codigo;
     private String password;
     private String rol;
     /**
@@ -21,7 +21,7 @@ public class UsuarioDeSistema implements Serializable{
      * @param password
      * @param rol
      */
-    public UsuarioDeSistema(String codigo, String password, String rol){
+    public UsuarioDeSistema(Long codigo, String password, String rol){
         this.codigo=codigo;
         this.password=password;
         this.rol=rol;
@@ -29,14 +29,14 @@ public class UsuarioDeSistema implements Serializable{
     /**
      * Retorna el codigo del usuario
      */
-    public String getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
     /**
      * Asigna el codigo del usuario
      * @param codigo
      */
-    public void setCodigo(String codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
     /**

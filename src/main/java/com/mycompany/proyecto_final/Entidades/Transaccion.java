@@ -7,7 +7,7 @@ public class Transaccion implements Serializable{
     
     private static final long serialVersionUID = 3762617963630563510L;
     
-    private String codigo;
+    private Long codigo;
     private String idCuenta;
     private Date fechaTransaccion;
     private String hora;
@@ -28,7 +28,7 @@ public class Transaccion implements Serializable{
      * @param monto
      * @param idCajero
      */
-    public Transaccion(String codigo,String idCuenta,Date fechaTransaccion, String hora,Double monto,String idCajero){
+    public Transaccion(Long codigo,String idCuenta,Date fechaTransaccion, String hora,Double monto,String idCajero){
         this.codigo=codigo;
         this.idCuenta=idCuenta;
         this.fechaTransaccion=fechaTransaccion;
@@ -40,14 +40,14 @@ public class Transaccion implements Serializable{
      * Retorna el codido de la transaccion
      * @return
      */
-    public String getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
     /**
      * Asigna el codigo de la transaccion
      * @param codigo
      */
-    public void setCodigo(String codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
     /**

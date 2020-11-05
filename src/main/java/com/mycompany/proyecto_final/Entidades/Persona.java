@@ -24,7 +24,7 @@ public class Persona extends UsuarioDeSistema{
      * @param sexo
      * @param direccion
      */
-    public Persona(String codigo, String password, String rol,String nombre, String dpi,String sexo,String direccion){
+    public Persona(Long codigo, String password, String rol,String nombre, String dpi,String sexo,String direccion){
         super(codigo, password, rol);
         this.nombre=nombre;
         this.dpi=dpi;

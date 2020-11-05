@@ -21,7 +21,7 @@ public class Gerente extends Persona {
      * @param sexo
      * @param password
      */
-    public Gerente(String codigo, String nombre, String turno, String dpi, String direccion, String sexo,String password) {
+    public Gerente(Long codigo, String nombre, String turno, String dpi, String direccion, String sexo,String password) {
         super(codigo, password, "GERENTE", nombre, dpi, sexo, direccion);
     }
     /**

@@ -14,7 +14,7 @@ public class CuentaBancaria implements Serializable {
     public static final String CUENTA_DB_FECHA_APERTURA = "fecha_apertura";
     public static final String CUENTA_DB_CREDITO = "credito";
 
-    private String codigo;
+    private Long codigo;
     private Date fechaApertura;
     private Double credito;
 
@@ -22,7 +22,7 @@ public class CuentaBancaria implements Serializable {
 
     }
 
-    public CuentaBancaria(String codigo, Date fechaApertura, Double credito) {
+    public CuentaBancaria(Long codigo, Date fechaApertura, Double credito) {
         this.codigo = codigo;
         this.fechaApertura = fechaApertura;
         this.credito = credito;
@@ -32,14 +32,14 @@ public class CuentaBancaria implements Serializable {
      * Retorna el codigo de la cuenta
      * @return
      */
-    public String getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
     /**
      * Asigna el codigo de la cuenta
      * @param codigo
      */
-    public void setCodigo(String codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
     /**

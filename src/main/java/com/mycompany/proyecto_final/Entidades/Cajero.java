@@ -11,7 +11,7 @@ public class Cajero extends Persona{
     public Cajero(){
 
     }
-    public Cajero(String codigo, String password,String dpi, String nombre, String sexo,String direccion){
+    public Cajero(Long codigo, String password,String dpi, String nombre, String sexo,String direccion){
         super(codigo, password, "CAJERO", nombre, dpi, sexo, direccion);
     }
     /**

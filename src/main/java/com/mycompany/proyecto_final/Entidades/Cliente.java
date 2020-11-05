@@ -28,7 +28,7 @@ public class Cliente extends Persona{
      * @param direccion
      * @param fechaNacimiento
      */
-    public Cliente(String codigo,String password,String nombre,String dpi,String sexo,String direccion, Date fechaNacimiento){
+    public Cliente(Long codigo,String password,String nombre,String dpi,String sexo,String direccion, Date fechaNacimiento){
         super(codigo, password, "CLIENTE", nombre, dpi, sexo, direccion);
         this.fechaNacimiento=fechaNacimiento;
     }
