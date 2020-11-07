@@ -11,10 +11,11 @@
         <script src="${pageContext.request.contextPath}/Resources/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <%@include file="CabeceraPie/Cabecera.jsp" %>
         <div class="container">
             <section class="main row">
                 <div class="container col-md-4">
-                    <form action="Login" method="POST">
+                    <form action="ControladorLogin" method="POST">
                         <h2>Inicio sesion</h2>
                         <div class="form-group">
                             <label for="usuario">Usuario:</label>
@@ -26,13 +27,11 @@
                         </div>
                         <div class="form-group">
                             <button class="btn btn-success" type="submit" name="enviar" value="Ingresar">Ingresar</button>
-                            <a class="btn btn-primary" name="resgistrar" href="ManejoDeCuentas/registrarPaciente.jsp">Registrare</a>
                         </div>
                     </form>
                 </div>
             </section>
         </div>
-
-
+        <%@include file="CabeceraPie/piePagina.jsp" %>
     </body>
 </html>
