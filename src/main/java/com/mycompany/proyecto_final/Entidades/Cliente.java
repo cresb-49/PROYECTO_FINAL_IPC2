@@ -68,8 +68,11 @@ public class Cliente extends Persona{
     public void agregarCuenta(CuentaBancaria cuenta){
         this.cuentas.add(cuenta);
     }
+
     @Override
     public String toString() {
-        return super.toString();
+        return "Cliente{" +"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +"nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() + "cuentas=" + cuentas + ", fechaNacimiento=" + fechaNacimiento + '}';
     }
+    
+    
 }

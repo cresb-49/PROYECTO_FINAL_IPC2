@@ -29,9 +29,8 @@ public class Cajero extends Persona{
     public void setTurno(String turno) {
         this.turno = turno;
     }
-
     @Override
     public String toString() {
-        return super.toString();
+        return "Cajero{"+"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +"nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() + "turno=" + turno + '}';
     }
 }

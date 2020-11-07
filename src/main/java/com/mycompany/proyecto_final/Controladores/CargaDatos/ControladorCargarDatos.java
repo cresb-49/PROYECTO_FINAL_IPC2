@@ -1,6 +1,7 @@
 package com.mycompany.proyecto_final.Controladores.CargaDatos;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,6 +11,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.mycompany.proyecto_final.Entidades.Archivo;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -34,13 +38,25 @@ public class ControladorCargarDatos extends HttpServlet {
         //Asignacion de carga del archivo xml
         ServletFileUpload upload = new ServletFileUpload(itemFactory);
         try {
+            //Lista de archivos recuperados luego de ser enviados
+            List<Archivo> archivosRecuperdados = new ArrayList<>();
             //Partes del archivo
             List<FileItem> partes = upload.parseRequest(req);
-            partes.forEach(items -> {
+            for(FileItem items: partes){
                 System.out.println("Nombre Archivo: "+items.getName());
-            });
+                archivosRecuperdados.add(new Archivo(items.getName(), items.getInputStream()));
+            }
+            
+            //Verificacion de la lista nueva de archivos
+            for(Archivo arch: archivosRecuperdados){
+                System.out.println(arch.toString());
+            }
+            
+
         } catch (FileUploadException ex) {
             System.out.println("Error carga de datos: " + ex.getMessage());
+        }catch (IOException e) {
+            System.out.println("Error carga de datos Archivo Corrupto: " + e.getMessage());                    
         }
     }
 }

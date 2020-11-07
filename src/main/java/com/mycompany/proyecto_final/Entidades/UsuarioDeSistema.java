@@ -110,6 +110,8 @@ public class UsuarioDeSistema implements Serializable{
 
     @Override
     public String toString() {
-        return "UsuarioDeSistema:"+"codigo= "+codigo+" ,password= "+password+" ,rol= "+rol+" ,id= "+id;
+        return "UsuarioDeSistema{" + "codigo=" + codigo + ", password=" + password + ", rol=" + rol + ", id=" + id + '}';
     }
+
+    
 }

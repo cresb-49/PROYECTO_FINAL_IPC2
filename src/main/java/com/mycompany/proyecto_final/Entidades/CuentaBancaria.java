@@ -73,7 +73,6 @@ public class CuentaBancaria implements Serializable {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "CuentaBancaria{" + "codigo=" + codigo + ", fechaApertura=" + fechaApertura + ", credito=" + credito + '}';
     }
-
 }

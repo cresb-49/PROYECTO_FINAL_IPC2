@@ -88,4 +88,10 @@ public class Persona extends UsuarioDeSistema{
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
+    @Override
+    public String toString() {
+        return "Persona{" + "nombre=" + nombre + ", dpi=" + dpi + ", sexo=" + sexo + ", direccion=" + direccion + '}';
+    }
+    
 }

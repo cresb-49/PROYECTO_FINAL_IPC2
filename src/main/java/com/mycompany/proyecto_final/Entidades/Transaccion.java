@@ -119,4 +119,10 @@ public class Transaccion implements Serializable{
     public void setMonto(Double monto) {
         this.monto = monto;
     }
+
+    @Override
+    public String toString() {
+        return "Transaccion{" + "codigo=" + codigo + ", idCuenta=" + idCuenta + ", fechaTransaccion=" + fechaTransaccion + ", hora=" + hora + ", monto=" + monto + ", idCajero=" + idCajero + '}';
+    }
+    
 }

@@ -41,6 +41,6 @@ public class Gerente extends Persona {
     }
     @Override
     public String toString() {
-        return super.toString();
+        return "Gerente{" +"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +"nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() +"turno=" + turno + '}';
     }
 }
