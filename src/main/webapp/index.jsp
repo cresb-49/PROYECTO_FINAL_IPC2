@@ -55,15 +55,17 @@
         <div class="container">
             <section class="main row">
                 <div class="container col-md-8">
-                    <h2>NO HAY DATOS EN EL SISTEMA DEBE CARGARLOS</h2>
+                    <br/>
+                    <h2>NO HAY DATOS EN EL SISTEMA</h2>
                     <form action="CargarDatosSistema" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-                            <input class="form-control-file" type="file" multiple="multiple" name="selecFile"/>
+                            <input class="form-control-file" type="file" multiple="multiple" name="selecFile" required=""/>
                         </div>
                         <div class="form-group">
                             <input class="btn btn-success" type="submit" value="Cargar Archivo"/>
                         </div>
                     </form>
+                    <br/>
                 </div>
             </section>
         </div>
