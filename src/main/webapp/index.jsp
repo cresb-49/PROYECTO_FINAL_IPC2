@@ -1,4 +1,6 @@
+<%@page import="com.mycompany.proyecto_final.Models.ModelUsuarioSistema"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>  
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,9 +14,24 @@
     </head>
     <body>
         <%@include file="CabeceraPie/Cabecera.jsp" %>
+
+        <%
+            ModelUsuarioSistema usuarioSistema = new ModelUsuarioSistema();
+            int cantidad = usuarioSistema.CantidadUsuarios();
+        %>
+
+        <%
+            if (cantidad >= 1) {
+        %>
         <div class="container">
             <section class="main row">
                 <div class="container col-md-4">
+                    <c:if test="${resultado == 0}">
+                        <br/>
+                        <div class="alert alert-warning" role="alert">
+                            Usuario o Contraseña Incorrecta
+                        </div>
+                    </c:if>
                     <form action="ControladorLogin" method="POST">
                         <h2>Inicio sesion</h2>
                         <div class="form-group">
@@ -32,6 +49,27 @@
                 </div>
             </section>
         </div>
+        <%
+        } else {
+        %>
+        <div class="container">
+            <section class="main row">
+                <div class="container col-md-8">
+                    <h2>NO HAY DATOS EN EL SISTEMA DEBE CARGARLOS</h2>
+                    <form action="CargarDatosSistema" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <input class="form-control-file" type="file" multiple="multiple" name="selecFile"/>
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-success" type="submit" value="Cargar Archivo"/>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+        <%
+            }
+        %>
         <%@include file="CabeceraPie/piePagina.jsp" %>
     </body>
 </html>

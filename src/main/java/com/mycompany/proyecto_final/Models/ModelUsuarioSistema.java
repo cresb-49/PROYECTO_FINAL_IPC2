@@ -12,6 +12,8 @@ public class ModelUsuarioSistema {
     private static Connection connection = ConnectDB.getInstance();
 
     private final String BUSCAR_USUARIO_SISTEMA = "SELECT * FROM " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE + " WHERE " + UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO + " = ? AND "+UsuarioDeSistema.USUARIO_SISTEMA_DB_PASSWORD +"= ?";
+    private final String REGISTRAR_USUARIO_SISTEMA = "SELECT * FROM " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE + " WHERE " + UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO + " = ? AND "+UsuarioDeSistema.USUARIO_SISTEMA_DB_PASSWORD +"= ?";
+    private final String CONTAR_REGISTROS_SISTEMA = "SELECT COUNT("+UsuarioDeSistema.USUARIO_SISTEMA_DB_ID+") FROM "+UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE;
 
     /**
      * CONSTRUCTOR VACIO DE MODEL USUARIO DE SISTEMA
@@ -19,6 +21,9 @@ public class ModelUsuarioSistema {
     public ModelUsuarioSistema(){
 
     }
+    /**
+     * RETORNA EL USUARIO DEL SISTEMA CON EL CODIGO Y PASSWORD INGRESADOS
+     */
     public UsuarioDeSistema accesoDeUsuario(String user, String pass) throws SQLException{
         PreparedStatement preSt = connection.prepareStatement(BUSCAR_USUARIO_SISTEMA);
         preSt.setString(1,user);
@@ -33,5 +38,18 @@ public class ModelUsuarioSistema {
             );
         }
         return null;
+    }
+    /**
+     * RETORNA LA CANTIDAD DE USUARIO QUE HAY EN LA TABLA
+     * @return
+     * @throws SQLException
+     */
+    public int CantidadUsuarios() throws SQLException{
+        PreparedStatement preSt = connection.prepareStatement(CONTAR_REGISTROS_SISTEMA);
+        ResultSet result = preSt.executeQuery();
+        while (result.next()){
+            return result.getInt(1);
+        }
+        return 0;
     }
 }

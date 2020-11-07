@@ -3,13 +3,14 @@ package com.mycompany.proyecto_final.Entidades;
 public class Gerente extends Persona {
 
     private static final long serialVersionUID = 7339739039483322117L;
-    
+    public static final String ROL_ENTIDAD = "GERENTE";
+
     private String turno;
     /**
      * Constructor vacio
      */
     public Gerente() {
-        this.setRol("Gerente");
+        this.setRol(ROL_ENTIDAD);
     }
     /**
      * Constructor con atributos
@@ -22,7 +23,7 @@ public class Gerente extends Persona {
      * @param password
      */
     public Gerente(Long codigo, String nombre, String turno, String dpi, String direccion, String sexo,String password) {
-        super(codigo, password, "GERENTE", nombre, dpi, sexo, direccion);
+        super(codigo, password,ROL_ENTIDAD, nombre, dpi, sexo, direccion);
     }
     /**
      * Retorna el tipo de turno del gerente

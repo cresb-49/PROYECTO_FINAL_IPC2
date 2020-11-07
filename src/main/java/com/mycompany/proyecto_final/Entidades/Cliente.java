@@ -7,6 +7,7 @@ import java.util.List;
 public class Cliente extends Persona{
 
     private static final long serialVersionUID = -4851497146888542151L;
+    public static final String ROL_ENTIDAD = "CLIENTE";
 
     private List<CuentaBancaria> cuentas = new ArrayList<CuentaBancaria>();
 
@@ -15,7 +16,7 @@ public class Cliente extends Persona{
      * Constructor Vacio
      */
     public Cliente(){
-
+        this.setRol(ROL_ENTIDAD);
     }
     /**
      * Constructor con parametros
@@ -29,7 +30,7 @@ public class Cliente extends Persona{
      * @param fechaNacimiento
      */
     public Cliente(Long codigo,String password,String nombre,String dpi,String sexo,String direccion, Date fechaNacimiento){
-        super(codigo, password, "CLIENTE", nombre, dpi, sexo, direccion);
+        super(codigo, password, ROL_ENTIDAD, nombre, dpi, sexo, direccion);
         this.fechaNacimiento=fechaNacimiento;
     }
     /**
