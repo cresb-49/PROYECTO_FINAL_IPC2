@@ -12,7 +12,7 @@ public class ModelUsuarioSistema {
     private static Connection connection = ConnectDB.getInstance();
 
     private final String BUSCAR_USUARIO_SISTEMA = "SELECT * FROM " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE + " WHERE " + UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO + " = ? AND "+UsuarioDeSistema.USUARIO_SISTEMA_DB_PASSWORD +"= ?";
-    private final String REGISTRAR_USUARIO_SISTEMA = "SELECT * FROM " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE + " WHERE " + UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO + " = ? AND "+UsuarioDeSistema.USUARIO_SISTEMA_DB_PASSWORD +"= ?";
+    private final String REGISTRAR_USUARIO_SISTEMA = "INSERT INTO " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE+" VALUES " + "("+UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO+","+UsuarioDeSistema.USUARIO_SISTEMA_DB_PASSWORD+","+UsuarioDeSistema.USUARIO_SISTEMA_DB_ROL+") VALUES (?,?,?)";
     private final String CONTAR_REGISTROS_SISTEMA = "SELECT COUNT("+UsuarioDeSistema.USUARIO_SISTEMA_DB_ID+") FROM "+UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE;
 
     /**
@@ -43,6 +43,7 @@ public class ModelUsuarioSistema {
         }
         return null;
     }
+
     /**
      * RETORNA LA CANTIDAD DE USUARIO QUE HAY EN LA TABLA
      * @return
@@ -55,5 +56,26 @@ public class ModelUsuarioSistema {
             return result.getInt(1);
         }
         return 0;
+    }
+
+    /**
+     * REALIZA EL REGISTRO DE UN USUARIO DE SISTEMA
+     * @param usuarioDeSistema
+     * @return
+     * @throws SQLException
+     */
+    public Long RegistroUsuarioSistema(UsuarioDeSistema usuarioDeSistema) throws SQLException{
+        PreparedStatement preSt = connection.prepareStatement(REGISTRAR_USUARIO_SISTEMA, Statement.RETURN_GENERATED_KEYS);
+        preSt.setLong(1, usuarioDeSistema.getCodigo());
+        preSt.setString(2, usuarioDeSistema.getPassword());
+        preSt.setString(3, usuarioDeSistema.getRol());
+        
+        preSt.executeUpdate();
+
+        ResultSet result = preSt.getGeneratedKeys();
+        if (result.next()) {
+            return result.getLong(1);
+        }
+        return (long) -1;
     }
 }

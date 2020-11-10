@@ -7,6 +7,15 @@ import java.util.List;
 
 public class Cliente extends Persona implements Serializable{
 
+    public static final String CLIENTE_DB_TABLE = "CLIENTE";
+    public static final String CLIENTE_DB_CODIGO= "codigo";
+    public static final String CLIENTE_DB_ID_USUARIO = "id_USUARIO";
+    public static final String CLIENTE_DB_NOMBRE = "nombre";
+    public static final String CLIENTE_DB_BIRTH = "fecha_nacimiento";
+    public static final String CLIENTE_DB_DPI = "dpi";
+    public static final String CLIENTE_DB_DIRECCION = "direccion";
+    public static final String CLIENTE_DB_SEXO = "sexo";
+
     public static final String ROL_ENTIDAD = "CLIENTE";
 
     private List<CuentaBancaria> cuentas = new ArrayList<CuentaBancaria>();
