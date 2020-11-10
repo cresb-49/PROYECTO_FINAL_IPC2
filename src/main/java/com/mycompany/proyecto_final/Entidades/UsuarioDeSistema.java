@@ -3,8 +3,6 @@ package com.mycompany.proyecto_final.Entidades;
 import java.io.Serializable;
 
 public class UsuarioDeSistema implements Serializable{
-
-    private static final long serialVersionUID = 4050320114047821544L;
     
     public static final String USUARIO_SISTEMA_DB_TABLE = "USUARIO";
     public static final String USUARIO_SISTEMA_DB_ID = "id";
@@ -107,11 +105,9 @@ public class UsuarioDeSistema implements Serializable{
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     @Override
     public String toString() {
         return "UsuarioDeSistema{" + "codigo=" + codigo + ", password=" + password + ", rol=" + rol + ", id=" + id + '}';
     }
-
-    
 }

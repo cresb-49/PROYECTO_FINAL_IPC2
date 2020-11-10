@@ -32,7 +32,7 @@
                             Usuario o Contraseña Incorrecta
                         </div>
                     </c:if>
-                    <form action="ControladorLogin" method="POST">
+                        <form action="ControladorLogin" method="POST" id="credenciales" name="credenciales">
                         <h2>Inicio sesion</h2>
                         <div class="form-group">
                             <label for="usuario">Usuario:</label>
@@ -57,7 +57,7 @@
                 <div class="container col-md-8">
                     <br/>
                     <h2>NO HAY DATOS EN EL SISTEMA</h2>
-                    <form action="CargarDatosSistema" method="POST" enctype="multipart/form-data">
+                    <form action="CargarDatosSistema" method="POST" enctype="multipart/form-data" id="archivosIncio" name="archivosInicio">
                         <div class="form-group">
                             <input class="form-control-file" type="file" multiple="multiple" name="selecFile" required=""/>
                         </div>

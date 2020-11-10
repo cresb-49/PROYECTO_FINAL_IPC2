@@ -6,12 +6,13 @@ import java.util.List;
 
 public class Cliente extends Persona{
 
-    private static final long serialVersionUID = -4851497146888542151L;
     public static final String ROL_ENTIDAD = "CLIENTE";
 
     private List<CuentaBancaria> cuentas = new ArrayList<CuentaBancaria>();
 
     private Date fechaNacimiento;
+    private Archivo fotocopiaDPI = new Archivo();
+    
     /**
      * Constructor Vacio
      */
@@ -22,16 +23,17 @@ public class Cliente extends Persona{
      * Constructor con parametros
      * @param codigo
      * @param password
-     * @param rol
      * @param nombre
      * @param dpi
      * @param sexo
      * @param direccion
      * @param fechaNacimiento
+     * @param fotocopiaDPI
      */
-    public Cliente(Long codigo,String password,String nombre,String dpi,String sexo,String direccion, Date fechaNacimiento){
+    public Cliente(Long codigo,String password,String nombre,String dpi,String sexo,String direccion, Date fechaNacimiento, Archivo fotocopiaDPI){
         super(codigo, password, ROL_ENTIDAD, nombre, dpi, sexo, direccion);
         this.fechaNacimiento=fechaNacimiento;
+        this.fotocopiaDPI=fotocopiaDPI;
     }
     /**
      * Retrona la fecha de nacimiento del cliente
@@ -68,11 +70,23 @@ public class Cliente extends Persona{
     public void agregarCuenta(CuentaBancaria cuenta){
         this.cuentas.add(cuenta);
     }
-
-    @Override
-    public String toString() {
-        return "Cliente{" +"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +"nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() + "cuentas=" + cuentas + ", fechaNacimiento=" + fechaNacimiento + '}';
+    /**
+     * Retorna la fotocopia de DPI
+     * @return 
+     */
+    public Archivo getFotocopiaDPI() {
+        return fotocopiaDPI;
+    }
+    /**
+     * Asigna la fotocopia de DPI
+     * @param fotocopiaDPI 
+     */
+    public void setFotocopiaDPI(Archivo fotocopiaDPI) {
+        this.fotocopiaDPI = fotocopiaDPI;
     }
     
-    
+    @Override
+    public String toString() {
+        return "Cliente{" +"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +"nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() + "cuentas=" + cuentas + ", fechaNacimiento=" + fechaNacimiento + ", fotocopiaDPI="+fotocopiaDPI+'}';
+    }
 }

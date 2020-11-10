@@ -4,15 +4,14 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class Transaccion implements Serializable{
-    
-    private static final long serialVersionUID = 3762617963630563510L;
-    
+        
     private Long codigo;
-    private String idCuenta;
+    private Long idCuenta;
     private Date fechaTransaccion;
     private String hora;
+    private String tipo;
     private Double monto;
-    private String idCajero;
+    private Long idCajero;
     /**
      * CONSTRUCTOR VACIO DEL OBJETO TRANSACCION
      */
@@ -28,7 +27,7 @@ public class Transaccion implements Serializable{
      * @param monto
      * @param idCajero
      */
-    public Transaccion(Long codigo,String idCuenta,Date fechaTransaccion, String hora,Double monto,String idCajero){
+    public Transaccion(Long codigo,Long idCuenta,Date fechaTransaccion, String hora,Double monto,Long idCajero){
         this.codigo=codigo;
         this.idCuenta=idCuenta;
         this.fechaTransaccion=fechaTransaccion;
@@ -81,28 +80,28 @@ public class Transaccion implements Serializable{
     /**
      * Retorna el codigo del cajero asociado
      */
-    public String getIdCajero() {
+    public Long getIdCajero() {
         return idCajero;
     }
     /**
      * Asigna el codigo del cajero asociado
      * @param idCajero
      */
-    public void setIdCajero(String idCajero) {
+    public void setIdCajero(Long idCajero) {
         this.idCajero = idCajero;
     }
     /**
      * Retorna el codigo de cuenta asociada
      * @return
      */
-    public String getIdCuenta() {
+    public Long getIdCuenta() {
         return idCuenta;
     }
     /**
      * Asigna el codigo de cuenta asociada
      * @param idCuenta
      */
-    public void setIdCuenta(String idCuenta) {
+    public void setIdCuenta(Long idCuenta) {
         this.idCuenta = idCuenta;
     }
     /**
@@ -119,7 +118,22 @@ public class Transaccion implements Serializable{
     public void setMonto(Double monto) {
         this.monto = monto;
     }
-
+    /**
+     * Retrona el tipo de transaccion
+     * @return 
+     */
+    public String getTipo() {
+        return tipo;
+    }
+    
+    /**
+     * Asigna el tipo de transaccion
+     * @param tipo 
+     */
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    
     @Override
     public String toString() {
         return "Transaccion{" + "codigo=" + codigo + ", idCuenta=" + idCuenta + ", fechaTransaccion=" + fechaTransaccion + ", hora=" + hora + ", monto=" + monto + ", idCajero=" + idCajero + '}';

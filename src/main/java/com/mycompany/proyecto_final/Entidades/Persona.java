@@ -2,8 +2,6 @@ package com.mycompany.proyecto_final.Entidades;
 
 public class Persona extends UsuarioDeSistema{
     
-    private static final long serialVersionUID = -1110350536359505400L;
-
     private String nombre;
     private String dpi;
     private String sexo;
@@ -87,11 +85,9 @@ public class Persona extends UsuarioDeSistema{
      */
     public void setDireccion(String direccion) {
         this.direccion = direccion;
-    }
-
-    @Override
+    }    
+     @Override
     public String toString() {
         return "Persona{" + "nombre=" + nombre + ", dpi=" + dpi + ", sexo=" + sexo + ", direccion=" + direccion + '}';
     }
-    
 }

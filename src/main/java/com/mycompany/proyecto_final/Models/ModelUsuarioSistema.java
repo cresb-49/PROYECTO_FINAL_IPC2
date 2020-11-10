@@ -23,6 +23,10 @@ public class ModelUsuarioSistema {
     }
     /**
      * RETORNA EL USUARIO DEL SISTEMA CON EL CODIGO Y PASSWORD INGRESADOS
+     * @param user
+     * @param pass
+     * @return 
+     * @throws java.sql.SQLException
      */
     public UsuarioDeSistema accesoDeUsuario(String user, String pass) throws SQLException{
         PreparedStatement preSt = connection.prepareStatement(BUSCAR_USUARIO_SISTEMA);
