@@ -1,6 +1,8 @@
 package com.mycompany.proyecto_final.Entidades;
 
-public class Cajero extends Persona{
+import java.io.Serializable;
+
+public class Cajero extends Persona implements Serializable{
 
     private static final long serialVersionUID = 4573195179505144046L;
     public static final String ROL_ENTIDAD = "CAJERO";

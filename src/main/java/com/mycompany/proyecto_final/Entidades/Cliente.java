@@ -1,10 +1,11 @@
 package com.mycompany.proyecto_final.Entidades;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente extends Persona{
+public class Cliente extends Persona implements Serializable{
 
     public static final String ROL_ENTIDAD = "CLIENTE";
 

@@ -1,6 +1,8 @@
 package com.mycompany.proyecto_final.Entidades;
 
-public class Persona extends UsuarioDeSistema{
+import java.io.Serializable;
+
+public class Persona extends UsuarioDeSistema implements Serializable {
     
     private String nombre;
     private String dpi;

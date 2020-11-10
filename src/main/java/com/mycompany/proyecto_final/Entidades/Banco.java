@@ -1,8 +1,9 @@
 package com.mycompany.proyecto_final.Entidades;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Banco {
+public class Banco implements Serializable{
     
     private ArrayList<Gerente> gerentes = new ArrayList<>();
     private ArrayList<Cajero> cajeros = new ArrayList<>();
