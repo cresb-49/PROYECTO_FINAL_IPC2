@@ -54,7 +54,7 @@ public class ControladorRegistroCliente extends HttpServlet{
 
         Cliente cliente = new Cliente(null, password, nombre, dpi, sexo, direccion, fechaNacimiento, fotocopiaDPI);
         System.out.println(cliente.toString());
-        //RegistroCliente(cliente, req, resp);
+        RegistroCliente(cliente, req, resp);
     }
     
     private void RegistroCliente (Cliente cliente,HttpServletRequest req, HttpServletResponse resp){
