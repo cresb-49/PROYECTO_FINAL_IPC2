@@ -32,7 +32,7 @@
                 <h3>Informacion del Gerente</h3>
             </div>
             <br>
-            <form class="container form-group" action="" onsubmit="" method="POST">
+            <form class="container form-group" action="RegistroGerente" onsubmit="" method="POST">
                 <div class="form-row form-group">
                     <div class="container form-group col-md-6">
                         <div class="form-group">

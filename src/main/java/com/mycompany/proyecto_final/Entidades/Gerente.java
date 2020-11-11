@@ -24,6 +24,7 @@ public class Gerente extends Persona implements Serializable{
      */
     public Gerente(Long codigo, String nombre, String turno, String dpi, String direccion, String sexo,String password) {
         super(codigo, password,ROL_ENTIDAD, nombre, dpi, sexo, direccion);
+        this.turno=turno;
     }
     /**
      * Retorna el tipo de turno del gerente
@@ -41,6 +42,6 @@ public class Gerente extends Persona implements Serializable{
     }
     @Override
     public String toString() {
-        return "Gerente{" +"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +"nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() +"turno=" + turno + '}';
+        return "Gerente{" +"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +", nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() +", turno=" + turno + '}';
     }
 }

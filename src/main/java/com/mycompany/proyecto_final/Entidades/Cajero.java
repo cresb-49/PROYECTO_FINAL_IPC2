@@ -13,8 +13,9 @@ public class Cajero extends Persona implements Serializable{
     public Cajero(){
         this.setRol(ROL_ENTIDAD);
     }
-    public Cajero(Long codigo, String password,String dpi, String nombre, String sexo,String direccion){
+    public Cajero(Long codigo, String password,String dpi, String nombre, String sexo,String direccion, String turno){
         super(codigo, password, ROL_ENTIDAD, nombre, dpi, sexo, direccion);
+        this.turno=turno;
     }
     /**
      * Retorno del tipo de turno
@@ -33,6 +34,6 @@ public class Cajero extends Persona implements Serializable{
     }
     @Override
     public String toString() {
-        return "Cajero{"+"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +"nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() + "turno=" + turno + '}';
+        return "Cajero{"+"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +", nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() + ", turno=" + turno + '}';
     }
 }
