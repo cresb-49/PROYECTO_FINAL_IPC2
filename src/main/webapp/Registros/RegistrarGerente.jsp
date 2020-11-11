@@ -12,7 +12,7 @@
         <title>Registrar Gerente</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/bootstrap.min.css"/>
-        <link rel="stylesheet" href="../Resources/css/presentacion.css"/>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/presentacion.css"/>
         <script src="${pageContext.request.contextPath}/Resources/js/jquery-3.5.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
         <script src="${pageContext.request.contextPath}/Resources/js/bootstrap.min.js"></script>
@@ -32,7 +32,7 @@
                 <h3>Informacion del Gerente</h3>
             </div>
             <br>
-            <form class="container form-group" action="RegistroGerente" onsubmit="" method="POST">
+            <form class="container form-group" action="RegistroGerente" onsubmit="return validarTabajador();" method="POST">
                 <div class="form-row form-group">
                     <div class="container form-group col-md-6">
                         <div class="form-group">
@@ -66,12 +66,12 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="turno">Turno: </label>
+                            <label class="control-label" for="TipoTurno">Turno: </label>
                             <div class="">
-                                <select class="form-control" name="turno" id="turno">
+                                <select class="form-control" name="TipoTurno" id="TipoTurno">
                                     <option value="Seleccionar" selected>Seleccionar</option>
                                     <option value="MATUTINO">Matutino</option>
-                                    <option value="VESPERTINO">Verpertino</option>
+                                    <option value="VESPERTINO">Vespertino</option>
                                 </select>
                             </div>
                         </div>
@@ -103,5 +103,6 @@
             </form>
         </div>
         <%@include file="../CabeceraPie/piePagina.jsp" %>
+        <script src="${pageContext.request.contextPath}/Resources/js/validarFormulariosRegistro.js"></script>
     </body>
 </html>

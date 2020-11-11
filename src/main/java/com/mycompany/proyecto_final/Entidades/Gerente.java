@@ -3,7 +3,17 @@ package com.mycompany.proyecto_final.Entidades;
 import java.io.Serializable;
 
 public class Gerente extends Persona implements Serializable{
+    
     public static final String ROL_ENTIDAD = "GERENTE";
+
+    public static final String GERENTE_DB_TABLE = "GERENTE";
+    public static final String GERENTE_DB_CODIGO= "codigo";
+    public static final String GERENTE_DB_NOMBRE = "nombre";
+    public static final String GERENTE_DB_TURNO = "turno";
+    public static final String GERENTE_DB_DPI = "dpi";
+    public static final String GERENTE_DB_DIRECCION = "direccion";
+    public static final String GERENTE_DB_SEXO = "sexo";
+    public static final String GERENTE_DB_ID_USUARIO = "id_USUARIO";
 
     private String turno;
     /**

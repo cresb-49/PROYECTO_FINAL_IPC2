@@ -31,7 +31,11 @@ public class ModelCliente {
         public ModelCliente() {
 
         }
-
+        /**
+         * REALIZA EL REGISTO DE UN CLIENTE EN EL SISTEMA
+         * @param cliente
+         * @throws SQLException
+         */
         public void RegistroClienteCreado(Cliente cliente) throws SQLException {
                 PreparedStatement preSt = connection.prepareStatement(REGISTRAR_CLIENTE_CREADO);
 

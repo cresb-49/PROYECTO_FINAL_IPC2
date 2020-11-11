@@ -38,8 +38,7 @@ public class ModelUsuarioSistema {
             return new UsuarioDeSistema(
                 result.getLong(UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO),
                 null,
-                result.getString(UsuarioDeSistema.USUARIO_SISTEMA_DB_ROL),
-                result.getLong(UsuarioDeSistema.USUARIO_SISTEMA_DB_ID)
+                result.getString(UsuarioDeSistema.USUARIO_SISTEMA_DB_ROL)
             );
         }
         return null;

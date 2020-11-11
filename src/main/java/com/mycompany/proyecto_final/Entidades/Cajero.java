@@ -4,8 +4,17 @@ import java.io.Serializable;
 
 public class Cajero extends Persona implements Serializable{
 
-    private static final long serialVersionUID = 4573195179505144046L;
     public static final String ROL_ENTIDAD = "CAJERO";
+
+    public static final String CAJERO_DB_TABLE = "CAJERO";
+    public static final String CAJERO_DB_CODIGO= "codigo";
+    public static final String CAJERO_DB_NOMBRE = "nombre";
+    public static final String CAJERO_DB_TURNO = "turno";
+    public static final String CAJERO_DB_DPI = "dpi";
+    public static final String CAJERO_DB_DIRECCION = "direccion";
+    public static final String CAJERO_DB_SEXO = "sexo";
+    public static final String CAJERO_DB_ID_USUARIO = "id_USUARIO";
+
     private String turno;
     /**
      * Constructor vacio de la clase Cajero
