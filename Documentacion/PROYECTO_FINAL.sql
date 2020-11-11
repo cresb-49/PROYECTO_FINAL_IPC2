@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS CAJERO(
   turno VARCHAR(20) NOT NULL,
   dpi VARCHAR(13) NOT NULL,
   direccion VARCHAR(200) NOT NULL,
-  sexo VARCHAR(10) NOT NULL,
+  sexo VARCHAR(20) NOT NULL,
   PRIMARY KEY (codigo),
   UNIQUE (codigo)
 );
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS GERENTE(
   turno VARCHAR(20) NOT NULL,
   dpi VARCHAR(13) NOT NULL,
   direccion VARCHAR(200) NOT NULL,
-  sexo VARCHAR(10) NOT NULL,
+  sexo VARCHAR(20) NOT NULL,
   PRIMARY KEY (codigo),
   UNIQUE (codigo)
 );
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS CLIENTE(
   fecha_nacimiento DATE NOT NULL,
   dpi VARCHAR(13) NOT NULL,
   direccion VARCHAR(200) NOT NULL,
-  sexo VARCHAR(10) NOT NULL,
+  sexo VARCHAR(20) NOT NULL,
   PRIMARY KEY (codigo),
   UNIQUE (codigo)
 );
@@ -112,7 +112,7 @@ VALUES
   );
 INSERT INTO
   CAJERO (
-    codigo,usuario
+    codigo,
     nombre,
     turno,
     dpi,

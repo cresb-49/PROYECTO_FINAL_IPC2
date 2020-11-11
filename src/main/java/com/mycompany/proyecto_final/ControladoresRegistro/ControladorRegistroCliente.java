@@ -25,6 +25,7 @@ public class ControladorRegistroCliente extends HttpServlet{
 
     private ModelUsuarioSistema modelUsuarioSistema = new ModelUsuarioSistema();
     private ModelCliente modelCliente = new ModelCliente();
+    private ModelFotocopiaDPF modelFotocopiaDPF = new ModelFotocopiaDPF();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -58,23 +59,42 @@ public class ControladorRegistroCliente extends HttpServlet{
     }
     
     private void RegistroCliente (Cliente cliente,HttpServletRequest req, HttpServletResponse resp){
+        boolean banderaRegistro=false;
         try {
             Long temp = modelUsuarioSistema.RegistroUsuarioSistema((UsuarioDeSistema)cliente); 
-            cliente.setId(temp);
+            cliente.setCodigo(temp);
+            System.out.println("REgistro usuario sistema: "+cliente.toString());
+            banderaRegistro=true;
         } catch (SQLException e) {
-            System.out.println("Error: "+e.getSQLState());
+            System.out.println("Error registro usuario sistema: "+e.getMessage());
+            banderaRegistro=false;
         }
         try {
-            Long temp = modelCliente.RegistroClienteCreado(cliente);
+            if(banderaRegistro){
+                modelCliente.RegistroClienteCreado(cliente);
+                banderaRegistro=true;
+            }
         } catch (SQLException e) {
-           System.out.println("Error: "+ e.getSQLState()); 
-           try {
-               modelUsuarioSistema.EliminarUsuarioSistema(cliente.getId());
-           } catch (SQLException e1) {
-               System.out.println("Error al eliminar usuario: "+e1.getSQLState());
-           }
+            System.out.println("Error registro cliente: "+ e.getMessage());  
+            banderaRegistro=false;
         }
-
+        try {
+            if(banderaRegistro){
+                modelFotocopiaDPF.AgregarFotocopia(cliente);
+                banderaRegistro=true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Error registro fotocopia: "+ e.getMessage());  
+            banderaRegistro=false;
+        }
+        try {
+            if(!banderaRegistro){
+                modelUsuarioSistema.EliminarUsuarioSistema(cliente.getCodigo());
+            }
+        } catch (SQLException e1) {
+            System.out.println("Error al eliminar usuario: "+e1.getMessage());
+        }
+        
     }
 
 }

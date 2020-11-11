@@ -12,9 +12,9 @@ public class ModelUsuarioSistema {
     private static Connection connection = ConnectDB.getInstance();
 
     private final String BUSCAR_USUARIO_SISTEMA = "SELECT * FROM " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE + " WHERE " + UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO + " = ? AND "+UsuarioDeSistema.USUARIO_SISTEMA_DB_PASSWORD +"= ?";
-    private final String REGISTRAR_USUARIO_SISTEMA = "INSERT INTO " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE+" VALUES " + "("+UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO+","+UsuarioDeSistema.USUARIO_SISTEMA_DB_PASSWORD+","+UsuarioDeSistema.USUARIO_SISTEMA_DB_ROL+") VALUES (?,?,?)";
-    private final String ELIMINAR_USUARIO_SISTEMA = "DELETE FROM " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE+" WHERE " + UsuarioDeSistema.USUARIO_SISTEMA_DB_ID + " = ?";
-    private final String CONTAR_REGISTROS_SISTEMA = "SELECT COUNT("+UsuarioDeSistema.USUARIO_SISTEMA_DB_ID+") FROM "+UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE;
+    private final String REGISTRAR_USUARIO_SISTEMA = "INSERT INTO "+UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE+" ("+UsuarioDeSistema.USUARIO_SISTEMA_DB_PASSWORD+","+UsuarioDeSistema.USUARIO_SISTEMA_DB_ROL+") VALUES (?,?)";
+    private final String ELIMINAR_USUARIO_SISTEMA = "DELETE FROM " + UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE+" WHERE " + UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO + " = ?";
+    private final String CONTAR_REGISTROS_SISTEMA = "SELECT COUNT("+UsuarioDeSistema.USUARIO_SISTEMA_DB_CODIGO_USUARIO+") FROM "+UsuarioDeSistema.USUARIO_SISTEMA_DB_TABLE;
 
     /**
      * CONSTRUCTOR VACIO DE MODEL USUARIO DE SISTEMA
@@ -56,6 +56,10 @@ public class ModelUsuarioSistema {
         while (result.next()){
             return result.getInt(1);
         }
+
+        preSt.close();
+        result.close();
+
         return 0;
     }
 
@@ -65,29 +69,31 @@ public class ModelUsuarioSistema {
      * @return
      * @throws SQLException
      */
-    public Long RegistroUsuarioSistema(UsuarioDeSistema usuarioDeSistema) throws SQLException{
+    public long RegistroUsuarioSistema(UsuarioDeSistema usuarioDeSistema) throws SQLException{
         PreparedStatement preSt = connection.prepareStatement(REGISTRAR_USUARIO_SISTEMA, Statement.RETURN_GENERATED_KEYS);
-        preSt.setLong(1, usuarioDeSistema.getCodigo());
-        preSt.setString(2, usuarioDeSistema.getPassword());
-        preSt.setString(3, usuarioDeSistema.getRol());
+        preSt.setString(1, usuarioDeSistema.getPassword());
+        preSt.setString(2, usuarioDeSistema.getRol());
         
         preSt.executeUpdate();
 
         ResultSet result = preSt.getGeneratedKeys();
-        if (result.next()) {
+        if (result.first()) {
             return result.getLong(1);
         }
-        return (long) -1;
+
+        return -1;
     }
 
     /**
      * ELIMINACION DE UN REGISTRO DE UN USUARIO SEGUN SU ID DE IDENTIFICACION
-     * @param id
+     * @param codigo
      * @throws SQLException
      */
-    public void EliminarUsuarioSistema(Long id) throws SQLException {
+    public void EliminarUsuarioSistema(Long codigo) throws SQLException {
         PreparedStatement preSt = connection.prepareStatement(ELIMINAR_USUARIO_SISTEMA);
-        preSt.setLong(1, id);
+        preSt.setLong(1, codigo);
         preSt.executeUpdate();
+
+        preSt.close();
     }
 }

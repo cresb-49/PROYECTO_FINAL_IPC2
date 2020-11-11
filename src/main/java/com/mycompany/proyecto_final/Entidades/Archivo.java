@@ -5,7 +5,10 @@ import java.io.Serializable;
 
 public class Archivo implements Serializable{
 
-    private static final long serialVersionUID = -7382395521714559110L;
+    public static final String CLIENTE_DB_TABLE = "PDF_DPI";
+    public static final String CLIENTE_DB_ID = "id";
+    public static final String CLIENTE_DB_CODIGO_CLIENTE = "codigo_CLIENTE";
+    public static final String CLIENTE_DB_PDF = "pdf";
 
     private String nombre;
     private InputStream datos;
