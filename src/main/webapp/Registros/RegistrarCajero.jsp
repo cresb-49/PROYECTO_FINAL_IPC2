@@ -26,6 +26,82 @@
                 <br>
             </div>
         </header>
+        <div class="container">
+            <div class="container">
+                <br>
+                <h3>Informacion del Cajero</h3>
+            </div>
+            <br>
+            <form class="container form-group" action="" onsubmit="" method="POST">
+                <div class="form-row form-group">
+                    <div class="container form-group col-md-6">
+                        <div class="form-group">
+                            <label for="nombreEntidad" class="control-label">Nombre: </label>
+                            <div class="">
+                                <input class="form-control" id="nombreEntidad" type="text" name="nombreEntidad" placeholder="Nombre" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="sexo">Sexo: </label>
+                            <div class="">
+                                <select class="form-control" name="sexo" id="sexo">
+                                    <option value="Seleccionar" selected>Seleccionar</option>
+                                    <option value="Masculino">Masculino</option>
+                                    <option value="Femenino">Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="direccion">Direccion: </label>
+                            <div class="">
+                                <input class="form-control" id="direccion" type="text" name="direccion" placeholder="Direccion"required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container form-group col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="numeroDPI">DPI: </label>
+                            <div class="">
+                                <input class="form-control" id="numeroDPI" type="number" name="numeroDPI" placeholder="DPI" required="">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="turno">Turno: </label>
+                            <div class="">
+                                <select class="form-control" name="turno" id="turno">
+                                    <option value="Seleccionar" selected>Seleccionar</option>
+                                    <option value="MATUTINO">Matutino</option>
+                                    <option value="VESPERTINO">Verpertino</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container form-group col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="passInicial">Password: </label>
+                            <div class="">
+                                <input class="form-control" id="passInicial" type="password" name="passInicial" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container form-group col-md-6">
+                        <div class="form-group">
+                            <label class="control-label" for="passwordComparacion"> Confirmar Password: </label>
+                            <div class="">
+                                <input class="form-control" id="passwordComparacion" type="password" name="passwordComparacion" required="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container form-group col-md-12">
+                        <div class="container" >
+                            <div class="form-group">
+                                <button class="btn btn-success" type="submit" name="ingresar" value="Ingresar">Registrar Cajero</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
         <%@include file="../CabeceraPie/piePagina.jsp" %>
     </body>
 </html>
