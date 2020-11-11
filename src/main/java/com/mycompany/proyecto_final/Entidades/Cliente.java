@@ -97,6 +97,6 @@ public class Cliente extends Persona implements Serializable{
     
     @Override
     public String toString() {
-        return "Cliente{" +"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +"nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() + "cuentas=" + cuentas + ", fechaNacimiento=" + fechaNacimiento + ", fotocopiaDPI="+fotocopiaDPI+'}';
+        return "Cliente{" +"codigo=" + this.getCodigo() + ", password=" + this.getPassword() + ", rol=" + this.getRol() +", nombre=" + this.getNombre() + ", dpi=" + this.getDpi() + ", sexo=" + this.getSexo() + ", direccion=" + this.getDireccion() + ", cuentas=" + cuentas + ", fechaNacimiento=" + fechaNacimiento + ", fotocopiaDPI="+fotocopiaDPI+'}';
     }
 }

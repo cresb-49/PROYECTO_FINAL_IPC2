@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mycompany.proyecto_final.Controladores;
+package com.mycompany.proyecto_final.Controladores.Login;
 
 import com.mycompany.proyecto_final.Entidades.Cajero;
 import com.mycompany.proyecto_final.Entidades.Cliente;
@@ -36,12 +36,15 @@ public class ControladorLogin extends HttpServlet {
                 switch (usuario.getRol()) {
                     case Cajero.ROL_ENTIDAD:
                         System.out.println("EJECUCION PERFIL CAJERO");
+                        req.getRequestDispatcher("/Perfiles/PerfilCajero.jsp").forward(req, resp);
                         break;
                     case Gerente.ROL_ENTIDAD:
                         System.out.println("EJECUCION PERFIL GERENTE");
+                        req.getRequestDispatcher("/Perfiles/PerfilGerente.jsp").forward(req, resp);
                         break;
                     case Cliente.ROL_ENTIDAD:
                         System.out.println("EJECUCION PERFIL CLIENTE");
+                        req.getRequestDispatcher("/Perfiles/PerfilCliente.jsp").forward(req, resp);
                         break;
                     default:
                         req.setAttribute("resultado", 0);
