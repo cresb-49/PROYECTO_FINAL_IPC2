@@ -8,23 +8,23 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/RegistrosNuevos")
-public class ControladorRegistro extends HttpServlet {
+@WebServlet("/ActualizarDatos")
+public class ControladorActualizacionDatos extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String tipoRegistro = req.getParameter("registro");
+        String tipoRegistro = req.getParameter("actualizar");
         switch (tipoRegistro) {
             case "1":
                 req.setAttribute("success", 0);
-                req.getRequestDispatcher("/Registros/RegistarCliente.jsp").forward(req, resp);
+                req.getRequestDispatcher("/ActualizacionDatos/ActualizarCliente.jsp").forward(req, resp);
                 break;
             case "2":
                 req.setAttribute("success", 0);
-                req.getRequestDispatcher("/Registros/RegistrarCajero.jsp").forward(req, resp);
+                req.getRequestDispatcher("/ActualizacionDatos/ActualizarCajero.jsp").forward(req, resp);
                 break;
             case "3":
                 req.setAttribute("success", 0);
-                req.getRequestDispatcher("/Registros/RegistrarGerente.jsp").forward(req, resp);
+                req.getRequestDispatcher("/ActualizarDatosGerente").forward(req, resp);
                 break;
             default:
                 req.getRequestDispatcher("/Perfiles/PerfilGerente.jsp").forward(req, resp);

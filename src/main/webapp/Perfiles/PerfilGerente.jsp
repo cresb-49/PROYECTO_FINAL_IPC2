@@ -23,9 +23,9 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Actuazalizacion de datos</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/">Actualizacion Cliente</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/">Actualizacion Cajero</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/">Actualizar Mis Datos</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ActualizarDatos?actualizar=1">Actualizacion Cliente</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ActualizarDatos?actualizar=2">Actualizacion Cajero</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ActualizarDatos?actualizar=3">Actualizar Mis Datos</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -37,7 +37,7 @@
                     </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/">Crear Cuenta Bancaria</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/CrearCuentaBancaria?action=1">Crear Cuenta Bancaria</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>

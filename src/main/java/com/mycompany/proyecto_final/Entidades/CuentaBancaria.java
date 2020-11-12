@@ -7,9 +7,11 @@ import java.sql.Date;
  * CuentaBancaria
  */
 public class CuentaBancaria implements Serializable {
-        
+
+    public static final String CLIENTE_DB_TABLE = "CUENTA";
     public static final String CUENTA_DB_CODIGO = "codigo";
-    public static final String CUENTA_DB_FECHA_APERTURA = "fecha_apertura";
+    public static final String CUENTA_DB_CODIGO_CLIENTE = "codigo_CLIENTE";
+    public static final String CUENTA_DB_FECHA_APERTURA = "fecha_creacion";
     public static final String CUENTA_DB_CREDITO = "credito";
 
     private Long codigo;

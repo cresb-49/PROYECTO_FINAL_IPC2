@@ -17,7 +17,7 @@
             <div class="container">
                 <br/>
                 <h1>Banco EL BILLETON</h1>
-                <h5>BIENVENIDO: ${USER.codigo}</h5>
+                <h5>CODIGO DE USUARIO: ${USER.codigo}</h5>
                 <br/>
             </div>
         </header>    
