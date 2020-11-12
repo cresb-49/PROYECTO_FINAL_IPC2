@@ -13,15 +13,19 @@ public class ControladorRegistro extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String tipoRegistro = req.getParameter("registro");
-        //System.out.println("Estoy en el controlador de registros nuevos, Opcion=" + tipoRegistro);
+        // System.out.println("Estoy en el controlador de registros nuevos, Opcion=" +
+        // tipoRegistro);
         switch (tipoRegistro) {
             case "1":
+                req.setAttribute("success", 0);
                 req.getRequestDispatcher("/Registros/RegistarCliente.jsp").forward(req, resp);
                 break;
             case "2":
+                req.setAttribute("success", 0);
                 req.getRequestDispatcher("/Registros/RegistrarCajero.jsp").forward(req, resp);
                 break;
             case "3":
+                req.setAttribute("success", 0);
                 req.getRequestDispatcher("/Registros/RegistrarGerente.jsp").forward(req, resp);
                 break;
             default:

@@ -4,6 +4,7 @@ const exprecionesRegulares = {
     sexo: /^(([M][a][s][c][u][l][i][n][o])|([F][e][m][e][n][i][n][o]))$/,
     fecha: /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/,
     turno: /^(([M][A][T][U][T][I][N][O])|([V][E][S][P][E][R][T][I][N][O]))$/,
+    direc: /^([\sA-Za-z0-9-])+$/,
 };
 
 function validarCliente(){
@@ -33,7 +34,7 @@ function validarCliente(){
         if(direccion.length>200){
             errores = errores + "\n- La dereccion debe contener como maximo 200 caracteres";
         }
-        if(!exprecionesRegulares.texto.test(direccion)){
+        if(!exprecionesRegulares.direc.test(direccion)){
             errores = errores + "\n- La direccion no es valida no debe de contener simbolos como !!@#";
         }
         if (!exprecionesRegulares.nDpi.test(dpi)){
@@ -83,7 +84,7 @@ function validarTabajador(){
         if(direccion.length>200){
             errores = errores + "\n- La dereccion debe contener como maximo 200 caracteres";
         }
-        if(!exprecionesRegulares.texto.test(direccion)){
+        if(!exprecionesRegulares.direc.test(direccion)){
             errores = errores + "\n- La direccion no es valida no debe de contener simbolos como !!@#";
         }
         if (!exprecionesRegulares.nDpi.test(dpi)){

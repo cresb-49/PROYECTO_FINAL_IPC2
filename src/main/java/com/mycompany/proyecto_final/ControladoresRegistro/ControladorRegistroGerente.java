@@ -33,7 +33,7 @@ public class ControladorRegistroGerente extends HttpServlet {
         sexo = req.getParameter("sexo");
         direccion = req.getParameter("direccion");
         dpi = req.getParameter("numeroDPI");
-        turno = req.getParameter("turno");
+        turno = req.getParameter("TipoTurno");
         password = req.getParameter("passInicial");
 
         Gerente gerente = new Gerente(null, nombre, turno, dpi, direccion, sexo, password);
@@ -43,8 +43,10 @@ public class ControladorRegistroGerente extends HttpServlet {
         RegistroGerente(gerente, req, resp);
     }
 
-    private void RegistroGerente(Gerente gerente, HttpServletRequest req, HttpServletResponse resp) {
+    private void RegistroGerente(Gerente gerente, HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         boolean banderaRegistro = false;
+        String errores = "";
         try {
             Long temp = modelUsuarioSistema.RegistroUsuarioSistema((UsuarioDeSistema) gerente);
             gerente.setCodigo(temp);
@@ -52,6 +54,7 @@ public class ControladorRegistroGerente extends HttpServlet {
             banderaRegistro = true;
         } catch (SQLException e) {
             System.out.println("Error registro usuario sistema: " + e.getMessage());
+            errores = errores + "\n" + e.getMessage();
             banderaRegistro = false;
         }
         try {
@@ -61,15 +64,25 @@ public class ControladorRegistroGerente extends HttpServlet {
             }
         } catch (SQLException e) {
             System.out.println("Error registro gerente: " + e.getMessage());
+            errores = errores + "\n" + e.getMessage();
             banderaRegistro = false;
         }
         try {
             if (!banderaRegistro) {
                 modelUsuarioSistema.EliminarUsuarioSistema(gerente.getCodigo());
             }
-        } catch (SQLException e1) {
-            System.out.println("Error al eliminar usuario: " + e1.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar usuario: " + e.getMessage());
+            errores = errores + "\n" + e.getMessage();
         }
-
+        if (banderaRegistro) {
+            req.setAttribute("success", 1);
+            req.setAttribute("genCode", gerente.getCodigo());
+            req.getRequestDispatcher("/Registros/RegistrarGerente.jsp").forward(req, resp);
+        } else {
+            req.setAttribute("success", 2);
+            req.setAttribute("errores", errores);
+            req.getRequestDispatcher("/Registros/RegistrarGerente.jsp").forward(req, resp);
+        }
     }
 }

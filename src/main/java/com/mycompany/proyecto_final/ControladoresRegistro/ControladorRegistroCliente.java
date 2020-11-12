@@ -58,8 +58,9 @@ public class ControladorRegistroCliente extends HttpServlet{
         RegistroCliente(cliente, req, resp);
     }
     
-    private void RegistroCliente (Cliente cliente,HttpServletRequest req, HttpServletResponse resp){
+    private void RegistroCliente (Cliente cliente,HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{
         boolean banderaRegistro=false;
+        String errores = "";
         try {
             Long temp = modelUsuarioSistema.RegistroUsuarioSistema((UsuarioDeSistema)cliente); 
             cliente.setCodigo(temp);
@@ -67,6 +68,7 @@ public class ControladorRegistroCliente extends HttpServlet{
             banderaRegistro=true;
         } catch (SQLException e) {
             System.out.println("Error registro usuario sistema: "+e.getMessage());
+            errores = errores + "\n" + e.getMessage();
             banderaRegistro=false;
         }
         try {
@@ -76,6 +78,7 @@ public class ControladorRegistroCliente extends HttpServlet{
             }
         } catch (SQLException e) {
             System.out.println("Error registro cliente: "+ e.getMessage());  
+            errores = errores + "\n" + e.getMessage();
             banderaRegistro=false;
         }
         try {
@@ -85,14 +88,25 @@ public class ControladorRegistroCliente extends HttpServlet{
             }
         } catch (SQLException e) {
             System.out.println("Error registro fotocopia: "+ e.getMessage());  
+            errores = errores + "\n" + e.getMessage();
             banderaRegistro=false;
         }
         try {
             if(!banderaRegistro){
                 modelUsuarioSistema.EliminarUsuarioSistema(cliente.getCodigo());
             }
-        } catch (SQLException e1) {
-            System.out.println("Error al eliminar usuario: "+e1.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar usuario: "+e.getMessage());
+            errores = errores + "\n" + e.getMessage();
+        }
+        if (banderaRegistro) {
+            req.setAttribute("success", 1);
+            req.setAttribute("genCode", cliente.getCodigo());
+            req.getRequestDispatcher("/Registros/RegistarCliente.jsp").forward(req, resp);
+        }else{
+            req.setAttribute("success", 2);
+            req.setAttribute("errores", errores);
+            req.getRequestDispatcher("/Registros/RegistarCliente.jsp").forward(req, resp);
         }
         
     }

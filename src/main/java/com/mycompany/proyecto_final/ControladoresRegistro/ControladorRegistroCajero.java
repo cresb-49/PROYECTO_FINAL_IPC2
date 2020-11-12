@@ -15,36 +15,37 @@ import com.mycompany.proyecto_final.Models.ModelCajero;
 import com.mycompany.proyecto_final.Models.ModelUsuarioSistema;
 
 @WebServlet("/RegistroCajero")
-public class ControladorRegistroCajero extends HttpServlet{
+public class ControladorRegistroCajero extends HttpServlet {
 
     private ModelUsuarioSistema modelUsuarioSistema = new ModelUsuarioSistema();
     private ModelCajero modelCajero = new ModelCajero();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String nombre=null;
-        String dpi=null;
-        String sexo=null;
-        String direccion=null;
-        String turno=null;
-        String password=null;
-
+        String nombre = null;
+        String dpi = null;
+        String sexo = null;
+        String direccion = null;
+        String turno = null;
+        String password = null;
 
         nombre = req.getParameter("nombreEntidad");
         sexo = req.getParameter("sexo");
         direccion = req.getParameter("direccion");
         dpi = req.getParameter("numeroDPI");
-        turno = req.getParameter("turno");
+        turno = req.getParameter("TipoTurno");
         password = req.getParameter("passInicial");
 
-        Cajero cajero = new Cajero(null, password, dpi, nombre, sexo, direccion,turno);
+        Cajero cajero = new Cajero(null, password, dpi, nombre, sexo, direccion, turno);
 
         System.out.println(cajero.toString());
         RegistroCajero(cajero, req, resp);
     }
 
-    private void RegistroCajero(Cajero cajero, HttpServletRequest req, HttpServletResponse resp) {
+    private void RegistroCajero(Cajero cajero, HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
         boolean banderaRegistro = false;
+        String errores = "";
         try {
             Long temp = modelUsuarioSistema.RegistroUsuarioSistema((UsuarioDeSistema) cajero);
             cajero.setCodigo(temp);
@@ -52,6 +53,7 @@ public class ControladorRegistroCajero extends HttpServlet{
             banderaRegistro = true;
         } catch (SQLException e) {
             System.out.println("Error registro usuario sistema: " + e.getMessage());
+            errores = errores + "\n" + e.getMessage();
             banderaRegistro = false;
         }
         try {
@@ -61,14 +63,25 @@ public class ControladorRegistroCajero extends HttpServlet{
             }
         } catch (SQLException e) {
             System.out.println("Error registro cajero: " + e.getMessage());
+            errores = errores + "\n" + e.getMessage();
             banderaRegistro = false;
         }
         try {
             if (!banderaRegistro) {
                 modelUsuarioSistema.EliminarUsuarioSistema(cajero.getCodigo());
             }
-        } catch (SQLException e1) {
-            System.out.println("Error al eliminar usuario: " + e1.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Error al eliminar usuario: " + e.getMessage());
+            errores = errores + "\n" + e.getMessage();
+        }
+        if (banderaRegistro) {
+            req.setAttribute("success", 1);
+            req.setAttribute("genCode", cajero.getCodigo());
+            req.getRequestDispatcher("/Registros/RegistrarCajero.jsp").forward(req, resp);
+        }else{
+            req.setAttribute("success", 2);
+            req.setAttribute("errores", errores);
+            req.getRequestDispatcher("/Registros/RegistrarCajero.jsp").forward(req, resp);
         }
 
     }
