@@ -1,8 +1,6 @@
 package com.mycompany.proyecto_final.Entidades;
 
-import java.io.Serializable;
-
-public class Gerente extends Persona implements Serializable{
+public class Gerente extends Persona{
     
     public static final String ROL_ENTIDAD = "GERENTE";
 

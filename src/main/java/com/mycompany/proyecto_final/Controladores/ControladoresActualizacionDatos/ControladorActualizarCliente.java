@@ -1,4 +1,4 @@
-package com.mycompany.proyecto_final.ControladoresActualizacionDatos;
+package com.mycompany.proyecto_final.Controladores.ControladoresActualizacionDatos;
 
 import java.io.IOException;
 import java.sql.Date;

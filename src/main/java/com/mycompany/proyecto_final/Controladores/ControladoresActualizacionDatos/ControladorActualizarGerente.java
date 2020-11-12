@@ -1,4 +1,4 @@
-package com.mycompany.proyecto_final.ControladoresActualizacionDatos;
+package com.mycompany.proyecto_final.Controladores.ControladoresActualizacionDatos;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -8,8 +8,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import com.mycompany.proyecto_final.Conversiones.ConversionesVariables;
 import com.mycompany.proyecto_final.Entidades.Gerente;
 import com.mycompany.proyecto_final.Entidades.UsuarioDeSistema;
 import com.mycompany.proyecto_final.Models.ModelGerente;
@@ -18,7 +16,6 @@ import com.mycompany.proyecto_final.Models.ModelGerente;
 public class ControladorActualizarGerente extends HttpServlet {
     
     private ModelGerente modelGerente = new ModelGerente();
-    private ConversionesVariables conv = new ConversionesVariables();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

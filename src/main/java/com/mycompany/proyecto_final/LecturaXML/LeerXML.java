@@ -9,7 +9,6 @@ import com.mycompany.proyecto_final.Entidades.Transaccion;
 
 import java.util.List;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;

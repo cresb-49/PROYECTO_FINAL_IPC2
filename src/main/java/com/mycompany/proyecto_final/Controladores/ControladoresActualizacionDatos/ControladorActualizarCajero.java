@@ -1,4 +1,4 @@
-package com.mycompany.proyecto_final.ControladoresActualizacionDatos;
+package com.mycompany.proyecto_final.Controladores.ControladoresActualizacionDatos;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,14 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mycompany.proyecto_final.Conversiones.ConversionesVariables;
 import com.mycompany.proyecto_final.Entidades.Cajero;
 import com.mycompany.proyecto_final.Models.ModelCajero;
 
 @WebServlet("/ActualizarDatosCajero")
 public class ControladorActualizarCajero extends HttpServlet {
     private ModelCajero modelCajero = new ModelCajero();
-    private ConversionesVariables conv = new ConversionesVariables();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -1,4 +1,4 @@
-package com.mycompany.proyecto_final.ControladoresRegistro;
+package com.mycompany.proyecto_final.Controladores.ControladoresRegistro;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -9,16 +9,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.mycompany.proyecto_final.Entidades.Gerente;
+import com.mycompany.proyecto_final.Entidades.Cajero;
 import com.mycompany.proyecto_final.Entidades.UsuarioDeSistema;
-import com.mycompany.proyecto_final.Models.ModelGerente;
+import com.mycompany.proyecto_final.Models.ModelCajero;
 import com.mycompany.proyecto_final.Models.ModelUsuarioSistema;
 
-@WebServlet("/RegistroGerente")
-public class ControladorRegistroGerente extends HttpServlet {
+@WebServlet("/RegistroCajero")
+public class ControladorRegistroCajero extends HttpServlet {
 
     private ModelUsuarioSistema modelUsuarioSistema = new ModelUsuarioSistema();
-    private ModelGerente modelGerente = new ModelGerente();
+    private ModelCajero modelCajero = new ModelCajero();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,21 +36,20 @@ public class ControladorRegistroGerente extends HttpServlet {
         turno = req.getParameter("TipoTurno");
         password = req.getParameter("passInicial");
 
-        Gerente gerente = new Gerente(null, nombre, turno, dpi, direccion, sexo, password);
+        Cajero cajero = new Cajero(null, password, dpi, nombre, sexo, direccion, turno);
 
-        System.out.println(gerente.toString());
-
-        RegistroGerente(gerente, req, resp);
+        System.out.println(cajero.toString());
+        RegistroCajero(cajero, req, resp);
     }
 
-    private void RegistroGerente(Gerente gerente, HttpServletRequest req, HttpServletResponse resp)
+    private void RegistroCajero(Cajero cajero, HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         boolean banderaRegistro = false;
         String errores = "";
         try {
-            Long temp = modelUsuarioSistema.RegistroUsuarioSistema((UsuarioDeSistema) gerente);
-            gerente.setCodigo(temp);
-            System.out.println("REgistro usuario sistema: " + gerente.toString());
+            Long temp = modelUsuarioSistema.RegistroUsuarioSistema((UsuarioDeSistema) cajero);
+            cajero.setCodigo(temp);
+            System.out.println("REgistro usuario sistema: " + cajero.toString());
             banderaRegistro = true;
         } catch (SQLException e) {
             System.out.println("Error registro usuario sistema: " + e.getMessage());
@@ -59,17 +58,17 @@ public class ControladorRegistroGerente extends HttpServlet {
         }
         try {
             if (banderaRegistro) {
-                modelGerente.RegistroGerenteCreado(gerente);
+                modelCajero.RegistroCajeroCreado(cajero);
                 banderaRegistro = true;
             }
         } catch (SQLException e) {
-            System.out.println("Error registro gerente: " + e.getMessage());
+            System.out.println("Error registro cajero: " + e.getMessage());
             errores = errores + "\n" + e.getMessage();
             banderaRegistro = false;
         }
         try {
             if (!banderaRegistro) {
-                modelUsuarioSistema.EliminarUsuarioSistema(gerente.getCodigo());
+                modelUsuarioSistema.EliminarUsuarioSistema(cajero.getCodigo());
             }
         } catch (SQLException e) {
             System.out.println("Error al eliminar usuario: " + e.getMessage());
@@ -77,12 +76,13 @@ public class ControladorRegistroGerente extends HttpServlet {
         }
         if (banderaRegistro) {
             req.setAttribute("success", 1);
-            req.setAttribute("genCode", gerente.getCodigo());
-            req.getRequestDispatcher("/Registros/RegistrarGerente.jsp").forward(req, resp);
-        } else {
+            req.setAttribute("genCode", cajero.getCodigo());
+            req.getRequestDispatcher("/Registros/RegistrarCajero.jsp").forward(req, resp);
+        }else{
             req.setAttribute("success", 2);
             req.setAttribute("errores", errores);
-            req.getRequestDispatcher("/Registros/RegistrarGerente.jsp").forward(req, resp);
+            req.getRequestDispatcher("/Registros/RegistrarCajero.jsp").forward(req, resp);
         }
+
     }
 }

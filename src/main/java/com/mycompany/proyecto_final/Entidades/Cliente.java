@@ -1,11 +1,10 @@
 package com.mycompany.proyecto_final.Entidades;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cliente extends Persona implements Serializable{
+public class Cliente extends Persona{
 
     public static final String CLIENTE_DB_TABLE = "CLIENTE";
     public static final String CLIENTE_DB_CODIGO= "codigo";

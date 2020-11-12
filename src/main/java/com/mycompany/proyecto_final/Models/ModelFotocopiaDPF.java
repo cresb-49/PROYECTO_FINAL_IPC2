@@ -2,9 +2,7 @@ package com.mycompany.proyecto_final.Models;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 import com.mycompany.proyecto_final.Entidades.Archivo;
 import com.mycompany.proyecto_final.Entidades.Cliente;
