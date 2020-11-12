@@ -18,6 +18,9 @@ public class CuentaBancaria implements Serializable {
     private Date fechaApertura;
     private Double credito;
 
+    /////
+    private Long idCliente;
+
     public CuentaBancaria() {
 
     }
@@ -26,6 +29,13 @@ public class CuentaBancaria implements Serializable {
         this.codigo = codigo;
         this.fechaApertura = fechaApertura;
         this.credito = credito;
+    }
+
+    public CuentaBancaria(Long codigo, Date fechaApertura, Double credito,Long idCliente) {
+        this.codigo = codigo;
+        this.fechaApertura = fechaApertura;
+        this.credito = credito;
+        this.idCliente=idCliente;
     }
 
     /**
@@ -70,9 +80,23 @@ public class CuentaBancaria implements Serializable {
     public void setFechaApertura(Date fechaApertura) {
         this.fechaApertura = fechaApertura;
     }
+    /**
+     * Retorna el codigo del cliente asociado a la cuenta
+     * @return
+     */
+    public Long getIdCliente() {
+        return idCliente;
+    }
+    /**
+     * Asigna el clienta asociado a la cuenta
+     * @param idCliente
+     */
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
+    }
 
     @Override
     public String toString() {
-        return "CuentaBancaria{" + "codigo=" + codigo + ", fechaApertura=" + fechaApertura + ", credito=" + credito + '}';
+        return "CuentaBancaria{" + "codigo=" + codigo + ", fechaApertura=" + fechaApertura + ", credito=" + credito +", idCliente="+idCliente+ '}';
     }
 }

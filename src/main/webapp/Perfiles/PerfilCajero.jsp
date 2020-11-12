@@ -21,10 +21,10 @@
         <div class="container">
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/">Transaccion Bancaria</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/AccionCajero?action=1">Transaccion Bancaria</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/">Retiro Bancario</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/AccionCajero?action=2">Retiro Bancario</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>

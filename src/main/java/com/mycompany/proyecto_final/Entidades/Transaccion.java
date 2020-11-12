@@ -27,13 +27,14 @@ public class Transaccion implements Serializable{
      * @param monto
      * @param idCajero
      */
-    public Transaccion(Long codigo,Long idCuenta,Date fechaTransaccion, String hora,Double monto,Long idCajero){
+    public Transaccion(Long codigo,Long idCuenta,Date fechaTransaccion, String hora,Double monto,Long idCajero,String tipo){
         this.codigo=codigo;
         this.idCuenta=idCuenta;
         this.fechaTransaccion=fechaTransaccion;
         this.hora=hora;
         this.monto=monto;
         this.idCajero=idCajero;   
+        this.tipo=tipo;
     }
     /**
      * Retorna el codido de la transaccion
@@ -136,7 +137,7 @@ public class Transaccion implements Serializable{
     
     @Override
     public String toString() {
-        return "Transaccion{" + "codigo=" + codigo + ", idCuenta=" + idCuenta + ", fechaTransaccion=" + fechaTransaccion + ", hora=" + hora + ", monto=" + monto + ", idCajero=" + idCajero + '}';
+        return "Transaccion{" + "codigo=" + codigo + ", idCuenta=" + idCuenta + ", fechaTransaccion=" + fechaTransaccion + ", hora=" + hora + ", monto=" + monto + ", idCajero=" + idCajero + ", tipo="+tipo+'}';
     }
     
 }
