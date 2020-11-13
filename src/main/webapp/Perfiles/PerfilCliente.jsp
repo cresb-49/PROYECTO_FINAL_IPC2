@@ -26,8 +26,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Solicitudes</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/">Solicitud de Asociacion de Cuenta</a>
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/">Recepcion de Solicitudes</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/AccionCliente?action=2">Solicitud de Asociacion de Cuenta</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/AccionCliente?action=3">Recepcion de Solicitudes</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">

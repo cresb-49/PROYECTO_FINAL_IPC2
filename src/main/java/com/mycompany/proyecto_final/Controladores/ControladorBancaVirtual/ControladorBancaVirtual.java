@@ -2,6 +2,7 @@ package com.mycompany.proyecto_final.Controladores.ControladorBancaVirtual;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -28,7 +29,16 @@ public class ControladorBancaVirtual extends HttpServlet {
 
         try {
             List<CuentaBancaria> cuentas = modelCuentaBancaria.BuscarCuentas(usuarioDeSistema.getCodigo().toString());
-            List<SolicitudAsociasion> cuentasAsociadas = ;
+            List<SolicitudAsociasion> solicitudes = modelSolicitud.BuscarSolicitudSolicitante(usuarioDeSistema.getCodigo().toString());
+            List<SolicitudAsociasion> cuentasAsociadas = new ArrayList<>();
+
+            for(SolicitudAsociasion sol: solicitudes){
+                if(sol.getEstado().equals(SolicitudAsociasion.ESTADO_SOLICITUD_1)){
+                    cuentasAsociadas.add(sol);
+                }
+            }
+
+
             if (cuentas.isEmpty()) {
                 req.setAttribute("errores","No hay ninguna cuenta asociada a su persona dirijase al banco para aperturar una");
                 req.setAttribute("success", 2);
@@ -36,8 +46,10 @@ public class ControladorBancaVirtual extends HttpServlet {
 
             } else {
                 System.out.println("Cuentas recuperadas: " + cuentas.toString());
+                System.out.println("Cuentas asociadas recuperadas: " + cuentasAsociadas.toString());
                 req.setAttribute("success", 0);
                 req.setAttribute("cuentas",cuentas);
+                req.setAttribute("cuentasAsociadas",cuentasAsociadas);
                 req.getRequestDispatcher("/BancaVirual/BancaVitual.jsp").forward(req, resp);
             }
 

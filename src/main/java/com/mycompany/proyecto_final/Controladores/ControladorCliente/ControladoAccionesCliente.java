@@ -19,8 +19,11 @@ public class ControladoAccionesCliente extends HttpServlet {
                 req.getRequestDispatcher("/ControladorBancaVitual").forward(req, resp);
                 break;
             case "2":
+                req.setAttribute("success", 0);
+                req.getRequestDispatcher("/Solicitudes/SolicitudAsociacion.jsp").forward(req, resp);
                 break;
             case "3":
+                req.getRequestDispatcher("/AccionesSolicitudes").forward(req, resp);
                 break;
             default:
                 req.getRequestDispatcher("/Perfiles/PerfilCliente.jsp").forward(req, resp);

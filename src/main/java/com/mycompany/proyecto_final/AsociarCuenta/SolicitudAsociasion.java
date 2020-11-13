@@ -3,17 +3,23 @@ package com.mycompany.proyecto_final.AsociarCuenta;
 public class SolicitudAsociasion {
 
     private Long id;
-    private Long idCliente;
+    private Long idClienteSolicitante;
+    private Long idClientePropietario;
     private Long idCuenta;
     private String estado;
     private int intento;
 
     public static final String SOLICITUD_DB_TABLE = "ASOCIACION";
     public static final String SOLICITUD_DB_ID = "id";
-    public static final String SOLICITUD_DB_CODIGO_CLIENTE = "codigo_CLIENTE";
+    public static final String SOLICITUD_DB_CODIGO_CLIENTE_SOLICITANTE = "codigo_CLIENTE_solicitante";
+    public static final String SOLICITUD_DB_CODIGO_CLIENTE_PROPIETARIO = "codigo_CLIENTE_propietario";
     public static final String SOLICITUD_DB_CODIGO_CUENTA = "codigo_CUENTA";
     public static final String SOLICITUD_DB_ESTADO = "estado";
     public static final String SOLICITUD_DB_INTENTO = "intento";
+    ///////
+    public static final String ESTADO_SOLICITUD_1 = "ASOCIADO";
+    public static final String ESTADO_SOLICITUD_2 = "RECHAZADO";
+    public static final String ESTADO_SOLICITUD_3 = "ESPERA";
 
 
     /**
@@ -30,9 +36,10 @@ public class SolicitudAsociasion {
      * @param estado
      * @param intento
      */
-    public SolicitudAsociasion(Long id, Long idCliente, Long idCuenta, String estado, int intento) {
+    public SolicitudAsociasion(Long id, Long idClienteSolicitante, Long idClientePropietario, Long idCuenta, String estado, int intento) {
         this.id = id;
-        this.idCliente = idCliente;
+        this.idClienteSolicitante = idClienteSolicitante;
+        this.idClientePropietario = idClientePropietario;
         this.idCuenta = idCuenta;
         this.estado = estado;
         this.intento = intento;
@@ -59,10 +66,10 @@ public class SolicitudAsociasion {
         return id;
     }
     /**
-     * Retorna el id del cliente de la asociacion
+     * Retorna el id del cliente solicintate de la asociacion
      */
-    public Long getIdCliente() {
-        return idCliente;
+    public Long getIdClienteSolicitante() {
+        return idClienteSolicitante;
     }
     /**
      * Asigna el id de la asociacion
@@ -78,11 +85,11 @@ public class SolicitudAsociasion {
         return idCuenta;
     }
     /**
-     * Asigna el id del cliente
+     * Asigna el id del cliente solicitante
      * @param idCliente
      */
-    public void setIdCliente(Long idCliente) {
-        this.idCliente = idCliente;
+    public void setIdClienteSolicitante(Long idClienteSolicitante) {
+        this.idClienteSolicitante = idClienteSolicitante;
     }
     /**
      * Retorna el intento de la asociacion
@@ -104,4 +111,24 @@ public class SolicitudAsociasion {
     public void setIntento(int intento) {
         this.intento = intento;
     }
+    /**
+     * 
+     * @return
+     */
+    public Long getIdClientePropietario() {
+        return idClientePropietario;
+    }
+    /**
+     * 
+     * @param idClientePropietario
+     */
+    public void setIdClientePropietario(Long idClientePropietario) {
+        this.idClientePropietario = idClientePropietario;
+    }
+
+    @Override
+    public String toString() {
+        return "SolicitudAsociasion{" + "id=" + id + ", idClienteSolicitante=" + idClienteSolicitante + ", idClientePropietario=" + idClientePropietario + ", idCuenta=" + idCuenta + ", estado=" + estado + ", intento=" + intento + '}';
+    }
+    
 }

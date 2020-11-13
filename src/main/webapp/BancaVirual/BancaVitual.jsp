@@ -20,7 +20,7 @@
                     <h1>BANCA VIRTUAL EL BILLETON</h1>
                     <h5><a href="${pageContext.request.contextPath}/AccionCliente?action=0">Regresar al perfil</a></h5>
                     <br>
-                    
+
                 </div>
             </header>
             <c:if test="${success == 1}">
@@ -65,42 +65,48 @@
             <c:if test="${success == 0}">
                 <div class="container">
                     <br>
-                    <form>
-                        <div>
-                            <br>
-                            <h5>Cuentas Disponibles</h5>
-                            <br>
-                        </div>
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Codigo de Cuenta</th>
-                                    <th scope="col">Saldo Disponible (Q.)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach items="${cuentas}" var="cuenta">
-                                    <tr>
-                                        <td>${cuenta.codigo}</td>
-                                        <td>${cuenta.credito}</td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
+                    <div>
                         <br>
-                        <div class="form-group">
-                            <label for="exampleFormControlSelect1">Seleccione la cuenta para retirar:</label>
-                            <select class="form-control" id="exampleFormControlSelect1">
-                                <option>Seleccionar</option>
-                                <c:forEach items="${cuentas}" var="cuenta">
-                                    <option>${cuenta.codigo}</option>
-                                </c:forEach>
-                            </select>
+                        <h5>Cuentas Disponibles</h5>
+                        <br>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Codigo de Cuenta</th>
+                                <th scope="col">Saldo Disponible (Q.)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach items="${cuentas}" var="cuenta">
+                                <tr>
+                                    <td>${cuenta.codigo}</td>
+                                    <td>${cuenta.credito}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                    <br>
+
+                    <form class="form" action="#" onsubmit="" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="exampleFormControlSelect1">Seleccione la cuenta para retirar:</label>
+                                <select class="form-control" id="exampleFormControlSelect1">
+                                    <option>Seleccionar</option>
+                                    <c:forEach items="${cuentas}" var="cuenta">
+                                        <option>${cuenta.codigo}</option>
+                                    </c:forEach>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="monto">Monto a retirar</label>
+                                <input type="text" class="form-control" id="monto" name="monto">
+                            </div>
                         </div>
                         <div>
-                            <br>
                             <h5>Seleccione Cuenta de destino</h5>
-                            <br>
+                            <p>No puede seleccionar dos cuentas al mismo tiempo, si no utilizara una cuenta asociada o propia en su lugar dejela en "Seleccionar"</p>
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Cuenta Propia: </label>
@@ -116,10 +122,11 @@
                             <select class="form-control" id="exampleFormControlSelect1">
                                 <option>Seleccionar</option>
                                 <c:forEach items="${cuentasAsociadas}" var="cuenta">
-                                    <option>${cuenta.codigo}</option>
+                                    <option>${cuenta.idCuenta}</option>
                                 </c:forEach>
                             </select>
                         </div>
+                        <button type="submit" class="btn btn-success">Realizar Transaccion</button>
                     </form>
                     <br>
                 </div>
