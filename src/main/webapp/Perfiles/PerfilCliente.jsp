@@ -21,7 +21,7 @@
         <div class="container">
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item">
-                    <a class="nav-link" href="${pageContext.request.contextPath}/">Banca Virtual</a>
+                    <a class="nav-link" href="${pageContext.request.contextPath}/AccionCliente?action=1">Banca Virtual</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Solicitudes</a>

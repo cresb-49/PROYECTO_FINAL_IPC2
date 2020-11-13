@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.mycompany.proyecto_final.Conversiones.ConversionesVariables;
 import com.mycompany.proyecto_final.Entidades.CuentaBancaria;
@@ -19,6 +21,9 @@ public class ModelCuentaBancaria {
 
     private final String BUSCAR_CUENTA = "SELECT * FROM " + CuentaBancaria.CLIENTE_DB_TABLE + " WHERE "
             + CuentaBancaria.CUENTA_DB_CODIGO + " = ?";
+
+    private final String BUSCAR_CUENTAS_CLIENTE = "SELECT * FROM "+CuentaBancaria.CLIENTE_DB_TABLE+" WHERE "+CuentaBancaria.CUENTA_DB_CODIGO_CLIENTE+" = ?";
+
     private final String ACTUALIZAR_CUENTA = "UPDATE " + CuentaBancaria.CLIENTE_DB_TABLE + " SET "
             + CuentaBancaria.CUENTA_DB_CREDITO + " = ? WHERE " + CuentaBancaria.CUENTA_DB_CODIGO + " = ?";
 
@@ -31,6 +36,7 @@ public class ModelCuentaBancaria {
 
     /**
      * CREA UNA CUENTA BANCARIA
+     * 
      * @param cuenta
      * @param codigoCliente
      * @return
@@ -71,6 +77,26 @@ public class ModelCuentaBancaria {
                     result.getLong(CuentaBancaria.CUENTA_DB_CODIGO_CLIENTE));
         }
         return null;
+    }
+
+    /**
+     * RETORNA LAS CUENTAS BANCARIAS DE UN USUARIO EN ESPECIFICO
+     * @param codigoCliente
+     * @return List<CuentaBancaria>
+     * @throws SQLException
+     */
+    public List<CuentaBancaria> BuscarCuentas(String codigoCliente) throws SQLException {
+        List<CuentaBancaria> cuentas = new ArrayList<>();
+        PreparedStatement preSt = connection.prepareStatement(BUSCAR_CUENTAS_CLIENTE);
+        preSt.setString(1, codigoCliente);
+        ResultSet result = preSt.executeQuery();
+        while (result.next()) {
+            cuentas.add(new CuentaBancaria(result.getLong(CuentaBancaria.CUENTA_DB_CODIGO),
+                    result.getDate(CuentaBancaria.CUENTA_DB_FECHA_APERTURA),
+                    result.getDouble(CuentaBancaria.CUENTA_DB_CREDITO),
+                    result.getLong(CuentaBancaria.CUENTA_DB_CODIGO_CLIENTE)));
+        }
+        return cuentas;
     }
 
     /**
