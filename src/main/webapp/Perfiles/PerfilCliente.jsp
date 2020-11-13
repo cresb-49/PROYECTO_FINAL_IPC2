@@ -33,7 +33,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/"></a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/SolicitudReporte?reporte=1">15 Transacciones mas grandes del año</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/SolicitudReporte?reporte=2">Transacciones en un intervalo de tiempo</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/SolicitudReporte?reporte=3">Cuenta con mas dinero y transacciones en intervalo de tiempo</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/SolicitudReporte?reporte=4">Historial de solicitudes de asociacion recibidas</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/SolicitudReporte?reporte=5">Historial de solicitudes realizadas</a>
                     </div>
                 </li>
                 <li class="nav-item">

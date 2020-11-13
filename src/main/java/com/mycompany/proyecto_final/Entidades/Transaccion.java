@@ -4,7 +4,16 @@ import java.io.Serializable;
 import java.sql.Date;
 
 public class Transaccion implements Serializable{
-        
+
+    public static final String TRANSACCION_DB_TABLE = "TRANSACCION";
+    public static final String TRANSACCION_DB_CODIGO = "codigo";
+    public static final String TRANSACCION_DB_CODIGO_CUENTA = "codigo_CUENTA";
+    public static final String TRANSACCION_DB_CODIGO_CAJERO = "codigo_CAJERO";
+    public static final String TRANSACCION_DB_TIPO = "tipo";
+    public static final String TRANSACCION_DB_FECHA = "fecha";
+    public static final String TRANSACCION_DB_HORA = "hora";
+    public static final String TRANSACCION_DB_MONTO = "monto";
+
     private Long codigo;
     private Long idCuenta;
     private Date fechaTransaccion;

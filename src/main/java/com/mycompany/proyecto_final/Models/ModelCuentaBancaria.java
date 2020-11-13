@@ -26,7 +26,7 @@ public class ModelCuentaBancaria {
 
     private final String ACTUALIZAR_CUENTA = "UPDATE " + CuentaBancaria.CLIENTE_DB_TABLE + " SET "
             + CuentaBancaria.CUENTA_DB_CREDITO + " = ? WHERE " + CuentaBancaria.CUENTA_DB_CODIGO + " = ?";
-
+    private final String CUENTA_CON_MAS_DINERO ="SELECT * FROM CUENTA WHERE "+CuentaBancaria.CUENTA_DB_CODIGO_CLIENTE+" = ? ORDER BY "+CuentaBancaria.CUENTA_DB_CREDITO+" DESC LIMIT 1";
     /**
      * CONTRUCTOR VACIO DE LA ENTIDAD CREAR CUENTA BANCARIA
      */
@@ -111,5 +111,23 @@ public class ModelCuentaBancaria {
         preSt.setLong(2, cuenta.getCodigo());
 
         preSt.executeUpdate();
+    }
+    /**
+     * RETORNA LA CUENTA CON MAS DINERO DE UN CLIENTE
+     * @param codigoCliente
+     * @return
+     * @throws SQLException
+     */
+    public CuentaBancaria CuentaConMasDinero(String codigoCliente) throws SQLException{
+        PreparedStatement preSt = connection.prepareStatement(CUENTA_CON_MAS_DINERO);
+        preSt.setString(1, codigoCliente);
+        ResultSet result = preSt.executeQuery();
+        while (result.next()) {
+            return new CuentaBancaria(result.getLong(CuentaBancaria.CUENTA_DB_CODIGO),
+                    result.getDate(CuentaBancaria.CUENTA_DB_FECHA_APERTURA),
+                    result.getDouble(CuentaBancaria.CUENTA_DB_CREDITO),
+                    result.getLong(CuentaBancaria.CUENTA_DB_CODIGO_CLIENTE));
+        }
+        return null;
     }
 }
