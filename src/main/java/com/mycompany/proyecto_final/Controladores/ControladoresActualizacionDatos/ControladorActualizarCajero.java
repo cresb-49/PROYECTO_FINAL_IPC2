@@ -19,24 +19,30 @@ public class ControladorActualizarCajero extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String codigoEntidad = req.getParameter("codigoEntidad");
-        try {
-            Cajero cajero = modelCajero.ObtenerCajero(codigoEntidad);
-            if (cajero != null) {
-                System.out.println("Cajero recuperado: " + cajero.toString());
-                req.setAttribute("entidad", cajero);
-                req.setAttribute("success", 0);
-                req.getSession().setAttribute("codigoEntidad", cajero.getCodigo());
-                req.getRequestDispatcher("/ActualizacionDatos/ActualizarCajero.jsp").forward(req, resp);
-            } else {
-                req.setAttribute("noData", 0);
-                req.setAttribute("success", 0);
+        if (!codigoEntidad.equals("101")) {
+            try {
+                Cajero cajero = modelCajero.ObtenerCajero(codigoEntidad);
+                if (cajero != null) {
+                    System.out.println("Cajero recuperado: " + cajero.toString());
+                    req.setAttribute("entidad", cajero);
+                    req.setAttribute("success", 0);
+                    req.getSession().setAttribute("codigoEntidad", cajero.getCodigo());
+                    req.getRequestDispatcher("/ActualizacionDatos/ActualizarCajero.jsp").forward(req, resp);
+                } else {
+                    req.setAttribute("noData", 0);
+                    req.setAttribute("success", 0);
+                    req.getRequestDispatcher("/ActualizacionDatos/ActualizarCajero.jsp").forward(req, resp);
+                }
+
+            } catch (SQLException e) {
+                System.out.println("Error en GET ActualizarCajero: " + e.getMessage());
+                req.setAttribute("success", 2);
+                req.setAttribute("errores", e.getMessage());
                 req.getRequestDispatcher("/ActualizacionDatos/ActualizarCajero.jsp").forward(req, resp);
             }
-
-        } catch (SQLException e) {
-            System.out.println("Error en GET ActualizarCajero: " + e.getMessage());
-            req.setAttribute("success", 2);
-            req.setAttribute("errores", e.getMessage());
+        } else {
+            req.setAttribute("noData", 0);
+            req.setAttribute("success", 0);
             req.getRequestDispatcher("/ActualizacionDatos/ActualizarCajero.jsp").forward(req, resp);
         }
     }
@@ -46,7 +52,7 @@ public class ControladorActualizarCajero extends HttpServlet {
         Long codigoEntidad = (Long) req.getSession().getAttribute("codigoEntidad");
         req.getSession().removeAttribute("codigoEntidad");
 
-        if(codigoEntidad==null){
+        if (codigoEntidad == null) {
             req.setAttribute("success", 2);
             req.setAttribute("errores", "Debe de seleccionar un cliente para modificar");
             req.getRequestDispatcher("/ActualizacionDatos/ActualizarCajero.jsp").forward(req, resp);
@@ -63,7 +69,6 @@ public class ControladorActualizarCajero extends HttpServlet {
         direccion = req.getParameter("direccion");
         dpi = req.getParameter("numeroDPI");
         turno = req.getParameter("TipoTurno");
-        
 
         Cajero cajero = new Cajero(codigoEntidad, null, dpi, nombre, sexo, direccion, turno);
 

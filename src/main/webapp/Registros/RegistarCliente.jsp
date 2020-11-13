@@ -42,6 +42,7 @@
                                 <p>${genCode}</p>
                             </div>
                             <div class="modal-footer">
+                                <a href="${pageContext.request.contextPath}/RegistrosNuevos?registro=1">Regresar registro de Cliente</a>
                             </div>
                         </div>
                     </div>
@@ -57,6 +58,7 @@
                                 <p>${errores}</p>
                             </div>
                             <div class="modal-footer">
+                                <a href="${pageContext.request.contextPath}/RegistrosNuevos?registro=1">Regresar registro de Cliente</a>
                             </div>
                         </div>
                     </div>

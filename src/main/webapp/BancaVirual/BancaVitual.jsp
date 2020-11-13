@@ -41,7 +41,7 @@
                             <p>Cajero: ${transaccion.idCajero}</p>
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/AccionCajero?action=2">Realizar otro Retiro</a>
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/AccionCliente?action=1">Realizar otra Transaccion</a>
                         </div>
                     </div>
                 </div>
@@ -57,6 +57,7 @@
                             <p>${errores}</p>
                         </div>
                         <div class="modal-footer">
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/AccionCliente?action=1">Regresar a Banca Virtual</a>
                         </div>
                     </div>
                 </div>
@@ -88,11 +89,11 @@
                     </table>
                     <br>
 
-                    <form class="form" action="#" onsubmit="" method="POST">
+                    <form class="form" action="ControladorBancaVitual" onsubmit="return validarBancaVirtual();" method="POST">
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="exampleFormControlSelect1">Seleccione la cuenta para retirar:</label>
-                                <select class="form-control" id="exampleFormControlSelect1">
+                                <label for="codigoCuentaOrigen">Seleccione la cuenta para retirar:</label>
+                                <select class="form-control" id="codigoCuentaOrigen" name="codigoCuentaOrigen">
                                     <option>Seleccionar</option>
                                     <c:forEach items="${cuentas}" var="cuenta">
                                         <option>${cuenta.codigo}</option>
@@ -109,8 +110,8 @@
                             <p>No puede seleccionar dos cuentas al mismo tiempo, si no utilizara una cuenta asociada o propia en su lugar dejela en "Seleccionar"</p>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Cuenta Propia: </label>
-                            <select class="form-control" id="exampleFormControlSelect1">
+                            <label for="codeCuentaPropia">Cuenta Propia: </label>
+                            <select class="form-control" id="codeCuentaPropia" name="codeCuentaPropia">
                                 <option>Seleccionar</option>
                                 <c:forEach items="${cuentas}" var="cuenta">
                                     <option>${cuenta.codigo}</option>
@@ -118,8 +119,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="exampleFormControlSelect1">Cuenta Asociada: </label>
-                            <select class="form-control" id="exampleFormControlSelect1">
+                            <label for="codeCuentaAsociada">Cuenta Asociada: </label>
+                            <select class="form-control" id="codeCuentaAsociada" name="codeCuentaAsociada">
                                 <option>Seleccionar</option>
                                 <c:forEach items="${cuentasAsociadas}" var="cuenta">
                                     <option>${cuenta.idCuenta}</option>
@@ -133,5 +134,6 @@
             </c:if>
             <%@include file="../CabeceraPie/piePagina.jsp" %>
         </div>
+        <script src="${pageContext.request.contextPath}/Resources/js/validarTransaccionBancaVirtual.js"></script>
     </body>
 </html>
