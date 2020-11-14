@@ -119,15 +119,14 @@ public class ModelTransaccion {
      * @return
      * @throws SQLException
      */
-    public List<Transaccion> transaccionesPorCajeroIntervaloTiempo(String codigoCajero,String horaMenor, String horaMayor) throws SQLException{
+    public List<Transaccion> transaccionesPorCajeroIntervaloTiempo(String codigoCajero,String horaMenor, String horaMayor,String fecha) throws SQLException{
         List<Transaccion> transacciones = new ArrayList<>();
         PreparedStatement preSt = connection.prepareStatement(TRANSACCIONES_SEGUN_CAJERO_INTERVALO_TIEMPO);
-        java.time.LocalDate today = java.time.LocalDate.now();
-
+        
         preSt.setString(1, horaMenor);
         preSt.setString(2, horaMayor);
         preSt.setString(3, codigoCajero);
-        preSt.setString(4, today.toString());
+        preSt.setString(4, fecha);
 
         ResultSet result = preSt.executeQuery();
 

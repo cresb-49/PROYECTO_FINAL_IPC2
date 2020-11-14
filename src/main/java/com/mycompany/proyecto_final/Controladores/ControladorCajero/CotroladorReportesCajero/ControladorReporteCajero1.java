@@ -49,10 +49,11 @@ public class ControladorReporteCajero1 extends HttpServlet {
         } else {
             try {
                 String generar = req.getParameter("generar");
+                java.time.LocalDate today = java.time.LocalDate.now();
                 Cajero cajero = modelCajero.ObtenerCajero(((UsuarioDeSistema) usuarioDeSistema).getCodigo().toString());
                 List<Transaccion> transaciones = modelTransaccion.transaccionesPorCajeroIntervaloTiempo(
                         cajero.getCodigo().toString(), tiempoTrabajo.obtenerTiempoInicio(cajero.getTurno()),
-                        tiempoTrabajo.obtenerTiempoFin(cajero.getTurno()));
+                        tiempoTrabajo.obtenerTiempoFin(cajero.getTurno()),today.toString());
 
                 if (transaciones.isEmpty()) {
                     req.setAttribute("success", 5);

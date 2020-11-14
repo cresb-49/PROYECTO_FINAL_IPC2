@@ -19,12 +19,46 @@
         <script src="${pageContext.request.contextPath}/Resources/js/bootstrap.min.js"></script>
     </head>
     <body>
-        <c:if test="${success == 0}">
+        <header>
+            <div class="container">
+                <br>
+                <h1>Banco EL BILLETON</h1>
+                <h5><a href="${pageContext.request.contextPath}/SolicitudReporteCajero?reporte=0">Regresar al perfil</a></h5>
+                <br>
+            </div>
+        </header>
+        <div class="main">
+            <c:if test="${success == 1}">
+                <div class="container">
+                    <br/>
+                    <form action="ControladorReporteCajero2" method="POST">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="diaBusqueda">Seleccione un dia</label>
+                                <input type="date" class="form-control" max="${diaCurso}" id="diaBusqueda" name="diaBusqueda" required="">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="horaInical">Hora Inicial</label>
+                                <input type="time" min="${initTime}" max="${endTime}" class="form-control" id="horaInical" name="horaInical" required="">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="horaFinal">Hora Final</label>
+                                <input type="time" min="${initTime}" max="${endTime}" class="form-control" id="horaFinal" name="horaFinal" required="">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Generar Reporte</button>
+                    </form>
+                </div>
+                <br/>
+            </c:if>
+            <c:if test="${success == 0}">
                 <div class="container">
                     <br/>
                     <div class="row">
                         <div class="col-md-3">
-                            <a class="btn btn-warning" href="${pageContext.request.contextPath}/ControladorReporteCajero1?generar=1" name="generar" id="generar">Exportar Reporte PDF</a>
+                            <a class="btn btn-warning" href="${pageContext.request.contextPath}/ControladorReporteCajero2?generar=1&diaBusqueda=${diaBusqueda}&horaInical=${horaInical}&horaFinal=${horaFinal}" name="generar" id="generar">Exportar Reporte PDF</a>
                         </div>
                     </div>
                     <div>
@@ -53,11 +87,27 @@
                                 </tr>
                             </c:forEach>
                             <tr>
-                                <td class="table-info text-center" colspan="4">EXISTENCIA EN CAJA</td>
+                                <td class="table-info text-center" colspan="4">BALANCE DE CAJA</td>
                                 <td>${balance}</td>
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </c:if>
+            <c:if test="${success == 2}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Error:</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p></p>
+                            <p>${errores}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/SolicitudReporteCajero?reporte=2">Regresar al formulario</a>
+                        </div>
+                    </div>
                 </div>
             </c:if>
             <c:if test="${success == 3}">
@@ -92,5 +142,7 @@
                     </div>
                 </div>
             </c:if>
+            <%@include file="../../CabeceraPie/piePagina.jsp" %>
+        </div>
     </body>
 </html>

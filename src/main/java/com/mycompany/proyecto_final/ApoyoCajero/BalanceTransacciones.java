@@ -56,8 +56,6 @@ public class BalanceTransacciones {
      * @return
      */
     public Double obtenerBalance(){
-        double balance = 0;
-        balance = this.obtenerDepocitos()-this.obtenerRetiros();
-        return balance;
+        return (this.obtenerDepocitos())-(this.obtenerRetiros());
     }
 }

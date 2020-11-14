@@ -34,7 +34,13 @@ public class ControladorSolicitudReporteCajero extends HttpServlet {
                         req.getRequestDispatcher("/ControladorReporteCajero1").forward(req, resp);
                         break;
                     case "2":
-                        req.getRequestDispatcher("/ControladorReporteCajero2").forward(req, resp);
+                        Cajero cajero = modelCajero.ObtenerCajero(((UsuarioDeSistema)req.getSession().getAttribute("USER")).getCodigo().toString());
+                        java.time.LocalDate today = java.time.LocalDate.now();
+                        req.setAttribute("initTime", tiempoTrabajo.obtenerTiempoInicio(cajero.getTurno()));
+                        req.setAttribute("endTime", tiempoTrabajo.obtenerTiempoFin(cajero.getTurno()));
+                        req.setAttribute("diaCurso", today.toString());
+                        req.setAttribute("success", 1);
+                        req.getRequestDispatcher("/Reportes/ReportesCajero/ReportesCajero2.jsp").forward(req, resp);
                         break;
                     default:
                         req.getRequestDispatcher("/Perfiles/PerfilCajero.jsp").forward(req, resp);
