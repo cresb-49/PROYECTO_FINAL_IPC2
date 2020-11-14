@@ -30,7 +30,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/"></a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/SolicitudReporteCajero?reporte=1">Listado de depositos y retiros del turno</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/SolicitudReporteCajero?reporte=2">Listado de transacciones en un intervalo de tiempo</a>
                     </div>
                 </li>
                 <li class="nav-item">
