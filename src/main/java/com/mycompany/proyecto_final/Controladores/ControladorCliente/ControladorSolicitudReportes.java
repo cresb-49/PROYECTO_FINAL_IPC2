@@ -24,8 +24,10 @@ public class ControladorSolicitudReportes extends HttpServlet {
                 req.getRequestDispatcher("/ControladorReporte3").forward(req, resp);
                 break;
             case "4":
+                req.getRequestDispatcher("/ControladorReporte4").forward(req, resp);
                 break;
             case "5":
+                req.getRequestDispatcher("/ControladorReporte5").forward(req, resp);
                 break;
             default:
                 req.getRequestDispatcher("/Perfiles/PerfilCliente.jsp").forward(req, resp);

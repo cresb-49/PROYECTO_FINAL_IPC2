@@ -30,6 +30,10 @@ public class ModelSolicitudAsociacion {
             + " WHERE " + SolicitudAsociasion.SOLICITUD_DB_CODIGO_CLIENTE_PROPIETARIO + " = ? AND "
             + SolicitudAsociasion.SOLICITUD_DB_ESTADO + " =?";
 
+    private final String BUSQUEDA_SOLICITUD_PROPIETARIO_TODAS = "SELECT * FROM "
+            + SolicitudAsociasion.SOLICITUD_DB_TABLE + " WHERE "
+            + SolicitudAsociasion.SOLICITUD_DB_CODIGO_CLIENTE_PROPIETARIO + " = ?";
+
     private final String BUSQUEDA_SOLICITUD_SOLICITANTE = "SELECT * FROM " + SolicitudAsociasion.SOLICITUD_DB_TABLE
             + " WHERE " + SolicitudAsociasion.SOLICITUD_DB_CODIGO_CLIENTE_SOLICITANTE + " = ?";
 
@@ -95,7 +99,8 @@ public class ModelSolicitudAsociacion {
     }
 
     /**
-     * RETORNA LAS SOLICITUDES RECIBIDAS A UN USUARIO EN BASE A SU CODIGO
+     * RETORNA LAS SOLICITUDES RECIBIDAS A UN USUARIO EN BASE A SU CODIGO Y ESTADO
+     * DE ASOCIACION
      * 
      * @param idCuenta
      * @param idClientePropietario
@@ -109,6 +114,28 @@ public class ModelSolicitudAsociacion {
         preSt.setString(2, SolicitudAsociasion.ESTADO_SOLICITUD_3);
         ResultSet result = preSt.executeQuery();
 
+        while (result.next()) {
+
+            solicitudes.add(new SolicitudAsociasion(result.getLong(SolicitudAsociasion.SOLICITUD_DB_ID),
+                    result.getLong(SolicitudAsociasion.SOLICITUD_DB_CODIGO_CLIENTE_SOLICITANTE),
+                    result.getLong(SolicitudAsociasion.SOLICITUD_DB_CODIGO_CLIENTE_PROPIETARIO),
+                    result.getLong(SolicitudAsociasion.SOLICITUD_DB_CODIGO_CUENTA),
+                    result.getString(SolicitudAsociasion.SOLICITUD_DB_ESTADO),
+                    result.getInt(SolicitudAsociasion.SOLICITUD_DB_INTENTO)));
+        }
+        return solicitudes;
+    }
+    /**
+     * RETRONA TODAS LAS SOLICITUDES RECIBIDAS
+     * @param idClientePropietario
+     * @return
+     * @throws SQLException
+     */
+    public List<SolicitudAsociasion> BuscarSolicitudPropietarioTodas(String idClientePropietario) throws SQLException {
+        List<SolicitudAsociasion> solicitudes = new ArrayList<>();
+        PreparedStatement preSt = connection.prepareStatement(BUSQUEDA_SOLICITUD_PROPIETARIO_TODAS);
+        preSt.setString(1, idClientePropietario);
+        ResultSet result = preSt.executeQuery();
         while (result.next()) {
 
             solicitudes.add(new SolicitudAsociasion(result.getLong(SolicitudAsociasion.SOLICITUD_DB_ID),

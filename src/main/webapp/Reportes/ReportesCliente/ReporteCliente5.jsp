@@ -1,6 +1,6 @@
 <%-- 
-    Document   : ReporteCliente2
-    Created on : 13/11/2020, 14:00:17
+    Document   : ReporteCliente5
+    Created on : 13/11/2020, 18:20:14
     Author     : carlo
 --%>
 
@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Transacciones de cuenta en intervalo</title>
+        <title>Historial de Solicitudes Realizadas</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/bootstrap.min.css"/>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/Resources/css/presentacion.css"/>
@@ -31,74 +31,42 @@
         <div class="main">
             <c:if test="${success == 0}">
                 <div class="container">
-                    <br>
                     <div>
                         <br>
-                        <h5>Cuentas Disponibles</h5>
+                        <h5>Historial de Solicitudes Realizadas</h5>
                         <br>
                     </div>
-                    <form class="form-inline" action="ControladorReporte2" method="GET">
-                        <label class="my-1 mr-2" for="codigoCuenta">Codigo de Cuenta: </label>
-                        <select class="form-control mb-2 mr-sm-2" id="codigoCuenta" name="codigoCuenta">
-                            <c:forEach items="${cuentas}" var="cuenta">
-                                <option value="${cuenta.codigo}">${cuenta.codigo}</option>
-                            </c:forEach>
-                        </select>
-                        <label class="sr-only" for="fechaInferior">Fecha de incio de consulta</label>
-                        <input type="date" class="form-control mb-2 mr-sm-2" id="fechaInferior" name="fechaInferior" max="${fechaLimite}" required="">
-                        <button type="submit" class="btn btn-primary mb-2">Realizar Reporte</button>
-                    </form>
-                    <br>
-                </div>
-            </c:if>
-            <c:if test="${success == 1}">
-                <div class="container">
-                    <br>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <form action="ControladorReporte2" method="POST">
-                                <button class="btn btn-warning" value="${codeCuenta}" name="codCuenta" id="codCuenta" type="submit">Exportar Reporte PDF</button>
-                                <input style="display:none" value="${inferior}" id="infe" name="infe"/>
-                            </form>    
-                        </div>
-                        <div class="col-md-6">
-                        </div>
-                        <div class="col-md-3">
-                            <a class="btn btn-outline-info" href="${pageContext.request.contextPath}/ControladorReporte2">Regresar Ventana Anterior</a>
-                        </div>
+                    <div class="container">
+                        <form action="ControladorReporte5" method="POST">
+                            <button class="btn btn-warning" name="codCuenta" id="codCuenta" type="submit">Exportar Reporte PDF</button>
+                        </form> 
                     </div>
-                    <div>
-                        <br>
-                        <h5>Transacciones de la Cuenta: ${codeCuenta}</h5>
-                        <br>
-                    </div>
+                    <br/>
                     <table class="table table-striped table-bordered">
                         <thead class="thead-dark">
                             <tr>
-                                <th scope="col">Codigo de Transaccion</th>
-                                <th scope="col">Fecha</th>
-                                <th scope="col">Hora</th>
-                                <th scope="col">Tipo</th>
-                                <th scope="col">Monto</th>
-                                <th scope="col">Codigo Cajero Intemediario</th>
+                                <th scope="col">ID Solicitud</th>
+                                <th scope="col">Cuenta Solicitada</th>
+                                <th scope="col">Codigo Cliente Propietario</th>
+                                <th scope="col">Estado</th>
+                                <th scope="col">Intento</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <c:forEach items="${transacciones}" var="transaccion">
+                            <c:forEach items="${solicitudes}" var="solicitud">
                                 <tr>
-                                    <td>${transaccion.codigo}</td>
-                                    <td>${transaccion.fechaTransaccion}</td>
-                                    <td>${transaccion.hora}</td>
-                                    <td>${transaccion.tipo}</td>
-                                    <td>${transaccion.monto}</td>
-                                    <td>${transaccion.idCajero}</td>
+                                    <td>${solicitud.id}</td>
+                                    <td>${solicitud.idCuenta}</td>
+                                    <td>${solicitud.idClientePropietario}</td>
+                                    <td>${solicitud.estado}</td>
+                                    <td>${solicitud.intento}</td>
                                 </tr>
                             </c:forEach>
                         </tbody>
                     </table>
-                    <br>
                 </div>
             </c:if>
+
             <c:if test="${success == 3}">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -110,7 +78,7 @@
                             <p>${errores}</p>
                         </div>
                         <div class="modal-footer">
-                            <h5><a href="${pageContext.request.contextPath}/AccionCliente?action=0">Regresar al perfil</a></h5>
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/AccionCliente?action=0">Regresar al perfil</a>
                         </div>
                     </div>
                 </div>
@@ -126,7 +94,7 @@
                             <p>${errores}</p>
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/ControladorReporte2">Regresar a menu de cuentas del reporte</a>
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/AccionCliente?action=0">Regresar al perfil</a>
                         </div>
                     </div>
                 </div>
@@ -142,7 +110,7 @@
                             <p>${info}</p>
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/ControladorReporte2">Regresar a menu de cuentas del reporte</a>
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/AccionCliente?action=0">Regresar al perfil</a>
                         </div>
                     </div>
                 </div>

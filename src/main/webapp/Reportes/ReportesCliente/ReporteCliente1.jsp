@@ -23,7 +23,7 @@
             <header>
                 <div class="container">
                     <br>
-                    <h1>BANCA VIRTUAL EL BILLETON</h1>
+                    <h1>Banco EL BILLETON</h1>
                     <h5><a href="${pageContext.request.contextPath}/AccionCliente?action=0">Regresar al perfil</a></h5>
                     <br>
 
