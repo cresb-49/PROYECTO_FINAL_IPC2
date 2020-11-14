@@ -45,42 +45,48 @@ public class ControladorReporteCliente2 extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String codigoCuenta = req.getParameter("codigoCuenta");
-        if (codigoCuenta == null) {
-            UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
-            try {
-                List<CuentaBancaria> cuentas = modelCuenta.BuscarCuentas(uSistema.getCodigo().toString());
-
-                java.time.LocalDate today = java.time.LocalDate.now();
-                req.setAttribute("success", 0);
-                req.setAttribute("fechaLimite", today.toString());
-                req.setAttribute("cuentas", cuentas);
-                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
-            } catch (SQLException e) {
-                req.setAttribute("success", 3);
-                req.setAttribute("errores", e.getMessage());
-                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
-            }
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
         } else {
-            try {
-                String inferior = req.getParameter("fechaInferior");
 
-                List<Transaccion> transacciones = modelTransaccion.TransaccionesIntervaloDeTiempo(codigoCuenta,inferior);
-                if (transacciones.isEmpty()) {
-                    req.setAttribute("success", 5);
-                    req.setAttribute("info", "Esta cuenta no ah tenido transacciones");
+            String codigoCuenta = req.getParameter("codigoCuenta");
+            if (codigoCuenta == null) {
+                UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
+                try {
+                    List<CuentaBancaria> cuentas = modelCuenta.BuscarCuentas(uSistema.getCodigo().toString());
+
+                    java.time.LocalDate today = java.time.LocalDate.now();
+                    req.setAttribute("success", 0);
+                    req.setAttribute("fechaLimite", today.toString());
+                    req.setAttribute("cuentas", cuentas);
                     req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
-                } else {
-                    req.setAttribute("success", 1);
-                    req.setAttribute("codeCuenta", codigoCuenta);
-                    req.setAttribute("inferior", inferior);
-                    req.setAttribute("transacciones", transacciones);
+                } catch (SQLException e) {
+                    req.setAttribute("success", 3);
+                    req.setAttribute("errores", e.getMessage());
                     req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
                 }
-            } catch (SQLException e) {
-                req.setAttribute("success", 3);
-                req.setAttribute("errores", e.getMessage());
-                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
+            } else {
+                try {
+                    String inferior = req.getParameter("fechaInferior");
+
+                    List<Transaccion> transacciones = modelTransaccion.TransaccionesIntervaloDeTiempo(codigoCuenta,
+                            inferior);
+                    if (transacciones.isEmpty()) {
+                        req.setAttribute("success", 5);
+                        req.setAttribute("info", "Esta cuenta no ah tenido transacciones");
+                        req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
+                    } else {
+                        req.setAttribute("success", 1);
+                        req.setAttribute("codeCuenta", codigoCuenta);
+                        req.setAttribute("inferior", inferior);
+                        req.setAttribute("transacciones", transacciones);
+                        req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
+                    }
+                } catch (SQLException e) {
+                    req.setAttribute("success", 3);
+                    req.setAttribute("errores", e.getMessage());
+                    req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
+                }
             }
         }
 
@@ -88,47 +94,56 @@ public class ControladorReporteCliente2 extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String fechaInferior = req.getParameter("infe");
-        String codigoCuenta = req.getParameter("codCuenta");
-        try {
-            UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
-            List<Transaccion> transacciones = modelTransaccion.TransaccionesIntervaloDeTiempo(codigoCuenta, fechaInferior);
-            java.time.LocalDate today = java.time.LocalDate.now();
 
-            resp.setContentType("application/pdf");
-            resp.setHeader(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=Transacciones_en_intervalo_tiempo" + codigoCuenta + ".pdf");
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        } else {
+            String fechaInferior = req.getParameter("infe");
+            String codigoCuenta = req.getParameter("codCuenta");
+            try {
+                UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
+                List<Transaccion> transacciones = modelTransaccion.TransaccionesIntervaloDeTiempo(codigoCuenta,
+                        fechaInferior);
+                java.time.LocalDate today = java.time.LocalDate.now();
 
-            Cliente cliente = modelCliente.ObtenerCliente(uSistema.getCodigo().toString());
+                resp.setContentType("application/pdf");
+                resp.setHeader(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=Transacciones_en_intervalo_tiempo" + codigoCuenta + ".pdf");
 
-            InputStream logoBanco = new FileInputStream(req.getServletContext().getRealPath("/Resources/Imagenes/LogoBilleton.png"));
-            JRBeanCollectionDataSource itemsJRBen = new JRBeanCollectionDataSource(transacciones);
-            Map<String, Object> parametros = new HashMap<String, Object>();
-            parametros.put("ColllectionBeanParam", itemsJRBen);
-            parametros.put("NombreCliente", cliente.getNombre());
-            parametros.put("fechaInferior", fechaInferior);
-            parametros.put("fechaSuperior", today.toString());
-            parametros.put("ClienteCodigo", cliente.getCodigo());
-            parametros.put("codeCuenta", Long.valueOf(codigoCuenta));
-            parametros.put("logoBilleton", logoBanco);
+                Cliente cliente = modelCliente.ObtenerCliente(uSistema.getCodigo().toString());
 
-            InputStream input = new FileInputStream(req.getServletContext().getRealPath("/Resources/jasperReports/Cliente/ReporteCliente2.jrxml"));
+                InputStream logoBanco = new FileInputStream(
+                        req.getServletContext().getRealPath("/Resources/Imagenes/LogoBilleton.png"));
+                JRBeanCollectionDataSource itemsJRBen = new JRBeanCollectionDataSource(transacciones);
+                Map<String, Object> parametros = new HashMap<String, Object>();
+                parametros.put("ColllectionBeanParam", itemsJRBen);
+                parametros.put("NombreCliente", cliente.getNombre());
+                parametros.put("fechaInferior", fechaInferior);
+                parametros.put("fechaSuperior", today.toString());
+                parametros.put("ClienteCodigo", cliente.getCodigo());
+                parametros.put("codeCuenta", Long.valueOf(codigoCuenta));
+                parametros.put("logoBilleton", logoBanco);
 
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
+                InputStream input = new FileInputStream(
+                        req.getServletContext().getRealPath("/Resources/jasperReports/Cliente/ReporteCliente2.jrxml"));
 
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+                JasperDesign jasperDesign = JRXmlLoader.load(input);
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
 
-            JasperExportManager.exportReportToPdfStream(jasperPrint, resp.getOutputStream());
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros,
+                        new JREmptyDataSource());
 
-            resp.getOutputStream().flush();
-            resp.getOutputStream().close();
+                JasperExportManager.exportReportToPdfStream(jasperPrint, resp.getOutputStream());
 
-        } catch (Exception e) {
-            req.setAttribute("success", 3);
-            req.setAttribute("errores", e.getMessage());
-            req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
+                resp.getOutputStream().flush();
+                resp.getOutputStream().close();
+
+            } catch (Exception e) {
+                req.setAttribute("success", 3);
+                req.setAttribute("errores", e.getMessage());
+                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
+            }
         }
-
     }
 }

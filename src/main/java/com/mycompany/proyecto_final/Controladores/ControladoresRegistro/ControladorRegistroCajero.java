@@ -22,28 +22,32 @@ public class ControladorRegistroCajero extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String nombre = null;
-        String dpi = null;
-        String sexo = null;
-        String direccion = null;
-        String turno = null;
-        String password = null;
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        } else {
+            String nombre = null;
+            String dpi = null;
+            String sexo = null;
+            String direccion = null;
+            String turno = null;
+            String password = null;
 
-        nombre = req.getParameter("nombreEntidad");
-        sexo = req.getParameter("sexo");
-        direccion = req.getParameter("direccion");
-        dpi = req.getParameter("numeroDPI");
-        turno = req.getParameter("TipoTurno");
-        password = req.getParameter("passInicial");
+            nombre = req.getParameter("nombreEntidad");
+            sexo = req.getParameter("sexo");
+            direccion = req.getParameter("direccion");
+            dpi = req.getParameter("numeroDPI");
+            turno = req.getParameter("TipoTurno");
+            password = req.getParameter("passInicial");
 
-        Cajero cajero = new Cajero(null, password, dpi, nombre, sexo, direccion, turno);
+            Cajero cajero = new Cajero(null, password, dpi, nombre, sexo, direccion, turno);
 
-        System.out.println(cajero.toString());
-        RegistroCajero(cajero, req, resp);
+            System.out.println(cajero.toString());
+            RegistroCajero(cajero, req, resp);
+        }
     }
 
-    private void RegistroCajero(Cajero cajero, HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    private void RegistroCajero(Cajero cajero, HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException {
+        
         boolean banderaRegistro = false;
         String errores = "";
         try {
@@ -78,7 +82,7 @@ public class ControladorRegistroCajero extends HttpServlet {
             req.setAttribute("success", 1);
             req.setAttribute("genCode", cajero.getCodigo());
             req.getRequestDispatcher("/Registros/RegistrarCajero.jsp").forward(req, resp);
-        }else{
+        } else {
             req.setAttribute("success", 2);
             req.setAttribute("errores", errores);
             req.getRequestDispatcher("/Registros/RegistrarCajero.jsp").forward(req, resp);

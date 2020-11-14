@@ -21,59 +21,68 @@ public class ControladorActualizarCliente extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String codigoEntidad = req.getParameter("codigoEntidad");
-        try {
-            Cliente cliente = modelCliente.ObtenerCliente(codigoEntidad);
-            if (cliente != null) {
-                System.out.println("Cliente recuperado: " + cliente.toString());
-                req.setAttribute("entidad", cliente);
-                req.setAttribute("success", 0);
-                req.getSession().setAttribute("codigoEntidad",cliente.getCodigo());
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
+            String codigoEntidad = req.getParameter("codigoEntidad");
+            try {
+                Cliente cliente = modelCliente.ObtenerCliente(codigoEntidad);
+                if (cliente != null) {
+                    System.out.println("Cliente recuperado: " + cliente.toString());
+                    req.setAttribute("entidad", cliente);
+                    req.setAttribute("success", 0);
+                    req.getSession().setAttribute("codigoEntidad",cliente.getCodigo());
+                    req.getRequestDispatcher("/ActualizacionDatos/ActualizarCliente.jsp").forward(req, resp);
+                }
+                else{
+                    req.setAttribute("noData", 0);
+                    req.setAttribute("success", 0);
+                    req.getRequestDispatcher("/ActualizacionDatos/ActualizarCliente.jsp").forward(req, resp);
+                }
+    
+            } catch (SQLException e) {
+                System.out.println("Error en GET ActualizarCliente: " + e.getMessage());
+                req.setAttribute("success", 2);
+                req.setAttribute("errores", e.getMessage());
                 req.getRequestDispatcher("/ActualizacionDatos/ActualizarCliente.jsp").forward(req, resp);
             }
-            else{
-                req.setAttribute("noData", 0);
-                req.setAttribute("success", 0);
-                req.getRequestDispatcher("/ActualizacionDatos/ActualizarCliente.jsp").forward(req, resp);
-            }
-
-        } catch (SQLException e) {
-            System.out.println("Error en GET ActualizarCliente: " + e.getMessage());
-            req.setAttribute("success", 2);
-            req.setAttribute("errores", e.getMessage());
-            req.getRequestDispatcher("/ActualizacionDatos/ActualizarCliente.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Long codigoEntidad = (Long) req.getSession().getAttribute("codigoEntidad");
-        req.getSession().removeAttribute("codigoEntidad");
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
 
-        if(codigoEntidad==null){
-            req.setAttribute("success", 2);
-            req.setAttribute("errores", "Debe de seleccionar un cliente para modificar");
-            req.getRequestDispatcher("/ActualizacionDatos/ActualizarCliente.jsp").forward(req, resp);
+            Long codigoEntidad = (Long) req.getSession().getAttribute("codigoEntidad");
+            req.getSession().removeAttribute("codigoEntidad");
+    
+            if(codigoEntidad==null){
+                req.setAttribute("success", 2);
+                req.setAttribute("errores", "Debe de seleccionar un cliente para modificar");
+                req.getRequestDispatcher("/ActualizacionDatos/ActualizarCliente.jsp").forward(req, resp);
+            }
+    
+            String nombre=null;
+            String dpi=null;
+            String sexo=null;
+            String direccion=null;
+            Date fechaNacimiento=null;
+    
+            nombre = req.getParameter("nombreEntidad");
+            System.out.println("Nombre: "+nombre);
+            sexo = req.getParameter("sexo");
+            direccion = req.getParameter("direccion");
+            dpi = req.getParameter("numeroDPI");
+            fechaNacimiento=this.conv.stringToDate(req.getParameter("fechaNacimiento"));
+    
+            Cliente clienteModificar = new Cliente(codigoEntidad, null, nombre, dpi, sexo, direccion, fechaNacimiento, null);
+    
+            System.out.println("Cliente a modificar: "+clienteModificar.toString());
+    
+            this.ActualizarCliente(clienteModificar, req, resp);
         }
-
-        String nombre=null;
-        String dpi=null;
-        String sexo=null;
-        String direccion=null;
-        Date fechaNacimiento=null;
-
-        nombre = req.getParameter("nombreEntidad");
-        System.out.println("Nombre: "+nombre);
-        sexo = req.getParameter("sexo");
-        direccion = req.getParameter("direccion");
-        dpi = req.getParameter("numeroDPI");
-        fechaNacimiento=this.conv.stringToDate(req.getParameter("fechaNacimiento"));
-
-        Cliente clienteModificar = new Cliente(codigoEntidad, null, nombre, dpi, sexo, direccion, fechaNacimiento, null);
-
-        System.out.println("Cliente a modificar: "+clienteModificar.toString());
-
-        this.ActualizarCliente(clienteModificar, req, resp);
         
     }
     private void ActualizarCliente (Cliente cliente,HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{

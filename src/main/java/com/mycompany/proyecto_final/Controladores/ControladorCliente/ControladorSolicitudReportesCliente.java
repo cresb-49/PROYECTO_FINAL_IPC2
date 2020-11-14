@@ -8,25 +8,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/AccionCliente")
-public class ControladoAccionesCliente extends HttpServlet {
-
+@WebServlet("/SolicitudReporte")
+public class ControladorSolicitudReportesCliente extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         if (req.getSession().getAttribute("USER") == null) {
             resp.sendRedirect(req.getContextPath() + "/Logout");
-        }else{
-            String action = req.getParameter("action");
-            switch (action) {
+        } else {
+            String reportes = req.getParameter("reporte");
+            switch (reportes) {
                 case "1":
-                    req.getRequestDispatcher("/ControladorBancaVitual").forward(req, resp);
+                    req.getRequestDispatcher("/ControladorReporte1").forward(req, resp);
                     break;
                 case "2":
-                    req.setAttribute("success", 0);
-                    req.getRequestDispatcher("/Solicitudes/SolicitudAsociacion.jsp").forward(req, resp);
+                    req.getRequestDispatcher("/ControladorReporte2").forward(req, resp);
                     break;
                 case "3":
-                    req.getRequestDispatcher("/AccionesSolicitudes").forward(req, resp);
+                    req.getRequestDispatcher("/ControladorReporte3").forward(req, resp);
+                    break;
+                case "4":
+                    req.getRequestDispatcher("/ControladorReporte4").forward(req, resp);
+                    break;
+                case "5":
+                    req.getRequestDispatcher("/ControladorReporte5").forward(req, resp);
                     break;
                 default:
                     req.getRequestDispatcher("/Perfiles/PerfilCliente.jsp").forward(req, resp);

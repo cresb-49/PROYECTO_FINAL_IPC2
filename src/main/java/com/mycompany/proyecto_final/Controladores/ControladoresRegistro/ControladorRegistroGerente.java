@@ -22,25 +22,30 @@ public class ControladorRegistroGerente extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String nombre = null;
-        String dpi = null;
-        String sexo = null;
-        String direccion = null;
-        String turno = null;
-        String password = null;
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
 
-        nombre = req.getParameter("nombreEntidad");
-        sexo = req.getParameter("sexo");
-        direccion = req.getParameter("direccion");
-        dpi = req.getParameter("numeroDPI");
-        turno = req.getParameter("TipoTurno");
-        password = req.getParameter("passInicial");
-
-        Gerente gerente = new Gerente(null, nombre, turno, dpi, direccion, sexo, password);
-
-        System.out.println(gerente.toString());
-
-        RegistroGerente(gerente, req, resp);
+            String nombre = null;
+            String dpi = null;
+            String sexo = null;
+            String direccion = null;
+            String turno = null;
+            String password = null;
+    
+            nombre = req.getParameter("nombreEntidad");
+            sexo = req.getParameter("sexo");
+            direccion = req.getParameter("direccion");
+            dpi = req.getParameter("numeroDPI");
+            turno = req.getParameter("TipoTurno");
+            password = req.getParameter("passInicial");
+    
+            Gerente gerente = new Gerente(null, nombre, turno, dpi, direccion, sexo, password);
+    
+            System.out.println(gerente.toString());
+    
+            RegistroGerente(gerente, req, resp);
+        }
     }
 
     private void RegistroGerente(Gerente gerente, HttpServletRequest req, HttpServletResponse resp)

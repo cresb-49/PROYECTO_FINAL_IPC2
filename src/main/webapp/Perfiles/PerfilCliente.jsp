@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -45,6 +46,21 @@
                 </li>
             </ul>
         </div>
+        <c:if test="${success == 0}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Error de Accion:</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p></p>
+                        <p>Solo puedes realizar esta accion en tu horario de trabajo</p>
+                    </div>
+                    <div class="modal-footer">
+                    </div>
+                </div>
+            </div>
+        </c:if>
         <%@include file="../CabeceraPie/piePagina.jsp" %>
     </body>
 </html>

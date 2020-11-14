@@ -44,23 +44,28 @@ public class ControladorReporteCliente3 extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String codigoCuenta = req.getParameter("codigoCuenta");
-        if (codigoCuenta == null) {
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
 
-            UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
-            try {
-                CuentaBancaria cuenta = modelCuenta.CuentaConMasDinero(uSistema.getCodigo().toString());
-                java.time.LocalDate today = java.time.LocalDate.now();
-                req.setAttribute("success", 0);
-                req.setAttribute("fechaLimite", today.toString());
-                req.setAttribute("cuenta", cuenta);
-                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente3.jsp").forward(req, resp);
-            } catch (SQLException e) {
-                req.setAttribute("success", 3);
-                req.setAttribute("errores", e.getMessage());
-                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente3.jsp").forward(req, resp);
-            }
-        } else {
+            String codigoCuenta = req.getParameter("codigoCuenta");
+            if (codigoCuenta == null) {
+    
+                UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
+                try {
+                    CuentaBancaria cuenta = modelCuenta.CuentaConMasDinero(uSistema.getCodigo().toString());
+                    java.time.LocalDate today = java.time.LocalDate.now();
+                    req.setAttribute("success", 0);
+                    req.setAttribute("fechaLimite", today.toString());
+                    req.setAttribute("cuenta", cuenta);
+                    req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente3.jsp").forward(req, resp);
+                } catch (SQLException e) {
+                    req.setAttribute("success", 3);
+                    req.setAttribute("errores", e.getMessage());
+                    req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente3.jsp").forward(req, resp);
+                }
+            } else {
+        }
             try {
                 String fechaInferior = req.getParameter("fechaInferior");
                 List<Transaccion> transacciones = modelTransaccion.TransaccionesIntervaloDeTiempo(codigoCuenta, fechaInferior);
@@ -85,49 +90,52 @@ public class ControladorReporteCliente3 extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String fechaInferior = req.getParameter("infe");
-        String codigoCuenta = req.getParameter("codCuenta");
-        try {
-            UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
-            List<Transaccion> transacciones = modelTransaccion.TransaccionesIntervaloDeTiempo(codigoCuenta, fechaInferior);
-            java.time.LocalDate today = java.time.LocalDate.now();
-
-            resp.setContentType("application/pdf");
-            resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Cuentas_con_mas_dinero_y_transacciones" + codigoCuenta + ".pdf");
-
-            Cliente cliente = modelCliente.ObtenerCliente(uSistema.getCodigo().toString());
-            CuentaBancaria cuenta = modelCuenta.BuscarCuenta(codigoCuenta);
-            InputStream logoBanco = new FileInputStream(req.getServletContext().getRealPath("/Resources/Imagenes/LogoBilleton.png"));
-            JRBeanCollectionDataSource itemsJRBen = new JRBeanCollectionDataSource(transacciones);
-            Map<String, Object> parametros = new HashMap<String, Object>();
-            parametros.put("ColllectionBeanParam", itemsJRBen);
-            parametros.put("NombreCliente", cliente.getNombre());
-            parametros.put("fechaInferior", fechaInferior);
-            parametros.put("fechaSuperior", today.toString());
-            parametros.put("ClienteCodigo", cliente.getCodigo());
-            parametros.put("codeCuenta", Long.valueOf(codigoCuenta));
-            parametros.put("creditoCuenta", cuenta.getCredito());
-            parametros.put("fechaApertura", cuenta.getFechaApertura().toString());
-            parametros.put("logoBilleton", logoBanco);
-
-            InputStream input = new FileInputStream(req.getServletContext().getRealPath("/Resources/jasperReports/Cliente/ReporteCliente3.jrxml"));
-
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
-
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
-
-            JasperExportManager.exportReportToPdfStream(jasperPrint, resp.getOutputStream());
-
-            resp.getOutputStream().flush();
-            resp.getOutputStream().close();
-
-        } catch (Exception e) {
-            req.setAttribute("success", 3);
-            req.setAttribute("errores", e.getMessage());
-            req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
+            String fechaInferior = req.getParameter("infe");
+            String codigoCuenta = req.getParameter("codCuenta");
+            try {
+                UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
+                List<Transaccion> transacciones = modelTransaccion.TransaccionesIntervaloDeTiempo(codigoCuenta, fechaInferior);
+                java.time.LocalDate today = java.time.LocalDate.now();
+    
+                resp.setContentType("application/pdf");
+                resp.setHeader(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=Cuentas_con_mas_dinero_y_transacciones" + codigoCuenta + ".pdf");
+    
+                Cliente cliente = modelCliente.ObtenerCliente(uSistema.getCodigo().toString());
+                CuentaBancaria cuenta = modelCuenta.BuscarCuenta(codigoCuenta);
+                InputStream logoBanco = new FileInputStream(req.getServletContext().getRealPath("/Resources/Imagenes/LogoBilleton.png"));
+                JRBeanCollectionDataSource itemsJRBen = new JRBeanCollectionDataSource(transacciones);
+                Map<String, Object> parametros = new HashMap<String, Object>();
+                parametros.put("ColllectionBeanParam", itemsJRBen);
+                parametros.put("NombreCliente", cliente.getNombre());
+                parametros.put("fechaInferior", fechaInferior);
+                parametros.put("fechaSuperior", today.toString());
+                parametros.put("ClienteCodigo", cliente.getCodigo());
+                parametros.put("codeCuenta", Long.valueOf(codigoCuenta));
+                parametros.put("creditoCuenta", cuenta.getCredito());
+                parametros.put("fechaApertura", cuenta.getFechaApertura().toString());
+                parametros.put("logoBilleton", logoBanco);
+    
+                InputStream input = new FileInputStream(req.getServletContext().getRealPath("/Resources/jasperReports/Cliente/ReporteCliente3.jrxml"));
+    
+                JasperDesign jasperDesign = JRXmlLoader.load(input);
+    
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+    
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
+    
+                JasperExportManager.exportReportToPdfStream(jasperPrint, resp.getOutputStream());
+    
+                resp.getOutputStream().flush();
+                resp.getOutputStream().close();
+    
+            } catch (Exception e) {
+                req.setAttribute("success", 3);
+                req.setAttribute("errores", e.getMessage());
+                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente2.jsp").forward(req, resp);
+            }
         }
-
     }
 }

@@ -22,6 +22,8 @@ public class ModelTransaccion {
             + " WHERE " + Transaccion.TRANSACCION_DB_CODIGO_CUENTA + " = ? AND " + Transaccion.TRANSACCION_DB_FECHA
             + " BETWEEN ? AND ? ORDER BY " + Transaccion.TRANSACCION_DB_CODIGO + " ASC";
 
+    private final String TRANSACCIONES_SEGUN_CAJERO_INTERVALO_TIEMPO = "SELECT * FROM TRANSACCION WHERE hora BETWEEN ? AND ? AND codigo_CAJERO = ? AND fecha = ? ORDER BY hora";
+
     /**
      * CONTRUCTOR VACIO DE LA ENTIDAD
      */
@@ -106,6 +108,38 @@ public class ModelTransaccion {
                     result.getLong(Transaccion.TRANSACCION_DB_CODIGO_CAJERO),
                     result.getString(Transaccion.TRANSACCION_DB_TIPO)));
         }
+        return transacciones;
+    }
+    
+    /**
+     * RETORNA LAS TRANSACCIONES POR CAJERO EN INTERVALO DE TIEMPO
+     * @param codigoCajero
+     * @param horaMenor
+     * @param horaMayor
+     * @return
+     * @throws SQLException
+     */
+    public List<Transaccion> transaccionesPorCajeroIntervaloTiempo(String codigoCajero,String horaMenor, String horaMayor) throws SQLException{
+        List<Transaccion> transacciones = new ArrayList<>();
+        PreparedStatement preSt = connection.prepareStatement(TRANSACCIONES_SEGUN_CAJERO_INTERVALO_TIEMPO);
+        java.time.LocalDate today = java.time.LocalDate.now();
+
+        preSt.setString(1, horaMenor);
+        preSt.setString(2, horaMayor);
+        preSt.setString(3, codigoCajero);
+        preSt.setString(4, today.toString());
+
+        ResultSet result = preSt.executeQuery();
+
+        while (result.next()) {
+            transacciones.add(new Transaccion(result.getLong(Transaccion.TRANSACCION_DB_CODIGO),
+                    result.getLong(Transaccion.TRANSACCION_DB_CODIGO_CUENTA),
+                    result.getDate(Transaccion.TRANSACCION_DB_FECHA), result.getString(Transaccion.TRANSACCION_DB_HORA),
+                    result.getDouble(Transaccion.TRANSACCION_DB_MONTO),
+                    result.getLong(Transaccion.TRANSACCION_DB_CODIGO_CAJERO),
+                    result.getString(Transaccion.TRANSACCION_DB_TIPO)));
+        }
+
         return transacciones;
     }
 }

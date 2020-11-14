@@ -20,23 +20,27 @@ public class ControladorAccionesSolicitudes extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
-        System.out.println("Usuario solicitante: " + uSistema.getCodigo());
-        try {
-            List<SolicitudAsociasion> solicitudes = modelSolicitud.BuscarSolicitudPropietario(uSistema.getCodigo().toString());
-            if (solicitudes.isEmpty()) {
-                req.setAttribute("success", 3);
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
+            UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
+            System.out.println("Usuario solicitante: " + uSistema.getCodigo());
+            try {
+                List<SolicitudAsociasion> solicitudes = modelSolicitud.BuscarSolicitudPropietario(uSistema.getCodigo().toString());
+                if (solicitudes.isEmpty()) {
+                    req.setAttribute("success", 3);
+                    req.getRequestDispatcher("/Solicitudes/RecepcionDeSolicitudes.jsp").forward(req, resp);
+                } else {
+                    req.setAttribute("success", 0);
+                    req.setAttribute("solicitudes", solicitudes);
+                    req.getRequestDispatcher("/Solicitudes/RecepcionDeSolicitudes.jsp").forward(req, resp);
+                }
+            } catch (SQLException e) {
+                req.setAttribute("success", 1);
+                req.setAttribute("errores", e.getMessage());
                 req.getRequestDispatcher("/Solicitudes/RecepcionDeSolicitudes.jsp").forward(req, resp);
-            } else {
-                req.setAttribute("success", 0);
-                req.setAttribute("solicitudes", solicitudes);
-                req.getRequestDispatcher("/Solicitudes/RecepcionDeSolicitudes.jsp").forward(req, resp);
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            req.setAttribute("success", 1);
-            req.setAttribute("errores", e.getMessage());
-            req.getRequestDispatcher("/Solicitudes/RecepcionDeSolicitudes.jsp").forward(req, resp);
-            e.printStackTrace();
         }
     }
 }

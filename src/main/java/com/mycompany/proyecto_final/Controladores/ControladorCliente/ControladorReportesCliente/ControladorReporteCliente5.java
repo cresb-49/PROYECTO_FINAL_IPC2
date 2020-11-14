@@ -45,65 +45,73 @@ public class ControladorReporteCliente5 extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
-        try {
-            List<SolicitudAsociasion> solicitudes = modelSolicitud.BuscarSolicitudSolicitante(uSistema.getCodigo().toString());
-            if (solicitudes.isEmpty()) {
-                req.setAttribute("success", 5);
-                req.setAttribute("info", "No tiene ah realizado ninguna solicitud de asociacion");
-                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente5.jsp").forward(req, resp);
-            } else {
-                req.setAttribute("success", 0);
-                req.setAttribute("solicitudes", solicitudes);
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
+            UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
+            try {
+                List<SolicitudAsociasion> solicitudes = modelSolicitud.BuscarSolicitudSolicitante(uSistema.getCodigo().toString());
+                if (solicitudes.isEmpty()) {
+                    req.setAttribute("success", 5);
+                    req.setAttribute("info", "No tiene ah realizado ninguna solicitud de asociacion");
+                    req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente5.jsp").forward(req, resp);
+                } else {
+                    req.setAttribute("success", 0);
+                    req.setAttribute("solicitudes", solicitudes);
+                    req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente5.jsp").forward(req, resp);
+                }
+    
+            } catch (Exception e) {
+                req.setAttribute("success", 3);
+                req.setAttribute("errores", e.getMessage());
                 req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente5.jsp").forward(req, resp);
             }
-
-        } catch (Exception e) {
-            req.setAttribute("success", 3);
-            req.setAttribute("errores", e.getMessage());
-            req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente5.jsp").forward(req, resp);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        try {
-            UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
-            List<SolicitudAsociasion> solicitudes = modelSolicitud.BuscarSolicitudSolicitante(uSistema.getCodigo().toString());
-
-            resp.setContentType("application/pdf");
-            resp.setHeader(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=Hitorial_Solictudes_Realizadas_Cliente_" + uSistema.getCodigo().toString()+".pdf");
-
-            Cliente cliente = modelCliente.ObtenerCliente(uSistema.getCodigo().toString());
-
-            InputStream logoBanco = new FileInputStream(req.getServletContext().getRealPath("/Resources/Imagenes/LogoBilleton.png"));
-
-            JRBeanCollectionDataSource itemsJRBen = new JRBeanCollectionDataSource(solicitudes);
-
-            Map<String, Object> parametros = new HashMap<String, Object>();
-            parametros.put("ColllectionBeanParam", itemsJRBen);
-            parametros.put("NombreCliente", cliente.getNombre());
-            parametros.put("ClienteCodigo", cliente.getCodigo());
-            parametros.put("logoBilleton", logoBanco);
-
-            InputStream input = new FileInputStream(
-                    req.getServletContext().getRealPath("/Resources/jasperReports/Cliente/ReporteCliente5.jrxml"));
-
-            JasperDesign jasperDesign = JRXmlLoader.load(input);
-
-            JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
-
-            JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
-
-            JasperExportManager.exportReportToPdfStream(jasperPrint, resp.getOutputStream());
-
-            resp.getOutputStream().flush();
-            resp.getOutputStream().close();
-
-        } catch (Exception e) {
-            req.setAttribute("success", 3);
-            req.setAttribute("errores", e.getMessage());
-            req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente5.jsp").forward(req, resp);
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
+            try {
+                UsuarioDeSistema uSistema = (UsuarioDeSistema) req.getSession().getAttribute("USER");
+                List<SolicitudAsociasion> solicitudes = modelSolicitud.BuscarSolicitudSolicitante(uSistema.getCodigo().toString());
+    
+                resp.setContentType("application/pdf");
+                resp.setHeader(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=Hitorial_Solictudes_Realizadas_Cliente_" + uSistema.getCodigo().toString()+".pdf");
+    
+                Cliente cliente = modelCliente.ObtenerCliente(uSistema.getCodigo().toString());
+    
+                InputStream logoBanco = new FileInputStream(req.getServletContext().getRealPath("/Resources/Imagenes/LogoBilleton.png"));
+    
+                JRBeanCollectionDataSource itemsJRBen = new JRBeanCollectionDataSource(solicitudes);
+    
+                Map<String, Object> parametros = new HashMap<String, Object>();
+                parametros.put("ColllectionBeanParam", itemsJRBen);
+                parametros.put("NombreCliente", cliente.getNombre());
+                parametros.put("ClienteCodigo", cliente.getCodigo());
+                parametros.put("logoBilleton", logoBanco);
+    
+                InputStream input = new FileInputStream(
+                        req.getServletContext().getRealPath("/Resources/jasperReports/Cliente/ReporteCliente5.jrxml"));
+    
+                JasperDesign jasperDesign = JRXmlLoader.load(input);
+    
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+    
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
+    
+                JasperExportManager.exportReportToPdfStream(jasperPrint, resp.getOutputStream());
+    
+                resp.getOutputStream().flush();
+                resp.getOutputStream().close();
+    
+            } catch (Exception e) {
+                req.setAttribute("success", 3);
+                req.setAttribute("errores", e.getMessage());
+                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente5.jsp").forward(req, resp);
+            }
         }
     }
 }

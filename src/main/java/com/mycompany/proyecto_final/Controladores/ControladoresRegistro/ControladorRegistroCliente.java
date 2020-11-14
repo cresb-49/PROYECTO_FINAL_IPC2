@@ -28,33 +28,37 @@ public class ControladorRegistroCliente extends HttpServlet{
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        if (req.getSession().getAttribute("USER") == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
 
-        String nombre=null;
-        String dpi=null;
-        String sexo=null;
-        String direccion=null;
-        Date fechaNacimiento=null;
-        Archivo fotocopiaDPI=null;
-        String password=null;
-
-        nombre = req.getParameter("nombreEntidad");
-        sexo = req.getParameter("sexo");
-        direccion = req.getParameter("direccion");
-        dpi = req.getParameter("numeroDPI");
-        fechaNacimiento=this.conv.stringToDate(req.getParameter("fechaNacimiento"));
-        password = req.getParameter("passInicial");
-        try {
-            Part filePart = req.getPart("fotocopiaDPI");
-            if (filePart.getSize() > 0) {
-                fotocopiaDPI=new Archivo(filePart.getName(), filePart.getInputStream());
+            String nombre=null;
+            String dpi=null;
+            String sexo=null;
+            String direccion=null;
+            Date fechaNacimiento=null;
+            Archivo fotocopiaDPI=null;
+            String password=null;
+    
+            nombre = req.getParameter("nombreEntidad");
+            sexo = req.getParameter("sexo");
+            direccion = req.getParameter("direccion");
+            dpi = req.getParameter("numeroDPI");
+            fechaNacimiento=this.conv.stringToDate(req.getParameter("fechaNacimiento"));
+            password = req.getParameter("passInicial");
+            try {
+                Part filePart = req.getPart("fotocopiaDPI");
+                if (filePart.getSize() > 0) {
+                    fotocopiaDPI=new Archivo(filePart.getName(), filePart.getInputStream());
+                }
+            } catch (Exception ex) {
+                System.out.println("Error de fichero: " + ex.getMessage());
             }
-        } catch (Exception ex) {
-            System.out.println("Error de fichero: " + ex.getMessage());
+    
+            Cliente cliente = new Cliente(null, password, nombre, dpi, sexo, direccion, fechaNacimiento, fotocopiaDPI);
+            System.out.println(cliente.toString());
+            RegistroCliente(cliente, req, resp);
         }
-
-        Cliente cliente = new Cliente(null, password, nombre, dpi, sexo, direccion, fechaNacimiento, fotocopiaDPI);
-        System.out.println(cliente.toString());
-        RegistroCliente(cliente, req, resp);
     }
     
     private void RegistroCliente (Cliente cliente,HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException{

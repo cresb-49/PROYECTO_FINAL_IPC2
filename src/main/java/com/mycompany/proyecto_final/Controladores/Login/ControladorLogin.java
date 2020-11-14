@@ -26,43 +26,44 @@ public class ControladorLogin extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String user = req.getParameter("usuario");
         String pass = req.getParameter("password");
-        System.out.println("Controlador Login: USER: " + user + " ,PASS:" + pass);
-        try {
 
-            UsuarioDeSistema usuario = this.modelUsuario.accesoDeUsuario(user, pass);
-            if (usuario != null) {
-                System.out.println("Usuario Retornado: " + usuario.toString());
-                req.getSession().setAttribute("USER", usuario);
-                switch (usuario.getRol()) {
-                    case Cajero.ROL_ENTIDAD:
-                        System.out.println("EJECUCION PERFIL CAJERO");
-                        req.getRequestDispatcher("/Perfiles/PerfilCajero.jsp").forward(req, resp);
-                        break;
-                    case Gerente.ROL_ENTIDAD:
-                        System.out.println("EJECUCION PERFIL GERENTE");
-                        req.getRequestDispatcher("/Perfiles/PerfilGerente.jsp").forward(req, resp);
-                        break;
-                    case Cliente.ROL_ENTIDAD:
-                        System.out.println("EJECUCION PERFIL CLIENTE");
-                        req.getRequestDispatcher("/Perfiles/PerfilCliente.jsp").forward(req, resp);
-                        break;
-                    default:
-                        req.setAttribute("resultado", 0);
-                        req.getRequestDispatcher("/index.jsp").forward(req, resp);
-                        break;
+        if (user == null && pass == null) {
+            resp.sendRedirect(req.getContextPath() + "/Logout");
+        }else{
+
+            System.out.println("Controlador Login: USER: " + user + " ,PASS:" + pass);
+            try {
+    
+                UsuarioDeSistema usuario = this.modelUsuario.accesoDeUsuario(user, pass);
+                if (usuario != null) {
+                    System.out.println("Usuario Retornado: " + usuario.toString());
+                    req.getSession().setAttribute("USER", usuario);
+                    switch (usuario.getRol()) {
+                        case Cajero.ROL_ENTIDAD:
+                            System.out.println("EJECUCION PERFIL CAJERO");
+                            req.getRequestDispatcher("/Perfiles/PerfilCajero.jsp").forward(req, resp);
+                            break;
+                        case Gerente.ROL_ENTIDAD:
+                            System.out.println("EJECUCION PERFIL GERENTE");
+                            req.getRequestDispatcher("/Perfiles/PerfilGerente.jsp").forward(req, resp);
+                            break;
+                        case Cliente.ROL_ENTIDAD:
+                            System.out.println("EJECUCION PERFIL CLIENTE");
+                            req.getRequestDispatcher("/Perfiles/PerfilCliente.jsp").forward(req, resp);
+                            break;
+                        default:
+                            req.setAttribute("resultado", 0);
+                            req.getRequestDispatcher("/index.jsp").forward(req, resp);
+                            break;
+                    }
+                } else {
+                    req.setAttribute("resultado", 0);
+                    req.getRequestDispatcher("/index.jsp").forward(req, resp);
                 }
-            } else {
-                req.setAttribute("resultado", 0);
-                req.getRequestDispatcher("/index.jsp").forward(req, resp);
+            } catch (SQLException e) {
+                System.out.println("Error DB USUARIO: " + e.getMessage());
             }
-        } catch (SQLException e) {
-            System.out.println("Error DB USUARIO: " + e.getMessage());
         }
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
-
 }
