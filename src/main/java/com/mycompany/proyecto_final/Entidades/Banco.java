@@ -2,13 +2,14 @@ package com.mycompany.proyecto_final.Entidades;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Banco implements Serializable{
     
-    private ArrayList<Gerente> gerentes = new ArrayList<>();
-    private ArrayList<Cajero> cajeros = new ArrayList<>();
-    private ArrayList<Cliente> clientes = new ArrayList<>();
-    private ArrayList<Transaccion> transaciones = new ArrayList<>();
+    private List<Gerente> gerentes = new ArrayList<>();
+    private List<Cajero> cajeros = new ArrayList<>();
+    private List<Cliente> clientes = new ArrayList<>();
+    private List<Transaccion> transaciones = new ArrayList<>();
     /**
      * Cosntructor vacio de la entidad banco
      */
@@ -28,28 +29,28 @@ public class Banco implements Serializable{
         this.clientes=clientes;
         this.transaciones=transaciones;
     }
-    public ArrayList<Cajero> getCajeros() {
+    public List<Cajero> getCajeros() {
         return cajeros;
     }
-    public void setCajeros(ArrayList<Cajero> cajeros) {
+    public void setCajeros(List<Cajero> cajeros) {
         this.cajeros = cajeros;
     }
-    public ArrayList<Cliente> getClientes() {
+    public List<Cliente> getClientes() {
         return clientes;
     }
-    public void setClientes(ArrayList<Cliente> clientes) {
+    public void setClientes(List<Cliente> clientes) {
         this.clientes = clientes;
     }
-    public ArrayList<Gerente> getGerentes() {
+    public List<Gerente> getGerentes() {
         return gerentes;
     }
-    public void setGerentes(ArrayList<Gerente> gerentes) {
+    public void setGerentes(List<Gerente> gerentes) {
         this.gerentes = gerentes;
     }
-    public ArrayList<Transaccion> getTransaciones() {
+    public List<Transaccion> getTransaciones() {
         return transaciones;
     }
-    public void setTransaciones(ArrayList<Transaccion> transaciones) {
+    public void setTransaciones(List<Transaccion> transaciones) {
         this.transaciones = transaciones;
     }
 }

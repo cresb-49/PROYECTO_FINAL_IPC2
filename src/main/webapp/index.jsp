@@ -22,7 +22,9 @@
             %>
 
             <%
-                if (cantidad > 1) {
+                
+                //cantidad > 1
+                if (false) {
             %>
             <div class="container">
                 <section class="row">

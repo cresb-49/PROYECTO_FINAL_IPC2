@@ -48,7 +48,6 @@ public class ControladorCargarDatos extends HttpServlet {
             LeerXML lectura = new LeerXML(archivosRecuperdados);
             try {
                 Banco banco = lectura.EmpaquetarInformacion();
-                
             } catch (ParserConfigurationException ex) {
                 System.out.println("Error estructura de datos: "+ex.getMessage());
             } catch (SAXException ex) {
