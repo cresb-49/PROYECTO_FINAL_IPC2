@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.mycompany.proyecto_final.Entidades.*;
 import com.mycompany.proyecto_final.LecturaXML.*;
+import com.mycompany.proyecto_final.RegistroXML.RegistrarXMLDB;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.fileupload.FileItem;
@@ -22,7 +23,6 @@ import org.xml.sax.SAXException;
 
 @WebServlet("/CargarDatosSistema")
 public class ControladorCargarDatos extends HttpServlet {
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -48,6 +48,20 @@ public class ControladorCargarDatos extends HttpServlet {
             LeerXML lectura = new LeerXML(archivosRecuperdados);
             try {
                 Banco banco = lectura.EmpaquetarInformacion();
+                RegistrarXMLDB registrarXMLDB = new RegistrarXMLDB(banco);
+                registrarXMLDB.realizarRegistro();
+                for(String er:registrarXMLDB.getErroresCliente()){
+                    System.out.println(er);
+                }
+                for(String er:registrarXMLDB.getErroresCajero()){
+                    System.out.println(er);
+                }
+                for(String er:registrarXMLDB.getErroresGerente()){
+                    System.out.println(er);
+                }
+                for(String er:registrarXMLDB.getErroresTransacciones()){
+                    System.out.println(er);
+                }
             } catch (ParserConfigurationException ex) {
                 System.out.println("Error estructura de datos: "+ex.getMessage());
             } catch (SAXException ex) {

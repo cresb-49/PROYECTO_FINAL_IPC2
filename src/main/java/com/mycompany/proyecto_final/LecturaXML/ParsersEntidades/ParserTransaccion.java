@@ -1,4 +1,4 @@
-package com.mycompany.proyecto_final.LecturaXML.ParcersEntidades;
+package com.mycompany.proyecto_final.LecturaXML.ParsersEntidades;
 
 import com.mycompany.proyecto_final.Conversiones.ConversionesVariables;
 import com.mycompany.proyecto_final.Entidades.Cajero;

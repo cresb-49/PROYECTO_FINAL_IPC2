@@ -27,7 +27,7 @@ public class ModelGerente {
      * @param gerente
      * @throws SQLException
      */
-    public void RegistroGerenteCreado(Gerente gerente) throws SQLException {
+    public void RegistroGerente(Gerente gerente) throws SQLException {
         PreparedStatement preSt = connection.prepareStatement(REGISTRAR_GERENTE_CREADO);
 
         preSt.setLong(1, gerente.getCodigo());

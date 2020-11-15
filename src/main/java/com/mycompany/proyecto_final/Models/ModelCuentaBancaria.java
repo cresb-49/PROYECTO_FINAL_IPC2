@@ -14,11 +14,15 @@ import com.mycompany.proyecto_final.Entidades.CuentaBancaria;
 public class ModelCuentaBancaria {
     private static Connection connection = ConnectDB.getInstance();
     private ConversionesVariables conv = new ConversionesVariables();
-
+    
     private final String CREAR_CUENTA = "INSERT INTO " + CuentaBancaria.CLIENTE_DB_TABLE + " ("
             + CuentaBancaria.CUENTA_DB_CODIGO_CLIENTE + "," + CuentaBancaria.CUENTA_DB_CREDITO + ","
             + CuentaBancaria.CUENTA_DB_FECHA_APERTURA + ") VALUES (?,?,?)";
-
+    
+    private final String REGISTAR_CUENTA_EXPORTADA = "INSERT INTO " + CuentaBancaria.CLIENTE_DB_TABLE + " ("+CuentaBancaria.CUENTA_DB_CODIGO+","
+            + CuentaBancaria.CUENTA_DB_CODIGO_CLIENTE + "," + CuentaBancaria.CUENTA_DB_CREDITO + ","
+            + CuentaBancaria.CUENTA_DB_FECHA_APERTURA + ") VALUES (?,?,?,?)";
+    
     private final String BUSCAR_CUENTA = "SELECT * FROM " + CuentaBancaria.CLIENTE_DB_TABLE + " WHERE "
             + CuentaBancaria.CUENTA_DB_CODIGO + " = ?";
 
@@ -56,6 +60,23 @@ public class ModelCuentaBancaria {
             return result.getLong(1);
         }
         return -1;
+    }
+    
+    /**
+     * RESGISTRA UNA CUENTA EXPORTDA
+     * @param codigoCliente
+     * @return
+     * @throws SQLException 
+     */
+    public void RegistrarCuenta(CuentaBancaria cuenta) throws SQLException {
+        java.time.LocalDate today = java.time.LocalDate.now();
+        PreparedStatement preSt = connection.prepareStatement(REGISTAR_CUENTA_EXPORTADA);
+        preSt.setLong(1, cuenta.getCodigo());
+        preSt.setLong(2, cuenta.getIdCliente());
+        preSt.setDouble(3, cuenta.getCredito());
+        preSt.setDate(4, cuenta.getFechaApertura());
+
+        preSt.executeUpdate();
     }
 
     /**

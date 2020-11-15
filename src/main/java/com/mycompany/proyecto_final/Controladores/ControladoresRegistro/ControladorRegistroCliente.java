@@ -76,7 +76,7 @@ public class ControladorRegistroCliente extends HttpServlet{
         }
         try {
             if(banderaRegistro){
-                modelCliente.RegistroClienteCreado(cliente);
+                modelCliente.RegistroCliente(cliente);
                 banderaRegistro=true;
             }
         } catch (SQLException e) {

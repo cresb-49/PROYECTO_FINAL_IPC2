@@ -64,7 +64,7 @@ public class ControladorRegistroGerente extends HttpServlet {
         }
         try {
             if (banderaRegistro) {
-                modelGerente.RegistroGerenteCreado(gerente);
+                modelGerente.RegistroGerente(gerente);
                 banderaRegistro = true;
             }
         } catch (SQLException e) {

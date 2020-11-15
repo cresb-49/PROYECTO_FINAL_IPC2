@@ -28,7 +28,7 @@ public class ModelCajero {
      * @param cajero
      * @throws SQLException
      */
-    public void RegistroCajeroCreado(Cajero cajero) throws SQLException {
+    public void RegistroCajero(Cajero cajero) throws SQLException {
         PreparedStatement preSt = connection.prepareStatement(REGISTRAR_CAJERO_CREADO);
 
         preSt.setLong(1, cajero.getCodigo());

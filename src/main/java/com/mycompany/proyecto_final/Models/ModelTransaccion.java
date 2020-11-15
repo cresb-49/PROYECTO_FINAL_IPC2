@@ -12,8 +12,10 @@ import java.util.List;
 import com.mycompany.proyecto_final.Entidades.Transaccion;
 
 public class ModelTransaccion {
+
     private static Connection connection = ConnectDB.getInstance();
     private final String REGISTRAR_TRANSACCION = "INSERT INTO TRANSACCION (codigo_CUENTA,codigo_CAJERO,fecha,hora,monto,tipo) VALUES (?,?,?,?,?,?)";
+    private final String REGISTRAR_TRANSACCION_EXPORTADA = "INSERT INTO TRANSACCION (codigo,codigo_CUENTA,codigo_CAJERO,fecha,hora,monto,tipo) VALUES (?,?,?,?,?,?,?)";
     private final String L5_TRANSACCIONES_MAYORES_YEAR = "SELECT * FROM TRANSACCION WHERE YEAR("
             + Transaccion.TRANSACCION_DB_FECHA + ") = ? AND " + Transaccion.TRANSACCION_DB_CODIGO_CUENTA
             + " = ? ORDER BY monto DESC LIMIT 15";
@@ -21,6 +23,9 @@ public class ModelTransaccion {
     private final String TRANSACCIONES_INTERVALO_DE_TIEMPO = "SELECT * FROM " + Transaccion.TRANSACCION_DB_TABLE
             + " WHERE " + Transaccion.TRANSACCION_DB_CODIGO_CUENTA + " = ? AND " + Transaccion.TRANSACCION_DB_FECHA
             + " BETWEEN ? AND ? ORDER BY " + Transaccion.TRANSACCION_DB_CODIGO + " ASC";
+
+    private final String BUSCAR_TRANSACCION = "SELECT * FROM " + Transaccion.TRANSACCION_DB_TABLE
+            + " WHERE " + Transaccion.TRANSACCION_DB_CODIGO + " = ?";
 
     private final String TRANSACCIONES_SEGUN_CAJERO_INTERVALO_TIEMPO = "SELECT * FROM TRANSACCION WHERE hora BETWEEN ? AND ? AND codigo_CAJERO = ? AND fecha = ? ORDER BY hora";
 
@@ -33,7 +38,7 @@ public class ModelTransaccion {
 
     /**
      * REGISTRA UNA TRANSACCION BANCARIA
-     * 
+     *
      * @param transaccion
      * @return
      * @throws SQLException
@@ -55,10 +60,50 @@ public class ModelTransaccion {
         }
         return -1;
     }
+    /**
+     * REALIZA EL REGISTRO DE UNA TRANSACCION EXPORTADA
+     * @param transaccion
+     * @return
+     * @throws SQLException 
+     */
+    public void RegistrarTransaccionExportada(Transaccion transaccion) throws SQLException {
+        PreparedStatement preSt = connection.prepareStatement(REGISTRAR_TRANSACCION_EXPORTADA);
+        preSt.setLong(1, transaccion.getCodigo());
+        preSt.setLong(2, transaccion.getIdCuenta());
+        preSt.setLong(3, transaccion.getIdCajero());
+        preSt.setDate(4, transaccion.getFechaTransaccion());
+        preSt.setString(5, transaccion.getHora());
+        preSt.setDouble(6, transaccion.getMonto());
+        preSt.setString(7, transaccion.getTipo());
+
+        preSt.executeUpdate();
+    }
+    /**
+     * RETORNA UNA TRANSACCION EN BASE AL CODIGO DE LA TRANSACCION
+     * @param codigo
+     * @return
+     * @throws SQLException 
+     */
+    public Transaccion BuscarTransaccion(String codigo) throws SQLException {
+        PreparedStatement preSt = connection.prepareStatement(BUSCAR_TRANSACCION);
+        preSt.setString(1, codigo);
+
+        ResultSet result = preSt.executeQuery();
+
+        while (result.next()) {
+            return new Transaccion(result.getLong(Transaccion.TRANSACCION_DB_CODIGO),
+                    result.getLong(Transaccion.TRANSACCION_DB_CODIGO_CUENTA),
+                    result.getDate(Transaccion.TRANSACCION_DB_FECHA), result.getString(Transaccion.TRANSACCION_DB_HORA),
+                    result.getDouble(Transaccion.TRANSACCION_DB_MONTO),
+                    result.getLong(Transaccion.TRANSACCION_DB_CODIGO_CAJERO),
+                    result.getString(Transaccion.TRANSACCION_DB_TIPO));
+        }
+        return null;
+    }
 
     /**
      * RETRONA LAS 15 TRANSACCIONES MAS GRANDES DEL AÑO
-     * 
+     *
      * @param cuenta
      * @return
      */
@@ -82,20 +127,23 @@ public class ModelTransaccion {
         }
         return transacciones;
     }
+
     /**
-     * DEVUELBE LA TRANSACCIONES DESDE UNA FECHA HASTA LA ACTUALIDAD EN BASE AL CODIGO DE CUENTA
+     * DEVUELBE LA TRANSACCIONES DESDE UNA FECHA HASTA LA ACTUALIDAD EN BASE AL
+     * CODIGO DE CUENTA
+     *
      * @param cuenta
      * @param limiteInferior
      * @return
      * @throws SQLException
      */
-    public List<Transaccion> TransaccionesIntervaloDeTiempo(String cuenta,String limiteInferior) throws SQLException {
+    public List<Transaccion> TransaccionesIntervaloDeTiempo(String cuenta, String limiteInferior) throws SQLException {
         List<Transaccion> transacciones = new ArrayList<>();
         PreparedStatement preSt = connection.prepareStatement(TRANSACCIONES_INTERVALO_DE_TIEMPO);
         java.time.LocalDate today = java.time.LocalDate.now();
 
         preSt.setString(1, String.valueOf(cuenta));
-        preSt.setString(2,limiteInferior);
+        preSt.setString(2, limiteInferior);
         preSt.setString(3, today.toString());
 
         ResultSet result = preSt.executeQuery();
@@ -110,19 +158,20 @@ public class ModelTransaccion {
         }
         return transacciones;
     }
-    
+
     /**
      * RETORNA LAS TRANSACCIONES POR CAJERO EN INTERVALO DE TIEMPO
+     *
      * @param codigoCajero
      * @param horaMenor
      * @param horaMayor
      * @return
      * @throws SQLException
      */
-    public List<Transaccion> transaccionesPorCajeroIntervaloTiempo(String codigoCajero,String horaMenor, String horaMayor,String fecha) throws SQLException{
+    public List<Transaccion> transaccionesPorCajeroIntervaloTiempo(String codigoCajero, String horaMenor, String horaMayor, String fecha) throws SQLException {
         List<Transaccion> transacciones = new ArrayList<>();
         PreparedStatement preSt = connection.prepareStatement(TRANSACCIONES_SEGUN_CAJERO_INTERVALO_TIEMPO);
-        
+
         preSt.setString(1, horaMenor);
         preSt.setString(2, horaMayor);
         preSt.setString(3, codigoCajero);

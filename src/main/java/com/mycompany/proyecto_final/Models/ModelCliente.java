@@ -36,7 +36,7 @@ public class ModelCliente {
          * @param cliente
          * @throws SQLException
          */
-        public void RegistroClienteCreado(Cliente cliente) throws SQLException {
+        public void RegistroCliente(Cliente cliente) throws SQLException {
                 PreparedStatement preSt = connection.prepareStatement(REGISTRAR_CLIENTE_CREADO);
 
                 preSt.setLong(1, cliente.getCodigo());

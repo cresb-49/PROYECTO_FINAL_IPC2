@@ -62,7 +62,7 @@ public class ControladorRegistroCajero extends HttpServlet {
         }
         try {
             if (banderaRegistro) {
-                modelCajero.RegistroCajeroCreado(cajero);
+                modelCajero.RegistroCajero(cajero);
                 banderaRegistro = true;
             }
         } catch (SQLException e) {
