@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.mycompany.proyecto_final.Entidades.UsuarioDeSistema;
+import org.apache.commons.codec.digest.DigestUtils;
 
 public class ModelUsuarioSistema {
     private static Connection connection = ConnectDB.getInstance();
@@ -33,6 +34,7 @@ public class ModelUsuarioSistema {
      */
     public UsuarioDeSistema accesoDeUsuario(String user, String pass) throws SQLException{
         PreparedStatement preSt = connection.prepareStatement(BUSCAR_USUARIO_SISTEMA_LOGIN);
+        pass = DigestUtils.md5Hex(pass);
         preSt.setString(1,user);
         preSt.setString(2,pass);
         ResultSet result = preSt.executeQuery();
@@ -92,7 +94,8 @@ public class ModelUsuarioSistema {
      */
     public long RegistroUsuarioSistema(UsuarioDeSistema usuarioDeSistema) throws SQLException{
         PreparedStatement preSt = connection.prepareStatement(REGISTRAR_USUARIO_SISTEMA, Statement.RETURN_GENERATED_KEYS);
-        preSt.setString(1, usuarioDeSistema.getPassword());
+        String pass = DigestUtils.md5Hex(usuarioDeSistema.getPassword());
+        preSt.setString(1, pass);
         preSt.setString(2, usuarioDeSistema.getRol());
         
         preSt.executeUpdate();
@@ -111,8 +114,9 @@ public class ModelUsuarioSistema {
      */
     public void RegistroUsuarioSistemaExportado(UsuarioDeSistema usuarioDeSistema) throws SQLException{
         PreparedStatement preSt = connection.prepareStatement(REGISTRAR_USUARIO_SISTEMA_EXPORTADO);
+        String pass = DigestUtils.md5Hex(usuarioDeSistema.getPassword());
         preSt.setLong(1, usuarioDeSistema.getCodigo());
-        preSt.setString(2, usuarioDeSistema.getPassword());
+        preSt.setString(2, pass);
         preSt.setString(3, usuarioDeSistema.getRol());
         
         preSt.executeUpdate();

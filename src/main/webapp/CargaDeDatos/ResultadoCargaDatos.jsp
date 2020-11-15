@@ -20,8 +20,64 @@
     <body>
         <div class="main">
             <%@include file="../CabeceraPie/Cabecera.jsp" %>
-            <c:if test="${resultado == 0}">
 
+            <c:if test="${resultado == 0}">
+                <br/>
+                <div class="container">
+                    <div class="alert alert-success" role="alert">
+                        <div class="container">
+                            TODOS LOS DATOS SE IMPORTARON DE MANERA CORRECTA!!!
+                        </div>
+                        <br/>
+                        <div class="container">
+                            <a class="btn btn-success" href="${pageContext.request.contextPath}/index.jsp">Regresar a Inicio de Sesion</a>
+                        </div>
+
+                    </div>
+                </div>
+            </c:if>
+            <c:if test="${resultado == 1}">
+                <br/>
+                <div class="container">
+                    <div class="alert alert-danger" role="alert">
+
+                        <br/>
+                        <div class="container">
+                            <h5>Errores con Clientes</h5>
+                            <c:forEach items="${erCliente}" var="error">
+                                <p>${error}</p>
+                            </c:forEach>
+                        </div>
+
+                        <br/>
+                        <div class="container">
+                            <h5>Errores con Gerentes</h5>
+                            <c:forEach items="${erGerente}" var="error">
+                                <p>${error}</p>
+                            </c:forEach>
+                        </div>
+
+                        <br/>
+                        <div class="container">
+                            <h5>Errores con Cajeros</h5>
+                            <c:forEach items="${erCajero}" var="error">
+                                <p>${error}</p>
+                            </c:forEach>
+                        </div>
+
+                        <br/>
+                        <div class="container">
+                            <h5>Errores con Transacciones</h5>
+                            <c:forEach items="${erTransacciones}" var="error">
+                                <p>${error}</p>
+                            </c:forEach>
+                        </div>
+                        <br/>
+                        <div class="container">
+                            <a class="btn btn-success" href="${pageContext.request.contextPath}/index.jsp">Regresar a Inicio de Sesion</a>
+                        </div>
+                    </div>
+                </div>
             </c:if>
             <%@include file="../CabeceraPie/piePagina.jsp" %>
         </div>

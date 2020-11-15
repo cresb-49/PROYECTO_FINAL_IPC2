@@ -34,17 +34,17 @@ public class RegistarTransaccionXML {
                 if(transaccion1 == null){
                     CuentaBancaria cuenta = modelCuenta.BuscarCuenta(transaccion.getIdCuenta().toString());
                     if(cuenta==null){
-                        errores.add("- Transaccion con codigo: " + transaccion.getCodigo().toString() + " no puede ser resgistrada debido a que la cuenta: "+transaccion.getIdCuenta()+" no existe");
+                        errores.add("- Transaccion con codigo: " + transaccion.getCodigo().toString() + " no puede ser registrada debido a que la cuenta: "+transaccion.getIdCuenta()+" no existe");
                     }else{
                         Cajero cajero = modelCajero.ObtenerCajero(transaccion.getIdCajero().toString());
                         if(cajero==null){
-                            errores.add("- Transaccion con codigo: " + transaccion.getCodigo().toString() + " no puede ser resgistrada debido a que el cajero: "+transaccion.getIdCajero()+" no existe");
+                            errores.add("- Transaccion con codigo: " + transaccion.getCodigo().toString() + " no puede ser registrada debido a que el cajero: "+transaccion.getIdCajero()+" no existe");
                         }else{
                             modelTransaccion.RegistrarTransaccionExportada(transaccion);
                         }
                     }
                 }else{
-                    errores.add("- Transaccion con codigo: " + transaccion.getCodigo().toString() + " no puede ser resgistrada debido a que existe otra transaccion registrada con ese codigo");
+                    errores.add("- Transaccion con codigo: " + transaccion.getCodigo().toString() + " no puede ser registrada debido a que existe otra transaccion registrada con ese codigo");
                 }
             } catch (Exception e) {
                 System.out.println("Error registro transaccion: "+e.getMessage());
