@@ -57,6 +57,9 @@ public class ControladorReporteGerente3 extends HttpServlet {
             } catch (SQLException ex) {
                 System.out.println("Error " + ex.getMessage());
                 ex.printStackTrace();
+                req.setAttribute("success", 2);
+                req.setAttribute("error", ex.getMessage());
+                req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente3.jsp").forward(req, resp);
             }
         }
 
@@ -88,7 +91,7 @@ public class ControladorReporteGerente3 extends HttpServlet {
             resp.getOutputStream().close();
 
         } catch (Exception e) {
-            req.setAttribute("success", 1);
+            req.setAttribute("success", 3);
             req.setAttribute("error", e.getMessage());
             req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente3.jsp").forward(req, resp);
         }

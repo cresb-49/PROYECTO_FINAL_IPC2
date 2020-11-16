@@ -37,7 +37,7 @@
                 </div>
                 <br>
                 <div class="container">
-                    <form class="form-inline" action="#" method="POST">
+                    <form class="form-inline" action="ControladorReporteGerente5" method="POST">
                         <label class="control-label col-md-2" for="codigoEntidad">Codigo del cliente: </label>
                         <div class="form-group">
                             <input class="form-control" id="codigoEntidad" type="number" name="codigoEntidad" placeholder="Codigo" required="">
@@ -49,17 +49,12 @@
                 </div>
                 <br>
             </c:if>
-
-
-
             <c:if test="${success == 1}">
                 <div class="container">
                     <br>
                     <div class="row">
                         <div class="col-md-3">
-                            <form action="ControladorReporte1" method="POST">
-                                <button class="btn btn-warning" value="${codeCuenta}" name="codCuenta" id="codCuenta" type="submit">Exportar Reporte PDF</button>
-                            </form>    
+                            <a class="btn btn-warning" value="1" name="generar" id="generar" href="${pageContext.request.contextPath}/ControladorReporteGerente5?codigoEntidad=${codigoEntidad}">Exportar Reporte PDF</a>
                         </div>
                         <div class="col-md-6">
                         </div>
@@ -100,6 +95,42 @@
                 </div>
             </c:if>
 
+
+            <c:if test="${success == 2}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Error:</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p></p>
+                            <p>${error}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/ControladorSolicitudGerente?reporte=0">Regresar al perfil</a>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+                
+                
+            <c:if test="${success == 3}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Error:</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p></p>
+                            <p>${error}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-primary" href="${pageContext.request.contextPath}/ControladorSolicitudGerente?reporte=5">Volver al formulario</a>
+                        </div>
+                    </div>
+                </div>
+            </c:if>
+                
             <%@include file="../../CabeceraPie/piePagina.jsp" %>
         </div>
     </body>

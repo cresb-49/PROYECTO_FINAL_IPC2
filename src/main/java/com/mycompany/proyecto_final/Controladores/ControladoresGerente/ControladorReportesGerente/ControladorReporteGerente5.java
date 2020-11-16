@@ -1,5 +1,7 @@
 package com.mycompany.proyecto_final.Controladores.ControladoresGerente.ControladorReportesGerente;
 
+import com.mycompany.proyecto_final.Entidades.Cliente;
+import com.mycompany.proyecto_final.Entidades.Transaccion;
 import com.mycompany.proyecto_final.Entidades.UsuarioDeSistema;
 import com.mycompany.proyecto_final.EntidadesEspeciales.ClienteConDineroTotal;
 import com.mycompany.proyecto_final.Models.ModelCliente;
@@ -41,7 +43,42 @@ public class ControladorReporteGerente5 extends HttpServlet {
         if (req.getSession().getAttribute("USER") == null) {
             resp.sendRedirect(req.getContextPath() + "/Logout");
         } else {
+            try {
+                String codecliente = req.getParameter("codigoEntidad");
 
+                resp.setContentType("application/pdf");
+                resp.setHeader(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=Historial_transacciones_Cliente_" +codecliente+ ".pdf");
+    
+                Cliente cliente = modelCliente.ObtenerCliente(codecliente);
+                List<Transaccion> transacciones = modelTransaccion.transacionesCliente(codecliente);
+
+                InputStream logoBanco = new FileInputStream(req.getServletContext().getRealPath("/Resources/Imagenes/LogoBilleton.png"));
+                JRBeanCollectionDataSource itemsJRBen = new JRBeanCollectionDataSource(transacciones);
+                Map<String,Object> parametros = new HashMap<String,Object>();
+                parametros.put("ColllectionBeanParam",itemsJRBen);
+                parametros.put("NombreCliente", cliente.getNombre());
+                parametros.put("ClienteCodigo", cliente.getCodigo());
+                parametros.put("logoBilleton", logoBanco);
+    
+                InputStream input = new FileInputStream(req.getServletContext().getRealPath("/Resources/jasperReports/Gerente/ReporteGerente5.jrxml"));
+                
+                JasperDesign jasperDesign = JRXmlLoader.load(input);
+    
+                JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+    
+                JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parametros, new JREmptyDataSource());
+    
+                JasperExportManager.exportReportToPdfStream(jasperPrint, resp.getOutputStream());
+    
+                resp.getOutputStream().flush();
+                resp.getOutputStream().close();
+    
+    
+            } catch (Exception e) {
+                req.setAttribute("success", 3);
+                req.setAttribute("errores", e.getMessage());
+                req.getRequestDispatcher("/Reportes/ReportesCliente/ReporteCliente1.jsp").forward(req, resp);
+            }
         }
     }
 
@@ -50,6 +87,31 @@ public class ControladorReporteGerente5 extends HttpServlet {
         if (req.getSession().getAttribute("USER") == null) {
             resp.sendRedirect(req.getContextPath() + "/Logout");
         } else {
+            String codigoCliente = req.getParameter("codigoEntidad");
+            try {
+                Cliente cliente = modelCliente.ObtenerCliente(codigoCliente);
+                if (cliente == null) {
+                    req.setAttribute("success", 3);
+                    req.setAttribute("error", "El codigo no corresponde a ningun cliente");
+                    req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
+                } else {
+                    List<Transaccion> transacciones = modelTransaccion.transacionesCliente(codigoCliente);
+                    if (transacciones.isEmpty()) {
+                        req.setAttribute("success", 3);
+                        req.setAttribute("error", "No hay transacciones regustrdas para el cliente ingresado");
+                        req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
+                    } else {
+                        req.setAttribute("success", 1);
+                        req.setAttribute("codigoEntidad", codigoCliente);
+                        req.setAttribute("transacciones", transacciones);
+                        req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
+                    }
+                }
+            } catch (Exception e) {
+                req.setAttribute("success", 2);
+                req.setAttribute("error", e.getMessage());
+                req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
+            }
 
         }
     }
