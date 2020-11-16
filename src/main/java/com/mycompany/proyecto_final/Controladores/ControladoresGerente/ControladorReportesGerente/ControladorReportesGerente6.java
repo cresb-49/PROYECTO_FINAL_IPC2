@@ -1,9 +1,12 @@
 package com.mycompany.proyecto_final.Controladores.ControladoresGerente.ControladorReportesGerente;
 
+import com.mycompany.proyecto_final.Entidades.Cajero;
 import com.mycompany.proyecto_final.Entidades.Cliente;
 import com.mycompany.proyecto_final.Entidades.Transaccion;
 import com.mycompany.proyecto_final.Entidades.UsuarioDeSistema;
+import com.mycompany.proyecto_final.EntidadesEspeciales.CajeroConNumeroDeTransacciones;
 import com.mycompany.proyecto_final.EntidadesEspeciales.ClienteConDineroTotal;
+import com.mycompany.proyecto_final.Models.ModelCajero;
 import com.mycompany.proyecto_final.Models.ModelCliente;
 import com.mycompany.proyecto_final.Models.ModelTransaccion;
 
@@ -32,35 +35,39 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
-@WebServlet("/ControladorReporteGerente5")
-public class ControladorReporteGerente5 extends HttpServlet {
-
-    private ModelCliente modelCliente = new ModelCliente();
-    private ModelTransaccion modelTransaccion = new ModelTransaccion();
+@WebServlet("/ControladorReporteGerente6")
+public class ControladorReportesGerente6 extends HttpServlet {
+    private ModelCajero modelCajero = new ModelCajero();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("USER") == null) {
             resp.sendRedirect(req.getContextPath() + "/Logout");
         } else {
+            String fechaMaxima = req.getParameter("fechaMaxima");
+            String fechaMinima = req.getParameter("fechaMinima");
             try {
-                String codecliente = req.getParameter("codigoEntidad");
+                CajeroConNumeroDeTransacciones cajero = modelCajero.obtnerCajeroMasTransaccionesIntervalo(fechaMinima,fechaMaxima);    
+
 
                 resp.setContentType("application/pdf");
-                resp.setHeader(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=Historial_transacciones_Cliente_" +codecliente+ ".pdf");
+                resp.setHeader(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=Cajero con mas transacciones entre "+fechaMinima+" y "+fechaMaxima+".pdf");
     
-                Cliente cliente = modelCliente.ObtenerCliente(codecliente);
-                List<Transaccion> transacciones = modelTransaccion.transacionesCliente(codecliente);
-
                 InputStream logoBanco = new FileInputStream(req.getServletContext().getRealPath("/Resources/Imagenes/LogoBilleton.png"));
-                JRBeanCollectionDataSource itemsJRBen = new JRBeanCollectionDataSource(transacciones);
                 Map<String,Object> parametros = new HashMap<String,Object>();
-                parametros.put("ColllectionBeanParam",itemsJRBen);
-                parametros.put("NombreCliente", cliente.getNombre());
-                parametros.put("ClienteCodigo", cliente.getCodigo());
+                
+                parametros.put("nombreCajero",cajero.getCajero().getNombre());
+                parametros.put("codigoCajero",cajero.getCajero().getCodigo());
+                parametros.put("tipoTurno",cajero.getCajero().getTurno());
+                parametros.put("dpi",cajero.getCajero().getDpi());
+                parametros.put("sexo",cajero.getCajero().getSexo());
+                parametros.put("direccion",cajero.getCajero().getDireccion());
+                parametros.put("cantidadTransacciones",cajero.getCantidad());
+                parametros.put("fechaInicio",fechaMinima);
+                parametros.put("fechaFin",fechaMaxima);
                 parametros.put("logoBilleton", logoBanco);
     
-                InputStream input = new FileInputStream(req.getServletContext().getRealPath("/Resources/jasperReports/Gerente/ReporteGerente5.jrxml"));
+                InputStream input = new FileInputStream(req.getServletContext().getRealPath("/Resources/jasperReports/Gerente/ReporteGerente6.jrxml"));
                 
                 JasperDesign jasperDesign = JRXmlLoader.load(input);
     
@@ -72,47 +79,44 @@ public class ControladorReporteGerente5 extends HttpServlet {
     
                 resp.getOutputStream().flush();
                 resp.getOutputStream().close();
-    
-    
+
+
             } catch (Exception e) {
+                e.printStackTrace();
                 req.setAttribute("success", 3);
-                req.setAttribute("errores", e.getMessage());
-                req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
+                req.setAttribute("error", e.getMessage());
+                req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente6.jsp").forward(req, resp);
             }
         }
     }
-
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (req.getSession().getAttribute("USER") == null) {
             resp.sendRedirect(req.getContextPath() + "/Logout");
         } else {
-            String codigoCliente = req.getParameter("codigoEntidad");
+            String fechaMaxima = req.getParameter("fechaMaxima");
+            String fechaMinima = req.getParameter("fechaMinima");
             try {
-                Cliente cliente = modelCliente.ObtenerCliente(codigoCliente);
-                if (cliente == null) {
+                System.out.println("fecha minima: "+fechaMinima+" fecha maxima: "+fechaMaxima);
+                CajeroConNumeroDeTransacciones cajero = modelCajero.obtnerCajeroMasTransaccionesIntervalo(fechaMinima,fechaMaxima);
+                if(cajero!=null){
+                    System.out.println(cajero.toString());
+                    req.setAttribute("success", 1);
+                    req.setAttribute("cajero", cajero);
+                    req.setAttribute("fechaMaxima", fechaMaxima);
+                    req.setAttribute("fechaMinima", fechaMinima);
+                    req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente6.jsp").forward(req, resp);
+                }else{
                     req.setAttribute("success", 3);
-                    req.setAttribute("error", "El codigo no corresponde a ningun cliente");
-                    req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
-                } else {
-                    List<Transaccion> transacciones = modelTransaccion.transacionesCliente(codigoCliente);
-                    if (transacciones.isEmpty()) {
-                        req.setAttribute("success", 3);
-                        req.setAttribute("error", "No hay transacciones regustrdas para el cliente ingresado");
-                        req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
-                    } else {
-                        req.setAttribute("success", 1);
-                        req.setAttribute("codigoEntidad", codigoCliente);
-                        req.setAttribute("transacciones", transacciones);
-                        req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
-                    }
+                    req.setAttribute("error", "No hay transacciones realizadas en ese intervalo de tiempo");
+                    req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente6.jsp").forward(req, resp);
                 }
-            } catch (Exception e) {
+            } catch (SQLException e) {
+                e.printStackTrace();
                 req.setAttribute("success", 2);
                 req.setAttribute("error", e.getMessage());
-                req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
+                req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente6.jsp").forward(req, resp);
             }
-
         }
     }
 }

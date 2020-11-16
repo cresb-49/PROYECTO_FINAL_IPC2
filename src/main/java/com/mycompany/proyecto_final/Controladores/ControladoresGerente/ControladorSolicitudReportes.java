@@ -37,6 +37,10 @@ public class ControladorSolicitudReportes extends HttpServlet {
                         req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente5.jsp").forward(req, resp);
                         break;
                     case "6":
+                        java.time.LocalDate today = java.time.LocalDate.now();
+                        req.setAttribute("success", 0);
+                        req.setAttribute("fechaMax", today.toString());
+                        req.getRequestDispatcher("/Reportes/ReportesGerente/ReporteGerente6.jsp").forward(req, resp);
                         break;
                     default:
                         req.getRequestDispatcher("/Perfiles/PerfilGerente.jsp").forward(req, resp);

@@ -25,6 +25,7 @@ public class ModelCajero {
             + Cajero.CAJERO_DB_SEXO + "=? WHERE " + Cajero.CAJERO_DB_CODIGO + " = ?";
 
     private final String CAJERO_MAS_TRANSACCIONES_INTERVALO = "SELECT C.*,COUNT(T.codigo_CAJERO) FROM TRANSACCION AS T INNER JOIN CAJERO AS C ON C.codigo=T.codigo_CAJERO AND T.fecha BETWEEN ? AND ? GROUP BY  codigo_CAJERO ORDER BY COUNT(codigo_CAJERO) DESC LIMIT 1";
+    
     /**
      * 
      * @param cajero
