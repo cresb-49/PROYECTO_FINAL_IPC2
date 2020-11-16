@@ -29,6 +29,8 @@ public class ModelTransaccion {
 
     private final String TRANSACCIONES_SEGUN_CAJERO_INTERVALO_TIEMPO = "SELECT * FROM TRANSACCION WHERE hora BETWEEN ? AND ? AND codigo_CAJERO = ? AND fecha = ? ORDER BY hora";
 
+    private final String TRANSACCIONES_SEGUN_CLIENTE = "SELECT T.* FROM CLIENTE INNER JOIN CUENTA INNER JOIN TRANSACCION AS T ON CLIENTE.codigo = ? AND CLIENTE.codigo = CUENTA.codigo_CLIENTE AND T.codigo_CUENTA = CUENTA.codigo";
+
     /**
      * CONTRUCTOR VACIO DE LA ENTIDAD
      */
@@ -188,6 +190,27 @@ public class ModelTransaccion {
                     result.getString(Transaccion.TRANSACCION_DB_TIPO)));
         }
 
+        return transacciones;
+    }
+    /**
+     * OBTINE LAS TRANSACCIONES DE UN CLIENTE EN ESPECIFICO
+     * @param codigoCliente
+     * @return
+     * @throws SQLException
+     */
+    public List<Transaccion> transacionesCliente(String codigoCliente) throws SQLException {
+        List<Transaccion> transacciones = new ArrayList<>();
+        PreparedStatement preSt = connection.prepareStatement(TRANSACCIONES_SEGUN_CLIENTE);
+        preSt.setString(1, codigoCliente);
+        ResultSet result = preSt.executeQuery();
+        while (result.next()) {
+            transacciones.add(new Transaccion(result.getLong(Transaccion.TRANSACCION_DB_CODIGO),
+                    result.getLong(Transaccion.TRANSACCION_DB_CODIGO_CUENTA),
+                    result.getDate(Transaccion.TRANSACCION_DB_FECHA), result.getString(Transaccion.TRANSACCION_DB_HORA),
+                    result.getDouble(Transaccion.TRANSACCION_DB_MONTO),
+                    result.getLong(Transaccion.TRANSACCION_DB_CODIGO_CAJERO),
+                    result.getString(Transaccion.TRANSACCION_DB_TIPO)));
+        }
         return transacciones;
     }
 }

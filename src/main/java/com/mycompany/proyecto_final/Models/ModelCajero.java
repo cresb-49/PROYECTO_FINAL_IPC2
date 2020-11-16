@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.mycompany.proyecto_final.Entidades.Cajero;
+import com.mycompany.proyecto_final.EntidadesEspeciales.CajeroConNumeroDeTransacciones;
 
 public class ModelCajero {
 
@@ -23,6 +24,7 @@ public class ModelCajero {
             + "=?," + Cajero.CAJERO_DB_TURNO + "=?," + Cajero.CAJERO_DB_DPI + "=?," + Cajero.CAJERO_DB_DIRECCION + "=?,"
             + Cajero.CAJERO_DB_SEXO + "=? WHERE " + Cajero.CAJERO_DB_CODIGO + " = ?";
 
+    private final String CAJERO_MAS_TRANSACCIONES_INTERVALO = "SELECT C.*,COUNT(T.codigo_CAJERO) FROM TRANSACCION AS T INNER JOIN CAJERO AS C ON C.codigo=T.codigo_CAJERO AND T.fecha BETWEEN ? AND ? GROUP BY  codigo_CAJERO ORDER BY COUNT(codigo_CAJERO) DESC LIMIT 1";
     /**
      * 
      * @param cajero
@@ -55,6 +57,26 @@ public class ModelCajero {
             return new Cajero(result.getLong(Cajero.CAJERO_DB_CODIGO), null, result.getString(Cajero.CAJERO_DB_DPI),
                     result.getString(Cajero.CAJERO_DB_NOMBRE), result.getString(Cajero.CAJERO_DB_SEXO),
                     result.getString(Cajero.CAJERO_DB_DIRECCION), result.getString(Cajero.CAJERO_DB_TURNO));
+        }
+        return null;
+    }
+    /**
+     * RETORNA EL CAJERO CON MAS TRANSACCIONES EN UN UN INTERVALO DE TIEMPO
+     * @param inicio
+     * @param fin
+     * @return
+     * @throws SQLException
+     */
+    public CajeroConNumeroDeTransacciones obtnerCajeroMasTransaccionesIntervalo(String inicio, String fin) throws SQLException {
+        PreparedStatement preSt = connection.prepareStatement(CAJERO_MAS_TRANSACCIONES_INTERVALO);
+        preSt.setString(1, inicio);
+        preSt.setString(2, fin);
+        ResultSet result = preSt.executeQuery();
+        while (result.next()) {
+            return new CajeroConNumeroDeTransacciones(new Cajero(result.getLong(Cajero.CAJERO_DB_CODIGO), null, result.getString(Cajero.CAJERO_DB_DPI),
+            result.getString(Cajero.CAJERO_DB_NOMBRE), result.getString(Cajero.CAJERO_DB_SEXO),
+            result.getString(Cajero.CAJERO_DB_DIRECCION), result.getString(Cajero.CAJERO_DB_TURNO)), result.getInt(7));
+            
         }
         return null;
     }

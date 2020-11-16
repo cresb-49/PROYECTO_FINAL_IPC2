@@ -43,7 +43,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true">Reportes</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="${pageContext.request.contextPath}/"></a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ControladorSolicitudGerente?reporte=1">Clientes con transacciones mayores a un limite</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ControladorSolicitudGerente?reporte=2">Clientes con transacciones sumadas mayores a un limite</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ControladorSolicitudGerente?reporte=3">Los 10 clientes con mas dinero</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ControladorSolicitudGerente?reporte=5">Historial Transacciones Cliente</a>
+                        <a class="dropdown-item" href="${pageContext.request.contextPath}/ControladorSolicitudGerente?reporte=6">Cajero con mas transacciones en intervalo de tiempo</a>
                     </div>
                 </li>
                 <li class="nav-item">
